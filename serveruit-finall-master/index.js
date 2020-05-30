@@ -33,6 +33,9 @@ require('./route/noticedaa.route.js')(router);
 require('./route/schedule.route.js')(router);
 require('./route/creategroup.route.js')(router);
 require('./route/newlogin.route.js')(router);
+require('./route/listuser.route.js')(router);
+// require('./route/updateuser.route.js')(router);
+// require('./route/deleteuser.route.js')(router);
 
 app.use(bodyParser.json());
 
