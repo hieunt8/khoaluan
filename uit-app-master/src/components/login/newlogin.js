@@ -53,7 +53,7 @@ class newlogin extends Component {
       this._SaveInAsync();
     }
     const data = {username: this.state.mssv, password: this.state.password, publickey :  this.state.publickey} ;
-    console.log(data);
+    // console.log(data);
     this.props.getAccount(data);
     this.LoadingFunction();
    

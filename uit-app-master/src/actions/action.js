@@ -91,7 +91,7 @@ export const saveCroom = (data) => {
 export const responseLogin=(data)=>{ //POST StudenID && Reponse Data from Student ID
   return dispatch=>{
     //console.log('data resques: ', data);
-      return callApi(link.login,'POST',{data:data}).then(res=>{
+      return callApi(link.newlogin,'POST',{data:data}).then(res=>{
           //console.log('data tu api: ', res.data);
           dispatch(saveAccount(res.data));
       })

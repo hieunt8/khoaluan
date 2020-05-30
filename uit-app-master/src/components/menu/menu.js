@@ -78,11 +78,15 @@ backAction = () => {
 };
 
 componentDidMount() {
+  setInterval(() => {
+    this.props.getData();
+    }, 5000);
+
   this.backHandler = BackHandler.addEventListener(
     "hardwareBackPress",
     this.backAction
   );
-}
+} 
 
 componentWillUnmount() {
   this.backHandler.remove();
@@ -99,7 +103,6 @@ handlegroupName = (text) => {
   }
 }
 xlarr = () => {
-  this.props.getData();
   const creategroupReducers = this.props.creategroupReducers;
   // alert(getDeadline);
   

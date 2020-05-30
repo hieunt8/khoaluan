@@ -1,30 +1,41 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions, Image } from 'react-native';
 import SearchInput, { createFilter } from 'react-native-search-filter';
-import emails from './Listuser';
+// import emails from './Listuser';
 import { connect } from 'react-redux';
 import {responseCreategroup} from './../../actions/action';
 const { width } = Dimensions.get('window');
+import callApi from '../../api/ApiCaller';
+import * as link from '../../api/ApiLink';
 
 
-const KEYS_TO_FILTERS = ['user.name', 'subject'];
+const KEYS_TO_FILTERS = ['mssv', 'subject'];
  
 class Addmember extends Component {
  constructor(props) {
     super(props);
     this.state = {
       searchTerm: '',
-      listMssv:[parseInt(this.props.navigation.state.params.Sender)]
+      listMssv:[this.props.navigation.state.params.Sender],
+      emails: []
     }
+  }
+  componentDidMount()
+  {
+    callApi(link.getlistuser,'GET',null).then(res => {
+      this.setState({ emails:  res.data}) 
+    }) 
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term })
+
   }
 
   selectMember = (item) => {
-    if (!this.state.listMssv.includes(item.user.name))
+    console.log("listMssv",this.state.listMssv)
+    if (!this.state.listMssv.includes(item.mssv))
       this.setState({
-          listMssv: this.state.listMssv.concat([item.user.name])
+          listMssv: this.state.listMssv.concat([item.mssv])
       })
   }
   createGroup = () => {
@@ -34,8 +45,13 @@ class Addmember extends Component {
     this.props.getCreategroup(data);
     this.props.navigation.navigate('Menu');
   }
+  getListuser = () => {
+    
+  } 
+  
   render() {
-    const filteredEmails = emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
+    console.log("listMssv",this.state.listMssv)
+    const filteredEmails = this.state.emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
           <View style={{flexDirection:'row', marginTop: 5, marginHorizontal: 10, alignItems:'center'}}>
@@ -57,13 +73,13 @@ class Addmember extends Component {
           {filteredEmails.map(email => {
             return (
               <TouchableOpacity onPress={()=>{
-                    // alert(email.user.name)
+                    // alert(email.mssv)
 
                     this.selectMember(email)
-                  }} key={email.id} style={styles.emailItem}>
+                  }} key={email.mssv} style={styles.emailItem}>
                 <View>
-                  <Text>{email.user.name}</Text>
-                  <Text style={styles.emailSubject}>{email.subject}</Text>
+                  <Text>{email.mssv}</Text>
+                  <Text style={styles.emailSubject}>{email.name}</Text>
                 </View>
               </TouchableOpacity>
             )
