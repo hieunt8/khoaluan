@@ -2,63 +2,77 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   Image,
   Dimensions,
   ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
-import { 
-  responseSchedule,
-  responseDeadline, } from '../actions/action';
-
+import {responseLogin} from '../actions/action';
+const NodeRSA = require('node-rsa');
 
 const { width } = Dimensions.get('window');
 
 
 class Loading extends Component {  
+  constructor(props){
+    super(props);
+    this.state={
+      info : 'Create new user!',
+      privateKey : ''
+    }
+  }
 
-  async componentDidUpdate() {
-    const data = await this.props.flag;
+  componentDidMount()
+  {
+    this._GenerateRSAKey(this.props.navigation.state.params.data);
+  }
+
+  async componentDidUpdate() {  
+    const flag = await this.props.flag;
     const checkexist = await this.props.checkexist;
-    // console.log(checkexist);
-    //console.log('gfdsf',this.props.accountReducer);
-      setTimeout(() => {
-     
-      // console.log(data)
-        if (data === false) {
-          this.props.navigation.navigate('Login', {check: 1});
-        }
-        else if(data === true){
-          // const data = {student_id: this.props.student_id};
-          // this.props.getSchedule(data);
-          // const deadline=this.props.jar;
-          // this.props.getDeadline(deadline);
-          if(checkexist) alert("User exist!")
-          else alert("Created new user!")
-          this.props.navigation.navigate('Menu');
-        }
-        else{
-
-        }
+    setTimeout(() => {
+      if (flag === true) {
+        if(checkexist) this.setState({ info: "User exist! Replace new RSA key" });
+        else this.setState({ info: "Created new user!" });
+        this._SaveInAsync();
+        this.props.navigation.navigate('Menu');
+      }
+      else{
+        this.props.navigation.navigate('Login', {check: 1});
+      }
     }, 1000);
   }
-  
-    render(){
-     // console.log('dsadsadasdas',this.props.accountReducer)
 
-      //const isLoading = this.props.navigation.getParam('loading', false)
-      //console.log(isLoading)
-    return (
-      <View style={styles.viewStyles}>
-        <Image
-          style={{ width: 130, height: 155 }}
-          source={require('../../assets/logo/UIT.png')} />
-        <View style={styles.indicator}>
-          <ActivityIndicator animating={true} size="small" color={'blue'} />
-        </View>
-      </View>
-    )
+
+  _GenerateRSAKey = async (data) => {
+    this.setState({ info: "Generate rsa key" })
+    const key = new NodeRSA({b: 1024});
+    this.setState({ privateKey: key.exportKey('pkcs8-private')})
+    data.publickey = key.exportKey('pkcs8-public');
+    this.props.getAccount(data);
+  }
+
+  _SaveInAsync = async () => {
+    try{
+      await AsyncStorage.setItem('key',  this.state.key.exportKey('pkcs8-private'));
+    }catch(erro){
     }
+  };
+
+  render(){
+  return (
+    <View style={styles.viewStyles}>
+      <Image
+        style={{ width: 130, height: 155 }}
+        source={require('../../assets/logo/UIT.png')} />
+      <View style={styles.indicator}>
+        <ActivityIndicator animating={true} size="small" color={'blue'} />
+      </View>
+      <Text style={{fontSize: 10, color: '#0033CC', textAlign: "center"}} >{this.state.info}</Text>
+    </View>
+  )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -86,11 +100,8 @@ const mapStateToProps = state => {
   }
   const mapDispatchToProps = (dispatch, props) => {
     return  {
-      getSchedule: (data) => {
-        dispatch(responseSchedule(data));
-          },
-      getDeadline: (data) =>{
-        dispatch(responseDeadline(data));
+      getAccount: (data) => {
+        dispatch(responseLogin(data));
       },
         }  
     }

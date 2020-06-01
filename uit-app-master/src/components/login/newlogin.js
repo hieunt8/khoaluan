@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
-import { Text, View, TextInput, StyleSheet, Image, ActivityIndicator, Dimensions, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
 import { CheckBox } from 'react-native-elements'
-import axios from 'axios';
 import { connect } from 'react-redux';
 import {responseLogin} from '../../actions/action';
-import LoginLoading from '../../loading/Loading'
 const { width} = Dimensions.get('window');
+
 
 class newlogin extends Component {  
   constructor(props){
@@ -14,53 +13,20 @@ class newlogin extends Component {
       mssv:'',
       password:'',
       checked: false,
-      publickey:'',
-      privatekey:''
     }
    this._GetAsync();
 
   }
-  
-  componentDidMount(){
-    //   if(nextProps.flag){
-    //     if (!this.props.flag){
-    //       console.log(nextProps.isLoading)
-    //       this.props.navigation.navigate('Menu')
-    //     }
-    //   }
-    //   else if(this.props.flag){
-    //     alert("Đăng xuất thành công!")
-    // }
-    // else{
-    //   alert("Kiểm tra lại tài khoản mật khẩu!")
-    // }
-      try{
-      const check = this.props.navigation.getParam('check');
-      if(check == 1){
-        alert("Kiểm tra lại tài khoản mật khẩu!")
-      }
-      else  if(check == 2){
-        alert("Đăng xuất thành công!")
-      }
-    }catch(err){
 
-    }
-  }
+  componentDidMount(){}
 
-  LoginSubmit = () => {
-//    this.props.navigation.navigate('Menu')   
+  LoginSubmit = () => { 
     if(this.state.checked === true){   
       this._SaveInAsync();
     }
-    const data = {username: this.state.mssv, password: this.state.password, publickey :  this.state.publickey} ;
-    // console.log(data);
-    this.props.getAccount(data);
-    this.LoadingFunction();
-   
-  }
 
-  LoadingFunction() {
-    this.props.navigation.navigate('Loading')
+    const data = {username: this.state.mssv, password: this.state.password} ;
+    this.props.navigation.navigate('Loading', {data})
   }
 
   _GetAsync = async () => {
@@ -73,9 +39,7 @@ class newlogin extends Component {
           password: _password,
         })
       }
-    } catch (error) {
-      // Error retrieving data
-    }
+    } catch (error) {}
   }; 
 
   _SaveInAsync = async () => { // lưu lại dữ liệu trên máy
@@ -95,12 +59,9 @@ class newlogin extends Component {
 
 
   render() {
-    // console.log(data.length);
     return (
       <ScrollView>
-        
       <View style={styles.backgroud}>
-      {/* <LoginLoading loading = {this.state._isLoading}/> */}
         <Image
           style={{width: 130, height: 155}}
           source={require('../../../assets/logo/UIT.png')}/>
@@ -108,22 +69,22 @@ class newlogin extends Component {
         
         <View style={{margin: 10, width: width}}> 
 
-          <Text style={{marginLeft: 20}}>Nhập mssv</Text>
+          <Text style={{marginLeft: 20}}>Nhập Mssv</Text>
 
           <TextInput style={styles.TextInputStyles}
-            placeholder="Nhập mssv"
+            placeholder="Nhập Mssv"
             onChangeText={this.handleMssv}
             keyboardType="numeric"
             value={this.state.mssv}
             maxLength={8}/>
 
-          <Text style={{marginLeft: 20}}>Nhập password</Text>
+          <Text style={{marginLeft: 20}}>Nhập Name</Text>
 
           <TextInput style={styles.TextInputStyles} 
                     secureTextEntry={false}
                     onChangeText={this.handlePassword}
                     value={this.state.password}
-                    placeholder="nhập name"/>       
+                    placeholder="Nhập Name"/>       
           <CheckBox
             center
             title='Nhớ tài khoản mật khẩu'
@@ -134,11 +95,9 @@ class newlogin extends Component {
 
           <TouchableOpacity style={styles.LoginStyles}
                             onPress={ this.LoginSubmit}>
-            <Text>LOGIN</Text>
+            <Text>ACCESS</Text>
          </TouchableOpacity>
-          
-        
-        
+
         </View>
         <Text style={{fontSize: 10, color: '#0033CC', textAlign: "center"}}>{'\u00A9'}16520395-16520354</Text>
       </View>
@@ -147,12 +106,8 @@ class newlogin extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
-  return {
-    isLoading: state.accountReducer,
-    flag: state.accountReducer.flag,
-  }
+  return {}
 }
 const mapDispatchToProps = (dispatch, props) => {
   return {
@@ -161,8 +116,6 @@ const mapDispatchToProps = (dispatch, props) => {
     }
   }
 }
-
-
 
 const styles = StyleSheet.create({
   backgroud:{ 
