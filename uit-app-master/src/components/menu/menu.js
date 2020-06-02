@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   FlatList,
   BackHandler,
-  Alert 
+  Alert,
+  AsyncStorage  
  } from 'react-native';
  import { Menu, Divider, Provider, Portal,
   Paragraph,
@@ -112,6 +113,11 @@ xlarr = () => {
     return datas;
   }
 }
+Logout = async () => {
+  await AsyncStorage.removeItem("key");
+  // console.log("Logout")
+  this.props.navigation.navigate('Login')
+}
 
 setClickTransfer(title1, mssv1,namest) {
   let flag = false;
@@ -165,7 +171,7 @@ setClickTransfer(title1, mssv1,namest) {
                 <Menu.Item onPress={() => {alert(1)}} title="Item 1" />
                 <Menu.Item onPress={() => {}} title="Item 2" />
                 <Divider />
-                <Menu.Item onPress={() => {this.props.navigation.navigate('Login')}} title="Logout" />
+                <Menu.Item onPress={this.Logout} title="Logout" />
               </Menu>
             </View>
           </View>

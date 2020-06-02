@@ -14,8 +14,8 @@ class newlogin extends Component {
       password:'',
       checked: false,
     }
-   this._GetAsync();
-
+    this._CheckAccAsync();
+    this._GetAsync();
   }
 
   componentDidMount(){}
@@ -38,6 +38,16 @@ class newlogin extends Component {
           mssv: _mssv,
           password: _password,
         })
+      }
+    } catch (error) {}
+  };
+
+  _CheckAccAsync = async () => {
+    try {
+      const _key = await AsyncStorage.getItem('key');
+      if ( _key !== null) {
+        this.props.navigation.navigate('Menu');
+        // console.log(_key);
       }
     } catch (error) {}
   }; 
@@ -87,7 +97,7 @@ class newlogin extends Component {
                     placeholder="Nhập Name"/>       
           <CheckBox
             center
-            title='Nhớ tài khoản mật khẩu'
+            title='Nhớ tài khoản'
             borderColor='white'
             backgroundColor='white'
             checked={this.state.checked}

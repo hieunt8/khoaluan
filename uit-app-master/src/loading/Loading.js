@@ -5,7 +5,8 @@ import {
   Text,
   Image,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
 import {responseLogin} from '../actions/action';
@@ -18,7 +19,7 @@ class Loading extends Component {
   constructor(props){
     super(props);
     this.state={
-      info : 'Create new user!',
+      info : 'Creating new user!',
       privateKey : ''
     }
   }
@@ -36,10 +37,12 @@ class Loading extends Component {
         if(checkexist) this.setState({ info: "User exist! Replace new RSA key" });
         else this.setState({ info: "Created new user!" });
         this._SaveInAsync();
+        setTimeout(() => {
         this.props.navigation.navigate('Menu');
+        }, 1000);  
       }
       else{
-        this.props.navigation.navigate('Login', {check: 1});
+        // this.props.navigation.navigate('Login', {check: 1});
       }
     }, 1000);
   }
@@ -55,7 +58,7 @@ class Loading extends Component {
 
   _SaveInAsync = async () => {
     try{
-      await AsyncStorage.setItem('key',  this.state.key.exportKey('pkcs8-private'));
+      await AsyncStorage.setItem('key',  this.state.privateKey);
     }catch(erro){
     }
   };
