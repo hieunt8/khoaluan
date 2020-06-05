@@ -123,6 +123,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     getAccount: (data) => {
       dispatch(responseLogin(data));
+    },
+    saveAccount: (data) => {
+      dispatch(saveAccount(data));
     }
   }
 }

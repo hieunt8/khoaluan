@@ -53,7 +53,7 @@ _openPopup = () => this.setState({ visiblePopup: true });
 _closePopup = () => {
   if (checkName =='') {
     this.setState({ visiblePopup: false })
-    this.props.navigation.navigate('Addmember', {title: this.state.groupName, Sender: this.props.student_id})
+    this.props.navigation.navigate('Addmember', {title: this.state.groupName, Sender: this.props.mssv})
   }
   else{
     // this.setState({
@@ -115,7 +115,6 @@ xlarr = () => {
 }
 Logout = async () => {
   await AsyncStorage.removeItem("key");
-  // console.log("Logout")
   this.props.navigation.navigate('Login')
 }
 
@@ -224,7 +223,7 @@ setClickTransfer(title1, mssv1,namest) {
           numColumns={1}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={()=>{
-              this.setClickTransfer(item.title, this.props.student_id,this.props.name)
+              this.setClickTransfer(item.title, this.props.mssv,this.props.name)
             }}>
               <View style={{flexDirection:'row', marginTop: 15, marginHorizontal: 10, marginBottom: 15, justifyContent: 'space-between'}}>
               <View  style={{flexDirection:'row'}}>
@@ -265,8 +264,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-      student_id: state.accountReducer.username,
-      password: state.accountReducer.password,
+      mssv: state.accountReducer.username,
+      // password: state.accountReducer.password,
       creategroupReducers: state.creategroupReducers,
       name: state.accountReducer.name,
   }

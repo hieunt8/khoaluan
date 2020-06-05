@@ -11,7 +11,7 @@ import {
 import { connect } from 'react-redux';
 import {responseLogin} from '../actions/action';
 // const NodeRSA = require('node-rsa');
-
+import { RSA } from 'react-native-rsa-native';
 const { width } = Dimensions.get('window');
 
 
@@ -45,15 +45,19 @@ class Loading extends Component {
         // this.props.navigation.navigate('Login', {check: 1});
       }
     }, 1000);
-  }
+  } 
 
 
   _GenerateRSAKey = async (data) => {
     this.setState({ info: "Generate rsa key" })
     // const key = new NodeRSA({b: 1024});
-    // this.setState({ privateKey: key.exportKey('pkcs8-private')})
-    // data.publickey = key.exportKey('pkcs8-public');
-    this.props.getAccount(data);
+
+    RSA.generateKeys(2048) // set key size
+    .then(keys => {
+        this.setState({ privateKey:  keys.private})
+        data.publickey = keys.public;
+        this.props.getAccount(data);
+    });
   }
 
   _SaveInAsync = async () => {
