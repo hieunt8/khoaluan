@@ -7,12 +7,12 @@ exports.CreategroupChat = async (req, res, next) => {
         mssv:data.mssv,
     })
     console.log("Create group", newCreategroup.title)
-    await newCreategroup.save(err=>{
-        if(err)
-        console.log(err);
+    newCreategroup.save(function(err){
+        if(err) throw err;
     })
     // res.json(newCreategroup);
 }
+
 exports.getDataGC= async (req, res, next) => {
     Creategroup.find().sort({_id: -1 })
     .exec(function (err, data) {

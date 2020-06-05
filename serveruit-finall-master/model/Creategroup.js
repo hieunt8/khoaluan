@@ -1,11 +1,11 @@
 const mongoose=require('mongoose');
 const mongooseHidden = require('mongoose-hidden')({ defaultHidden: { __v: true } });
 
-const Creategroup=mongoose.Schema(
+const Group=mongoose.Schema(
     { 
-        title:String,
+        title:{ type : String , unique : true, required : true, dropDups: true },
         mssv:String,
     }
 )
 
-module.exports=mongoose.model('Creategroup',Creategroup);
+module.exports=mongoose.model('Group',Group);

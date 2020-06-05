@@ -26,6 +26,7 @@ exports.Createnewuser = async (req, res, next) => {
         }
         else form.checkexist = true;
         res.json(form);
+        console.log(form);
     })  
 }
 
