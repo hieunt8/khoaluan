@@ -12,7 +12,7 @@ class newlogin extends Component {
     this.state={
       mssv:'',
       password:'',
-      checked: false,
+      checked: true,
     }
     this._CheckAccAsync();
     this._GetAsync();
@@ -47,7 +47,6 @@ class newlogin extends Component {
       const _key = await AsyncStorage.getItem('key');
       if ( _key !== null) {
         this.props.navigation.navigate('Menu');
-        // console.log(_key);
       }
     } catch (error) {}
   }; 

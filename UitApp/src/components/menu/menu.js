@@ -33,16 +33,19 @@ let checkName = "Vui lòng nhập tên nhóm.";
  class menu extends Component {  
   constructor(props){
     super(props);
-  }
-  
-  state={
+    this.state={
       title:datas,
       visible: false,
       search: '',
       visiblePopup: false,
       groupName:'',
+      mssv : "",
       // checkName: false
+    }
+    this._GetAsync();
   }
+  
+  
   updateSearch = search => {
     this.setState({ search });
   };
@@ -53,7 +56,7 @@ _openPopup = () => this.setState({ visiblePopup: true });
 _closePopup = () => {
   if (checkName =='') {
     this.setState({ visiblePopup: false })
-    this.props.navigation.navigate('Addmember', {title: this.state.groupName, Sender: this.props.mssv})
+    this.props.navigation.navigate('Addmember', {title: this.state.groupName, Sender: this.state.mssv})
   }
   else{
     // this.setState({
@@ -79,6 +82,7 @@ backAction = () => {
 };
 
 componentDidMount() {
+  this.setState({ mssv: AsyncStorage.getItem('mssv') })
   setInterval(() => {
     this.props.getData();
     }, 5000);
@@ -88,6 +92,17 @@ componentDidMount() {
     this.backAction
   );
 } 
+
+_GetAsync = async () => {
+  try {
+    const _mssv = await AsyncStorage.getItem('mssv');
+    if ( _mssv !== null) {
+      this.setState({
+        mssv: _mssv
+      })
+    }
+  } catch (error) {}
+};
 
 componentWillUnmount() {
   this.backHandler.remove();
@@ -223,7 +238,7 @@ setClickTransfer(title1, mssv1,namest) {
           numColumns={1}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={()=>{
-              this.setClickTransfer(item.title, this.props.mssv,this.props.name)
+              this.setClickTransfer(item.title, this.state.mssv,this.props.name)
             }}>
               <View style={{flexDirection:'row', marginTop: 15, marginHorizontal: 10, marginBottom: 15, justifyContent: 'space-between'}}>
               <View  style={{flexDirection:'row'}}>
