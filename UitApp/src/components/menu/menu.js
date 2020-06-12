@@ -1,35 +1,20 @@
 import React, {Component} from 'react';
-import { 
-  Text,
-  View,
-  StyleSheet,
-  Image ,
-  Dimensions,
-  TouchableOpacity,
-  FlatList,
-  BackHandler,
-  Alert,
-  AsyncStorage  
- } from 'react-native';
- import { Menu, Divider, Provider, Portal,
-  Paragraph,
-  Button,
-  // Paragraph,
-  Dialog,
-  // Portal,
-  // Provider,
-  TextInput, } from 'react-native-paper';
+import { Text, View, StyleSheet, Image , Dimensions, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
+import { Menu, Divider, Provider, Portal,Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { datas } from './titleButton';
-import { 
-  responseEschedule, 
-  getDataFromCreategroup,
-  responseLogin} from '../../actions/action';
+import { responseEschedule, getDataFromCreategroup, responseLogin } from '../../actions/action';
 // import CreateGroup from './Addmember'
-  import { Icon, SearchBar } from 'react-native-elements';
-
+import { Icon, SearchBar } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 let checkName = "Vui lòng nhập tên nhóm.";
+
+const Realm = require('realm');
+import DEFAULT_KEY from '../../api/Config'
+import {userSchema} from '../../models/Realm'
+const realm = new Realm({schema: [userSchema], encryptionKey: DEFAULT_KEY});
+
+
  class menu extends Component {  
   constructor(props){
     super(props);
@@ -42,7 +27,6 @@ let checkName = "Vui lòng nhập tên nhóm.";
       mssv : "",
       // checkName: false
     }
-    this._GetAsync();
   }
   
   
@@ -82,7 +66,7 @@ backAction = () => {
 };
 
 componentDidMount() {
-  this.setState({ mssv: AsyncStorage.getItem('mssv') })
+  this._GetAsync();
   setInterval(() => {
     this.props.getData();
     }, 5000);
@@ -95,7 +79,8 @@ componentDidMount() {
 
 _GetAsync = async () => {
   try {
-    const _mssv = await AsyncStorage.getItem('mssv');
+    const user = realm.objects('user');
+    const _mssv = user[0].mssv;
     if ( _mssv !== null) {
       this.setState({
         mssv: _mssv
@@ -128,9 +113,34 @@ xlarr = () => {
     return datas;
   }
 }
-Logout = async () => {
-  await AsyncStorage.removeItem("key");
-  this.props.navigation.navigate('Login')
+
+logoutAction = () => {
+  Alert.alert("Warning!", "Do you want to log out?\nAll your data will be removed!", [
+    {
+      text: "Cancel",
+      onPress: () => null,
+      style: "cancel"
+    },
+    { text: "YES", onPress: () => {
+      try{
+        realm.write(() => {
+          const user = realm.objects('user');
+          realm.delete(user);
+        });
+        setTimeout(() => {
+          this.props.navigation.navigate('Login');
+          }, 500);
+      }
+      catch(erro){
+        console.log("Logout menu.js", erro)
+      }
+    } }
+  ]);
+};
+
+
+Logout = () => {
+  this.logoutAction();
 }
 
 setClickTransfer(title1, mssv1,namest) {

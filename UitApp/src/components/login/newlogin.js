@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
-import { Text, View, TextInput, StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import { CheckBox } from 'react-native-elements'
 import { connect } from 'react-redux';
 import {responseLogin} from '../../actions/action';
 const { width} = Dimensions.get('window');
 
+const Realm = require('realm');
+import DEFAULT_KEY from '../../api/Config'
+import {userSchema} from '../../models/Realm'
+const realm = new Realm({schema: [userSchema], encryptionKey: DEFAULT_KEY});
 
 class newlogin extends Component {  
   constructor(props){
@@ -14,7 +18,6 @@ class newlogin extends Component {
       password:'',
       checked: true,
     }
-    this._CheckAccAsync();
     this._GetAsync();
   }
 
@@ -31,32 +34,39 @@ class newlogin extends Component {
 
   _GetAsync = async () => {
     try {
-      const _mssv = await AsyncStorage.getItem('mssv');
-      const _password = await AsyncStorage.getItem('password');
-      if ( _mssv !== null &&  _password !== null) {
-        this.setState({
-          mssv: _mssv,
-          password: _password,
-        })
+      const user = await realm.objects('user');
+      const _key = user[0].privateKey;
+      console.log(user[0])
+      if (_key !== ""){
+        this.props.navigation.navigate('Menu');
+      }
+      else{
+        const _mssv = user[0].mssv;
+        const _password = user[0].name;
+        if ( _mssv !== null &&  _password !== null) {
+          this.setState({
+            mssv: _mssv,
+            password: _password,
+          })
+        }
       }
     } catch (error) {}
   };
 
-  _CheckAccAsync = async () => {
-    try {
-      const _key = await AsyncStorage.getItem('key');
-      if ( _key !== null) {
-        this.props.navigation.navigate('Menu');
-      }
-    } catch (error) {}
-  }; 
+
 
   _SaveInAsync = async () => { // lưu lại dữ liệu trên máy
-    try{
-      await AsyncStorage.setItem('mssv',  this.state.mssv);
-      await AsyncStorage.setItem('password',  this.state.password);
-    }catch(erro){
-    }
+      try {
+        realm.write(() => {
+          realm.create('user', {
+            mssv: this.state.mssv,
+            name:  this.state.password,
+          });
+        });
+      }
+      catch(error){
+        console.log("_SaveInAsync newlogin.js",error)
+      }
   };
 
   handleMssv = (text) => {
