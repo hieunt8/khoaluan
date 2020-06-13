@@ -3,59 +3,55 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions, Image
 import SearchInput, { createFilter } from 'react-native-search-filter';
 // import emails from './Listuser';
 import { connect } from 'react-redux';
-import {responseCreategroup} from './../../actions/action';
+import { responseCreategroup } from './../../actions/action';
 const { width } = Dimensions.get('window');
 import callApi from '../../api/ApiCaller';
 import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
 
 const KEYS_TO_FILTERS = ['mssv', 'subject'];
- 
+
 class Addmember extends Component {
- constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       searchTerm: '',
-      listMssv:[this.props.navigation.state.params.Sender],
-      emails: []
+      listMssv: [this.props.navigation.state.params.Sender],
+      emails: [],
+      tree: new ratchetTree()
     }
   }
-  componentDidMount()
-  {
-    callApi(link.getlistuser,'GET',null).then(res => {
-      this.setState({ emails:  res.data}) 
-    }) 
+  componentDidMount() {
+    this.setState({ tree: this.state.tree.addNode(this.state.listMssv[0]) })
+    console.log(this.state.tree)
+    callApi(link.getlistuser, 'GET', null).then(res => {
+      this.setState({ emails: res.data })
+    })
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term })
-
   }
 
   selectMember = (item) => {
-    console.log("listMssv",this.state.listMssv)
     if (!this.state.listMssv.includes(item.mssv))
       this.setState({
-          listMssv: this.state.listMssv.concat([item.mssv])
+        listMssv: this.state.listMssv.concat([item.mssv])
       })
   }
   createGroup = () => {
     let listMssvString = this.state.listMssv.toString();
-    const data = {title: this.props.navigation.state.params.title, mssv: listMssvString} ;
-
+    const data = { groupName: this.props.navigation.state.params.title, listMssv: listMssvString };
     this.props.getCreategroup(data);
-    this.props.navigation.navigate('Menu');
+    this.props.navigation.navigate('GroupLoading',data);
   }
-  getListuser = () => {
-    
-  } 
-  
+
   render() {
-    console.log("listMssv",this.state.listMssv)
+    // console.log("listMssv", this.state.listMssv)
     const filteredEmails = this.state.emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
-          <View style={{flexDirection:'row', marginTop: 5, marginHorizontal: 10, alignItems:'center'}}>
-          <View style={{paddingTop: -5}}>
+        <View style={{ flexDirection: 'row', marginTop: 5, marginHorizontal: 10, alignItems: 'center' }}>
+          <View style={{ paddingTop: -5 }}>
             <Text>Add members</Text>
           </View>
         </View>
@@ -64,19 +60,17 @@ class Addmember extends Component {
             {this.ShowSelectMember()}
           </View>
         </View>
-        <SearchInput 
-          onChangeText={(term) => { this.searchUpdated(term) }} 
+        <SearchInput
+          onChangeText={(term) => { this.searchUpdated(term) }}
           style={styles.searchInput}
           placeholder="Type a message to search"
-          />
+        />
         <ScrollView>
           {filteredEmails.map(email => {
             return (
-              <TouchableOpacity onPress={()=>{
-                    // alert(email.mssv)
-
-                    this.selectMember(email)
-                  }} key={email.mssv} style={styles.emailItem}>
+              <TouchableOpacity onPress={() => {
+                this.selectMember(email)
+              }} key={email.mssv} style={styles.emailItem}>
                 <View>
                   <Text>{email.mssv}</Text>
                   <Text style={styles.emailSubject}>{email.name}</Text>
@@ -85,21 +79,21 @@ class Addmember extends Component {
             )
           })}
         </ScrollView>
-        <View style={{flexDirection:'row', marginTop: 5, marginHorizontal: 10, justifyContent:'flex-end', paddingVertical: 10}}>
-            <TouchableOpacity onPress={()=> {this.props.navigation.navigate('Menu');}}>
-                <Text style={{marginHorizontal: 10, color:'blue'}}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.createGroup} >
-                 <Text style={{marginHorizontal: 10, color:'blue'}}>Create</Text>
-            </TouchableOpacity>
+        <View style={{ flexDirection: 'row', marginTop: 5, marginHorizontal: 10, justifyContent: 'flex-end', paddingVertical: 10 }}>
+          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Menu'); }}>
+            <Text style={{ marginHorizontal: 10, color: 'blue' }}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.createGroup} >
+            <Text style={{ marginHorizontal: 10, color: 'blue' }}>Create</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
   onDeleteItem = (index) => {
     // console.log("index", index)
-    if (index) {   
-      let newTaskList = this.state.listMssv.filter( (item, i) => i != index );
+    if (index) {
+      let newTaskList = this.state.listMssv.filter((item, i) => i != index);
       this.setState({ listMssv: newTaskList });
     }
   }
@@ -111,31 +105,31 @@ class Addmember extends Component {
           <Image
             source={{ uri: 'https://encrypted-tbn0.gstatic.com/listMssvs?q=tbn%3AANd9GcSTaXFFSyR_PMavft5Yt1L3p9Dr0Ak1WCQJtRc8q8-7AWJ-WmIr&usqp=CAU' }}
             style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
-             <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
-                onPress={ () => this.onDeleteItem(index) }>
+          <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
+            onPress={() => this.onDeleteItem(index)}>
             <Text>{`❌`}</Text>
           </TouchableOpacity>
-          <Text style={{marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5}}>{item}</Text>
-         </View>
+          <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
+        </View>
       );
     });
     return members;
   }
 }
- 
+
 const mapStateToProps = state => {
-  return{
-    
+  return {
+
   }
- }
- const mapDispatchToProps = (dispatch, props) => {
-   return {
-       getCreategroup: (data) => {
-       dispatch(responseCreategroup(data));
-     }
-   }
- }
- export default connect(mapStateToProps, mapDispatchToProps)(Addmember)
+}
+const mapDispatchToProps = (dispatch, props) => {
+  return {
+    getCreategroup: (data) => {
+      dispatch(responseCreategroup(data));
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Addmember)
 
 const styles = StyleSheet.create({
   container: {
@@ -143,16 +137,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'flex-start'
   },
-  AddImgStyles:{
+  AddImgStyles: {
     borderRadius: 5,
     backgroundColor: 'white',
-    flexDirection: 'row', 
+    flexDirection: 'row',
     padding: 10,
     marginLeft: 15,
     marginRight: 15,
     height: 130,
-},
-  emailItem:{
+  },
+  emailItem: {
     borderBottomWidth: 0.5,
     borderColor: 'rgba(0,0,0,0.3)',
     padding: 10
@@ -160,16 +154,16 @@ const styles = StyleSheet.create({
   emailSubject: {
     color: 'rgba(0,0,0,0.5)'
   },
-  searchInput:{
+  searchInput: {
     padding: 10,
     borderColor: '#CCC',
     borderWidth: 1,
     marginTop: 20
   },
-  ImgStyles:{
+  ImgStyles: {
     borderRadius: 5,
     backgroundColor: 'white',
-    flexDirection: 'row', 
+    flexDirection: 'row',
     paddingTop: 20,
-},
+  },
 });

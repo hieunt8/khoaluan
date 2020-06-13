@@ -170,9 +170,9 @@ export const saveDate = (data) => {
 //CreateGroup
 export const responseCreategroup = (data) => {
   return dispatch => {
-    console.log("Send create group"); 
+    // console.log("Send create group"); 
     return callApi(link.creategroup, 'POST', { data: data }).then(res => {
-     console.log('group',  data);
+    //  console.log('group',  data);
     })
   }
 }

@@ -3,8 +3,8 @@ const mongooseHidden = require('mongoose-hidden')({ defaultHidden: { __v: true }
 
 const Group=mongoose.Schema(
     { 
-        title:{ type : String , unique : true, required : true, dropDups: true },
-        mssv:String,
+        groupName:{ type : String , unique : true, required : true },
+        listMssv:String,
     }
 )
 

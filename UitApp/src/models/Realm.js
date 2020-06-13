@@ -6,8 +6,8 @@ export const userSchema = {
   properties: {
     mssv: 'string',
     name: 'string',
-    publicKey: {type: 'string', default: ""},
-    privateKey: {type: 'string', default: ""},
+    publicKey: { type: 'string', default: "" },
+    privateKey: { type: 'string', default: "" },
   }
 };
 
@@ -17,6 +17,6 @@ export const listuserSchema = {
   properties: {
     mssv: 'string',
     name: 'string',
-    publicKey: {type: 'string', default: ""},
+    publicKey: { type: 'string', default: "" },
   }
 };

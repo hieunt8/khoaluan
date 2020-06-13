@@ -1,38 +1,38 @@
 class Node {
-  constructor(_id) {
-    this._id = _id;
+  constructor(_mssv) {
+    this._mssv = _mssv;
     this.right = null;
     this.left = null;
   }
 }
 
 export default class RatchetTrees {
-  constructor(_id) {
-    if (_id) {
-      const newNode = new Node(_id);
+  constructor(_mssv) {
+    if (_mssv) {
+      const newNode = new Node(_mssv);
       this.root = newNode;
     } else this.root = null;
   }
-  inOrder2(_id) {
+  inOrder2(_mssv) {
     let visited = [],
       current = this.root;
     let temp = 0;
-    let traverse = (node, temp, _id) => {
-      // console.log(node._id);
-      // console.log("temp: ", temp,_id);
+    let traverse = (node, temp, _mssv) => {
+      // console.log(node._mssv);
+      // console.log("temp: ", temp,_mssv);
       temp = temp + 1;
-      // console.log("node._id:",node._id,"temp:", temp,"_id:",_id);
-      if (node.left) traverse(node.left, temp, _id);
-      else if (temp === _id) visited.push(null);
-      visited.push(node._id);
-      if (node.right) traverse(node.right, temp, _id);
-      else if (temp === _id) visited.push(null);
+      // console.log("node._mssv:",node._mssv,"temp:", temp,"_mssv:",_mssv);
+      if (node.left) traverse(node.left, temp, _mssv);
+      else if (temp === _mssv) visited.push(null);
+      visited.push(node._mssv);
+      if (node.right) traverse(node.right, temp, _mssv);
+      else if (temp === _mssv) visited.push(null);
     };
-    traverse(current, temp, _id);
+    traverse(current, temp, _mssv);
     return visited;
   }
-  addNode2(_id2, _depth) {
-    const newNode = new Node(_id2);
+  addNode(_mssv, _depth) {
+    const newNode = new Node(_mssv);
     if (!this.root) {
       this.root = newNode;
       return this;
@@ -40,16 +40,16 @@ export default class RatchetTrees {
     let current = this.root;
     let temp = 0,
       check = false;
-    const traverse = (node, temp, _id) => {
+    const traverse = (node, temp, _mssv) => {
       temp = temp + 1;
-      // console.log("111node._id:",node._id,"temp:", temp,"_id:",_id);
+      // console.log("111node._mssv:",node._mssv,"temp:", temp,"_mssv:",_mssv);
       if (node.left) traverse(node.left, temp, _depth);
       if (node.right) traverse(node.right, temp, _depth);
       else {
         if (temp === _depth && !check) {
           check = true;
-          let te = new Node(node._id);
-          node._id = "mer" + te._id + "vs" + newNode._id;
+          let te = new Node(node._mssv);
+          node._mssv = "mer" + te._mssv + "vs" + newNode._mssv;
           // console.log("te",te, "newnode", newNode);
           node.right = newNode;
           node.left = te;
@@ -59,32 +59,32 @@ export default class RatchetTrees {
     };
     traverse(current, temp, _depth);
   }
-  getPath(_idToFind) {
-    let handling = (root, _idToFind) => {
-      if (root._id === _idToFind) {
-        return [[root._id], [], []];
+  getPath(_mssvToFind) {
+    let handling = (root, _mssvToFind) => {
+      if (root._mssv === _mssvToFind) {
+        return [[root._mssv], [], []];
       }
       if (root.left) {
-        const result = handling(root.left, _idToFind);
+        const result = handling(root.left, _mssvToFind);
         if (result) {
-          // unshift: add this node's _idue to the beginning of the array
-          result[0].unshift(root._id);
+          // unshift: add this node's _mssvue to the beginning of the array
+          result[0].unshift(root._mssv);
           result[1].unshift("left");
-          result[2].unshift(root.right._id);
+          result[2].unshift(root.right._mssv);
           return result;
         }
       }
       if (root.right) {
-        const result = handling(root.right, _idToFind);
+        const result = handling(root.right, _mssvToFind);
         if (result) {
-          result[0].unshift(root._id);
+          result[0].unshift(root._mssv);
           result[1].unshift("right");
-          result[2].unshift(root.left._id);
+          result[2].unshift(root.left._mssv);
           return result;
         }
       }
     };
-    return handling(this.root, _idToFind);
+    return handling(this.root, _mssvToFind);
   }
 
   inOrder() {
@@ -93,15 +93,15 @@ export default class RatchetTrees {
 
     let traverse = node => {
       if (node.left) traverse(node.left);
-      visited.push(node._id);
+      visited.push(node._mssv);
       if (node.right) traverse(node.right);
     };
 
     traverse(current);
     return visited;
   }
-  addNode(_id) {
-    const newNode = new Node(_id);
+  addBSTNode(_mssv) {
+    const newNode = new Node(_mssv);
     if (!this.root) {
       this.root = newNode;
       return this;
@@ -116,12 +116,12 @@ export default class RatchetTrees {
     };
 
     while (true) {
-      if (_id === current._id) return this;
-      if (_id < current._id) addSide("left");
+      if (_mssv === current._mssv) return this;
+      if (_mssv < current._mssv) addSide("left");
       else addSide("right");
     }
   }
-  removeNode(path, _id) {
+  removeNode(path, _mssv) {
     let current = this.root;
     for (let i = 0; i < path.length - 2; i++) {
       if (path[i] === "left") current = current.left;
@@ -131,7 +131,7 @@ export default class RatchetTrees {
     console.log(current);
     // console.log([path.length - 2])
     console.log(current[path[path.length - 2]]);
-    if (current[path[path.length - 2]].left._id === _id)
+    if (current[path[path.length - 2]].left._mssv === _mssv)
       current[path[path.length - 2]] = current[path[path.length - 2]].right;
     else current[path[path.length - 2]] = current[path[path.length - 2]].left;
     return this;
@@ -148,11 +148,11 @@ export default class RatchetTrees {
 
       if (current.left) {
         queue.push(current.left);
-        str += current._id + " -> " + current.left._id + ";";
+        str += current._mssv + " -> " + current.left._mssv + ";";
       }
       if (current.right) {
         queue.push(current.right);
-        str += current._id + " -> " + current.right._id + ";";
+        str += current._mssv + " -> " + current.right._mssv + ";";
       }
     }
     // return "`graph {" + str + "}`";
