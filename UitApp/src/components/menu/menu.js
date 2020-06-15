@@ -150,11 +150,11 @@ class menu extends Component {
     var data = this.xlarr();
     // alert(title1);
     for (let i = 0; i < data.length; i++) {
-      if (data[i].title === title1) {
-        if (data[i].mssv && data[i].mssv.includes(mssv1)) {
+      if (data[i].groupName === title1) {
+        if (data[i].listMssv && data[i].listMssv.includes(mssv1)) {
           // console.log(data[i])
           this.props.navigation.navigate('NewChatting', {
-            room: data[i].title,
+            room: data[i].groupName,
             name: mssv1
           });
           flag = true;
@@ -252,7 +252,7 @@ class menu extends Component {
             numColumns={1}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => {
-                this.setClickTransfer(item.groupName, this.state.mssv, this.props.name)
+                // this.setClickTransfer(item.groupName, this.state.mssv, this.props.name)
               }}>
                 <View style={{ flexDirection: 'row', marginTop: 15, marginHorizontal: 10, marginBottom: 15, justifyContent: 'space-between' }}>
                   <View style={{ flexDirection: 'row' }}>

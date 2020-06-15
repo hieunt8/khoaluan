@@ -2,6 +2,12 @@ import * as types from './ActionTypes';
 import * as link from '../api/ApiLink';
 import callApi from '../api/ApiCaller';
 
+// const Realm = require('realm');
+// import DEFAULT_KEY from '../api/Config'
+// import { userSchema, GroupSchema } from '../models/Realm'
+// const realm = new Realm({ schema: [userSchema, GroupSchema], encryptionKey: DEFAULT_KEY });
+
+
 //compensatory
 export const responseCompensatory=(data)=>{ //POST StudenID && Reponse Data from Student ID
   return dispatch=>{

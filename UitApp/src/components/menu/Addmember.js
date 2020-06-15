@@ -6,8 +6,17 @@ import { connect } from 'react-redux';
 import { responseCreategroup } from './../../actions/action';
 const { width } = Dimensions.get('window');
 import callApi from '../../api/ApiCaller';
+import randomKey from '../../api/RandomKey'
 import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
+import { RSA } from 'react-native-rsa-native';
+
+
+const Realm = require('realm');
+import DEFAULT_KEY from '../../api/Config'
+import { userSchema, GroupSchema, listuserSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
+
 
 const KEYS_TO_FILTERS = ['mssv', 'subject'];
 
@@ -17,13 +26,10 @@ class Addmember extends Component {
     this.state = {
       searchTerm: '',
       listMssv: [this.props.navigation.state.params.Sender],
-      emails: [],
-      tree: new ratchetTree()
+      emails: []
     }
   }
   componentDidMount() {
-    this.setState({ tree: this.state.tree.addNode(this.state.listMssv[0]) })
-    console.log(this.state.tree)
     callApi(link.getlistuser, 'GET', null).then(res => {
       this.setState({ emails: res.data })
     })
@@ -38,15 +44,66 @@ class Addmember extends Component {
         listMssv: this.state.listMssv.concat([item.mssv])
       })
   }
-  createGroup = () => {
-    let listMssvString = this.state.listMssv.toString();
-    const data = { groupName: this.props.navigation.state.params.title, listMssv: listMssvString };
-    this.props.getCreategroup(data);
-    this.props.navigation.navigate('GroupLoading',data);
+
+  getinfoListMSSV = () => {
+    let info = [];
+    for (const xx of this.state.listMssv)
+      info.push(this.state.emails.find(element => element.mssv === xx));
+    return info;
   }
 
+  saveToDatabase = (info) => {
+    try {
+      realm.write(() => {
+        let newgroup = realm.create('group', {
+          groupName: this.props.navigation.state.params.title,
+          listMssv: [this.props.navigation.state.params.Sender],
+          infolistMssv: [],
+          version: 1,
+          shareKey: randomKey(32),
+        });
+        newgroup.infolistMssv.push(info);
+      });
+    }
+    catch (error) {
+      console.log("saveToDatabase Addmember.js", error)
+    }
+  };
+
+  createGroup = () => {
+    let listMssvString = this.state.listMssv;
+    let tree = new ratchetTree();
+    let info = this.getinfoListMSSV();
+    tree.addNode(info[0], 1);
+    this.saveToDatabase(info[0]);
+    const data = { groupName: this.props.navigation.state.params.title, listMssv: listMssvString, tree: tree, info: info };
+    this.props.navigation.navigate('GroupLoading', data);
+  }
+  onDeleteItem = (index) => {
+    if (index) {
+      let newTaskList = this.state.listMssv.filter((item, i) => i != index);
+      this.setState({ listMssv: newTaskList });
+    }
+  }
+  ShowSelectMember() {
+    let members = [];
+    this.state.listMssv.map((item, index) => {
+      members.push(
+        <View key={index}>
+          <Image
+            source={{ uri: 'https://encrypted-tbn0.gstatic.com/listMssvs?q=tbn%3AANd9GcSTaXFFSyR_PMavft5Yt1L3p9Dr0Ak1WCQJtRc8q8-7AWJ-WmIr&usqp=CAU' }}
+            style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
+          <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
+            onPress={() => this.onDeleteItem(index)}>
+            <Text>{`❌`}</Text>
+          </TouchableOpacity>
+          <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
+        </View>
+      );
+    });
+    return members;
+  }
   render() {
-    // console.log("listMssv", this.state.listMssv)
     const filteredEmails = this.state.emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
@@ -90,31 +147,7 @@ class Addmember extends Component {
       </View>
     );
   }
-  onDeleteItem = (index) => {
-    // console.log("index", index)
-    if (index) {
-      let newTaskList = this.state.listMssv.filter((item, i) => i != index);
-      this.setState({ listMssv: newTaskList });
-    }
-  }
-  ShowSelectMember() {
-    let members = [];
-    this.state.listMssv.map((item, index) => {
-      members.push(
-        <View key={index}>
-          <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/listMssvs?q=tbn%3AANd9GcSTaXFFSyR_PMavft5Yt1L3p9Dr0Ak1WCQJtRc8q8-7AWJ-WmIr&usqp=CAU' }}
-            style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
-          <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
-            onPress={() => this.onDeleteItem(index)}>
-            <Text>{`❌`}</Text>
-          </TouchableOpacity>
-          <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
-        </View>
-      );
-    });
-    return members;
-  }
+
 }
 
 const mapStateToProps = state => {

@@ -1,15 +1,21 @@
 class Node {
-  constructor(_mssv) {
-    this._mssv = _mssv;
+  constructor(info) { 
+    this._mssv = info.mssv;
+    this._name = info.name;
+    this._publickey = info.publickey;
+    this._isLeaf = true;
+    this._privateKey = null;
+    this._pathSecret = null;
+    this._nodeSecret = null;
     this.right = null;
     this.left = null;
-  }
-}
+  } 
+} 
 
 export default class RatchetTrees {
-  constructor(_mssv) {
-    if (_mssv) {
-      const newNode = new Node(_mssv);
+  constructor(info) {
+    if (info) {
+      const newNode = new Node(info);
       this.root = newNode;
     } else this.root = null;
   }
@@ -31,8 +37,20 @@ export default class RatchetTrees {
     traverse(current, temp, _mssv);
     return visited;
   }
-  addNode(_mssv, _depth) {
-    const newNode = new Node(_mssv);
+  copyNode(node) {
+    this._mssv = node.mssv;
+    this._name = node.name;
+    this._publickey = node.publickey;
+    this._privateKey = node._privateKey;
+    this._pathSecret = node._pathSecret;
+    this._nodeSecret = node._nodeSecret;
+    this._isLeaf = node._isLeaf;
+    this.right = node.right;
+    this.left = node.left;
+    return this;
+  }
+  addNode(info, _depth) {
+    const newNode = new Node(info);
     if (!this.root) {
       this.root = newNode;
       return this;
@@ -48,8 +66,14 @@ export default class RatchetTrees {
       else {
         if (temp === _depth && !check) {
           check = true;
-          let te = new Node(node._mssv);
+          let te = {...node};
           node._mssv = "mer" + te._mssv + "vs" + newNode._mssv;
+          node._name = null;
+          node._publickey = null;
+          node._privateKey = null;
+          node._pathSecret = null;
+          node._nodeSecret = null;
+          node._isLeaf = false;
           // console.log("te",te, "newnode", newNode);
           node.right = newNode;
           node.left = te;
@@ -100,27 +124,27 @@ export default class RatchetTrees {
     traverse(current);
     return visited;
   }
-  addBSTNode(_mssv) {
-    const newNode = new Node(_mssv);
-    if (!this.root) {
-      this.root = newNode;
-      return this;
-    }
-    let current = this.root;
-    const addSide = side => {
-      if (!current[side]) {
-        current[side] = newNode;
-        return this;
-      }
-      current = current[side];
-    };
+  // addBSTNode(_mssv) {
+  //   const newNode = new Node(_mssv);
+  //   if (!this.root) {
+  //     this.root = newNode;
+  //     return this;
+  //   }
+  //   let current = this.root;
+  //   const addSide = side => {
+  //     if (!current[side]) {
+  //       current[side] = newNode;
+  //       return this;
+  //     }
+  //     current = current[side];
+  //   };
 
-    while (true) {
-      if (_mssv === current._mssv) return this;
-      if (_mssv < current._mssv) addSide("left");
-      else addSide("right");
-    }
-  }
+  //   while (true) {
+  //     if (_mssv === current._mssv) return this;
+  //     if (_mssv < current._mssv) addSide("left");
+  //     else addSide("right");
+  //   }
+  // }
   removeNode(path, _mssv) {
     let current = this.root;
     for (let i = 0; i < path.length - 2; i++) {

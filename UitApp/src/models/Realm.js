@@ -13,10 +13,25 @@ export const userSchema = {
 
 export const listuserSchema = {
   name: 'listUser',
-  primaryKey: 'mssv',
+  // primaryKey: 'mssv',
   properties: {
+    __v: 'int',
+    _id: 'string',
     mssv: 'string',
     name: 'string',
     publicKey: { type: 'string', default: "" },
+  }
+};
+
+
+export const GroupSchema = {
+  name: 'group',
+  primaryKey: 'groupName',
+  properties: {
+    groupName: 'string',
+    listMssv: 'string[]',
+    infolistMssv: {type: 'list',objectType:'listUser'},
+    version: 'int',
+    shareKey: { type: 'string', default: "" },
   }
 };

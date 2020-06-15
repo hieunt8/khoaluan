@@ -35,22 +35,25 @@ class newlogin extends Component {
   _GetAsync = async () => {
     try {
       const user = await realm.objects('user');
-      const _key = user[0].privateKey;
-      console.log(user[0])
-      if (_key !== "") {
-        this.props.navigation.navigate('Menu');
-      }
-      else {
-        const _mssv = user[0].mssv;
-        const _password = user[0].name;
-        if (_mssv !== null && _password !== null) {
-          this.setState({
-            mssv: _mssv,
-            password: _password,
-          })
-        }
-      }
-    } catch (error) { }
+      var key = user[0].privateKey;
+      this.props.navigation.navigate('Menu');
+      // console.log(user[0])
+      // if (user[0].privateKey !== "") {
+        
+      // }
+      // else {
+      //   const _mssv = user[0].mssv;
+      //   const _password = user[0].name;
+      //   if (_mssv !== null && _password !== null) {
+      //     this.setState({
+      //       mssv: _mssv,
+      //       password: _password,
+      //     })
+      //   }
+      // }
+    } catch (error) {
+      console.log("_GetAsync newlogin.js", error)
+     }
   };
 
 
@@ -65,7 +68,7 @@ class newlogin extends Component {
       });
     }
     catch (error) {
-      console.log("_SaveInAsync newlogin.js", error)
+      console.error("_SaveInAsync newlogin.js", error)
     }
   };
 
