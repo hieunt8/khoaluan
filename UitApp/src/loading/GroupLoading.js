@@ -7,8 +7,8 @@ import ratchetTree from '../components/menu/RatchetTrees';
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
-import { userSchema, GroupSchema, listuserSchema } from '../models/Realm'
-const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
+import { userSchema, GroupSchema, listuserSchema, TreeSchema } from '../models/Realm'
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema,TreeSchema], encryptionKey: DEFAULT_KEY });
 
 
 class Loading extends Component {
@@ -35,6 +35,42 @@ class Loading extends Component {
       console.log("_GetAsync GroupLoading.js", error)
      }
   };
+  _SaveAsync = (newtree_serialize) => {
+    try {
+      const allGroup = realm.objects('tree');
+      let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
+      if (group[0]) {
+        try {
+          realm.write(() => {
+            group[0].treeinfo = newtree_serialize;
+          });
+        } catch (erro) {
+          console.log("_SaveAsync found tree info GroupLoading.js", erro)
+        }
+      }
+      else {
+        try {
+          realm.write(() => {
+            realm.create('tree', {
+              groupName: this.state.groupName,
+              treeinfo : newtree_serialize,
+            });
+          });
+        }
+        catch (error) {
+          console.log("_SaveAsync not found tree info GroupLoading.js", error)
+        }
+      }
+      setTimeout(() => {
+        this.setState({
+          info: 'Finished!',
+          checkFinished: true
+        });
+      }, 1000);
+    } catch (error) {
+      console.log("_SaveAsync GroupLoading.js", error)
+     }
+  };
   async componentDidUpdate() {
     setTimeout(() => {
       if (this.state.checkFinished === true) {
@@ -44,21 +80,18 @@ class Loading extends Component {
       }
     }, 1000);
   }
-  componentDidMount() {
+  componentDidMount() { 
     const data = { groupName: this.state.groupName, listMssv: this.state.listMssv.toString() };
     this.props.sendCreategroup(data);
     let group = this._GetAsync();
     let tree = this.props.navigation.state.params.tree;
-    // console.log("tree", tree);
-    // tree.addNode(this.state.infolistMssv[1], 1);
-    // console.log("tree2", tree);
-
     this.setState({ info: "Building tree!!!" })
     let newtree = this.buildTree(group, tree);
-    // console.log("newtree", newtree);
-    // setTimeout(() => {
-    //   this.props.navigation.navigate('Menu');
-    // }, 2000);
+    // let newtree_serialize = newtree.serialize();
+    this._SaveAsync(newtree.serialize());
+    // let tree2 = new ratchetTree();
+    // tree2 = tree2.deserialize(newtree_serialize);
+    // console.log("tree2", tree2.toGraphviz());
   }
 
   buildGroup = (mssv, info, group) => {
@@ -76,21 +109,12 @@ class Loading extends Component {
   }
   buildTree = (group, tree) => {
     for (var i = 1; i < this.state.listMssv.length; i++){
-      console.log("this.state.infolistMssv", this.state.infolistMssv[i].mssv);
-      console.log("Math.ceil(Math.log2(group.listMssv.length + 1))", Math.ceil(Math.log2(group.listMssv.length + 1)));
       this.setState({
         info: `Building tree!\nAdd user ${this.state.listMssv[i]}`,
       });
       tree.addNode(this.state.infolistMssv[i], Math.ceil(Math.log2(group.listMssv.length + 1)));
-      console.log("tree2", tree);
       group = this.buildGroup(this.state.listMssv[i], this.state.infolistMssv[i], group);
     }
-    setTimeout(() => {
-      this.setState({
-        info: 'Finished!',
-        checkFinished: true
-      });
-    }, 1000);
     return tree;
   }
   render() {

@@ -1,16 +1,37 @@
 class Node {
-  constructor(info) { 
-    this._mssv = info.mssv;
-    this._name = info.name;
-    this._publickey = info.publickey;
+  constructor(info) {
+    if (info) {
+      this._mssv = info.mssv;
+      this._name = info.name;
+      // this._publickey = info.publickey;
+    }
+    else{
+      this._mssv = null;
+      this._name = null;
+      // this._publickey = info.publickey;
+    }
+    this._publickey = null;
     this._isLeaf = true;
     this._privateKey = null;
     this._pathSecret = null;
     this._nodeSecret = null;
     this.right = null;
     this.left = null;
+  }
+  rebuildNode(info) {
+    let renode = new Node();
+    renode._mssv = info._mssv;
+    renode._name = info._name;
+    renode._publickey = info._publickey;
+    renode._isLeaf = info._isLeaf;
+    renode._privateKey = info._privateKey;
+    renode._pathSecret = info._pathSecret;
+    renode._nodeSecret = info._nodeSecret;
+    renode.right = null;
+    renode.left = null;
+    return renode;
   } 
-} 
+}
 
 export default class RatchetTrees {
   constructor(info) {
@@ -36,18 +57,6 @@ export default class RatchetTrees {
     };
     traverse(current, temp, _mssv);
     return visited;
-  }
-  copyNode(node) {
-    this._mssv = node.mssv;
-    this._name = node.name;
-    this._publickey = node.publickey;
-    this._privateKey = node._privateKey;
-    this._pathSecret = node._pathSecret;
-    this._nodeSecret = node._nodeSecret;
-    this._isLeaf = node._isLeaf;
-    this.right = node.right;
-    this.left = node.left;
-    return this;
   }
   addNode(info, _depth) {
     const newNode = new Node(info);
@@ -181,5 +190,52 @@ export default class RatchetTrees {
     }
     // return "`graph {" + str + "}`";
     return str;
+  }
+  
+  serialize() {
+    var result = [];
+    const serializer = (node, output) => {
+      if (!node) {
+        output.push("{#}");
+        return;
+      }
+      let a = {
+        _mssv : node._mssv,
+        _name : node._name,
+        _publickey : node._publickey,
+        _isLeaf : node._isLeaf,
+        _privateKey : node._privateKey,
+        _pathSecret : node._pathSecret,
+        _nodeSecret : node._nodeSecret,        
+      };
+      output.push(JSON.stringify(a));
+      serializer(node.left, output);
+      serializer(node.right, output);
+    };
+    serializer(this.root, result);
+    return JSON.stringify(result);
+  }
+
+  deserialize(data) {
+    data = JSON.parse(data);
+    var index = 0;
+    const deserializer = data => {
+
+      if (index > data.length || data[index] === "{#}") {
+        return null;
+      }
+      var data2 = JSON.parse(data[index]);
+      console.log("data2",data2)
+      let renode = new Node();
+      var node = renode.rebuildNode(data2);
+      index++;
+      node.left = deserializer(data, index);
+      index++;
+      node.right = deserializer(data, index);
+      return node;
+    };
+    const tree = new RatchetTrees();
+    tree.root = deserializer(data);
+    return tree;
   }
 }

@@ -35,3 +35,12 @@ export const GroupSchema = {
     shareKey: { type: 'string', default: "" },
   }
 };
+
+export const TreeSchema = {
+  name: 'tree',
+  primaryKey: 'groupName',
+  properties: {
+    groupName: 'string',
+    treeinfo: 'string',
+  }
+};

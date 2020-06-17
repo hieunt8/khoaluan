@@ -252,7 +252,7 @@ class menu extends Component {
             numColumns={1}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => {
-                // this.setClickTransfer(item.groupName, this.state.mssv, this.props.name)
+                this.setClickTransfer(item.groupName, this.state.mssv, this.props.name)
               }}>
                 <View style={{ flexDirection: 'row', marginTop: 15, marginHorizontal: 10, marginBottom: 15, justifyContent: 'space-between' }}>
                   <View style={{ flexDirection: 'row' }}>
