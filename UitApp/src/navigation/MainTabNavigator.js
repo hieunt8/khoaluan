@@ -10,7 +10,7 @@ import CreateGroup from '../components/chatting/creategroup';
 import listFriend from '../components/chatting/listFriend';
 import NewChatting from '../components/chatting/newchatting';
 import Addmember from '../components/menu/Addmember'
-
+import viewTree from '../components/chatting/viewTree'
 
 const MainNavigator = createStackNavigator({
   
@@ -30,7 +30,21 @@ const MainNavigator = createStackNavigator({
     }
   },
 
-  
+  viewTree: {
+    screen: viewTree,
+    navigationOptions: {
+      title: 'viewTree',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
 
   Rating: {
     screen: ratting,

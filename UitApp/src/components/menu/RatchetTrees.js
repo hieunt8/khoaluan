@@ -225,7 +225,6 @@ export default class RatchetTrees {
         return null;
       }
       var data2 = JSON.parse(data[index]);
-      console.log("data2",data2)
       let renode = new Node();
       var node = renode.rebuildNode(data2);
       index++;

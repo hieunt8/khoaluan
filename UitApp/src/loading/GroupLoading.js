@@ -8,7 +8,7 @@ import ratchetTree from '../components/menu/RatchetTrees';
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
 import { userSchema, GroupSchema, listuserSchema, TreeSchema } from '../models/Realm'
-const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema,TreeSchema], encryptionKey: DEFAULT_KEY });
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, TreeSchema], encryptionKey: DEFAULT_KEY });
 
 
 class Loading extends Component {
@@ -33,7 +33,7 @@ class Loading extends Component {
         console.log("_GetAsync GroupLoading.js not found group name");
     } catch (error) {
       console.log("_GetAsync GroupLoading.js", error)
-     }
+    }
   };
   _SaveAsync = (newtree_serialize) => {
     try {
@@ -53,7 +53,7 @@ class Loading extends Component {
           realm.write(() => {
             realm.create('tree', {
               groupName: this.state.groupName,
-              treeinfo : newtree_serialize,
+              treeinfo: newtree_serialize,
             });
           });
         }
@@ -69,7 +69,7 @@ class Loading extends Component {
       }, 1000);
     } catch (error) {
       console.log("_SaveAsync GroupLoading.js", error)
-     }
+    }
   };
   async componentDidUpdate() {
     setTimeout(() => {
@@ -80,18 +80,14 @@ class Loading extends Component {
       }
     }, 1000);
   }
-  componentDidMount() { 
+  componentDidMount() {
     const data = { groupName: this.state.groupName, listMssv: this.state.listMssv.toString() };
     this.props.sendCreategroup(data);
     let group = this._GetAsync();
     let tree = this.props.navigation.state.params.tree;
     this.setState({ info: "Building tree!!!" })
     let newtree = this.buildTree(group, tree);
-    // let newtree_serialize = newtree.serialize();
     this._SaveAsync(newtree.serialize());
-    // let tree2 = new ratchetTree();
-    // tree2 = tree2.deserialize(newtree_serialize);
-    // console.log("tree2", tree2.toGraphviz());
   }
 
   buildGroup = (mssv, info, group) => {
@@ -108,7 +104,7 @@ class Loading extends Component {
     return currentGroup;
   }
   buildTree = (group, tree) => {
-    for (var i = 1; i < this.state.listMssv.length; i++){
+    for (var i = 1; i < this.state.listMssv.length; i++) {
       this.setState({
         info: `Building tree!\nAdd user ${this.state.listMssv[i]}`,
       });

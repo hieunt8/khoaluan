@@ -4,7 +4,6 @@ import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native
 import { connect } from 'react-redux';
 import { datas } from './titleButton';
 import { responseEschedule, getDataFromCreategroup, responseLogin } from '../../actions/action';
-// import CreateGroup from './Addmember'
 import { Icon, SearchBar } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 let checkName = "The name should not be empty!";
