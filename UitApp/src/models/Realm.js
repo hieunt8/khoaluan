@@ -33,14 +33,24 @@ export const GroupSchema = {
     infolistMssv: {type: 'list',objectType:'listUser'},
     version: 'int',
     shareKey: { type: 'string', default: "" },
+    treeInfo: 'string',
   }
 };
 
-export const TreeSchema = {
-  name: 'tree',
+export const listgroupInfoSchema = {
+  name: 'listgroupInfo',
   primaryKey: 'groupName',
   properties: {
+    _id: 'string',
     groupName: 'string',
-    treeinfo: 'string',
+    listMssv: 'string[]',
+    version: 'int',
+  }
+};
+
+export const listgroupSchema = {
+  name: 'listGroup',
+  properties: {
+    info: {type: 'list',objectType:'listgroupInfo'},
   }
 };

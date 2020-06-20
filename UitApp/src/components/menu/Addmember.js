@@ -29,6 +29,7 @@ class Addmember extends Component {
       emails: []
     }
   }
+
   componentDidMount() {
     callApi(link.getlistuser, 'GET', null).then(res => {
       this.setState({ emails: res.data })
@@ -59,8 +60,9 @@ class Addmember extends Component {
           groupName: this.props.navigation.state.params.title,
           listMssv: [this.props.navigation.state.params.Sender],
           infolistMssv: [],
-          version: 1,
+          version: 0,
           shareKey: randomKey(32),
+          treeInfo: '',
         });
         newgroup.infolistMssv.push(info);
       });
@@ -76,8 +78,15 @@ class Addmember extends Component {
     let info = this.getinfoListMSSV();
     tree.addNode(info[0], 1);
     this.saveToDatabase(info[0]);
-    const data = { groupName: this.props.navigation.state.params.title, listMssv: listMssvString, tree: tree, info: info };
-    this.props.navigation.navigate('GroupLoading', data);
+    sender = {senderName: this.props.navigation.state.params.Sender, senderInfo: info[0]}
+    const data = {
+      groupName: this.props.navigation.state.params.title,
+      sender: sender,
+      listMssv: listMssvString.slice(1),
+      tree: tree,
+      info: info.slice(1)
+    };
+    this.props.navigation.navigate('GroupAddLoading', data); 
   }
   onDeleteItem = (index) => {
     if (index) {
@@ -91,7 +100,7 @@ class Addmember extends Component {
       members.push(
         <View key={index}>
           <Image
-            source={{ uri: 'https://encrypted-tbn0.gstatic.com/listMssvs?q=tbn%3AANd9GcSTaXFFSyR_PMavft5Yt1L3p9Dr0Ak1WCQJtRc8q8-7AWJ-WmIr&usqp=CAU' }}
+            source={require('../../../assets/logo/UIT.png')}
             style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
           <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
             onPress={() => this.onDeleteItem(index)}>

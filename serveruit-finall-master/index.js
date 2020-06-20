@@ -4,11 +4,16 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 var cors = require('cors');
 var url = 'mongodb://localhost:27017/uit';
-const port = 10000;
+
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 const router = express.Router()
+
+// const checklogin = require('./controller/User')
+// const listuser = require('./controller/listuser');
+// const creategroup = require('./controller/Creategroup');
+
 router.use((req, res, next) => {
   next()
 })
@@ -18,7 +23,14 @@ require('./route/route.js')(router);
 
 app.use(bodyParser.json());
 app.use(cors());
+
+
+
+
 app.use('/uit', router);
+
+
+const port = 10000;
 server.listen(process.env.PORT || port, () => console.log(`Server is running port ${port}`));
 mongoose.Promise = global.Promise
 //Connecting to the database

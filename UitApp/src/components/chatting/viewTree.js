@@ -6,35 +6,35 @@ import JSONTree from 'react-native-json-tree'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
-import { TreeSchema } from '../../models/Realm'
-const realm = new Realm({ schema: [TreeSchema], encryptionKey: DEFAULT_KEY });
+import { GroupSchema, listuserSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
 
 class viewTree extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tree: new ratchetTree(),
-      treeinfo: {},
+      treeInfo: {},
       groupName: this.props.navigation.state.params.groupName,
     }
   }
+
   componentDidMount() {
     this.getTree();
   }
 
-
   getTree = () => {
     try {
-      const allGroup = realm.objects('tree');
+      const allGroup = realm.objects('group');
       let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
       if (group[0]) {
         let tree2 = new ratchetTree();
-        tree2 = tree2.deserialize(group[0].treeinfo);
+        tree2 = tree2.deserialize(group[0].treeInfo);
         this.setState({
           tree: tree2,
-          treeinfo: group[0].treeinfo,
+          treeInfo: group[0].treeInfo,
         });
-        console.log(tree2);
+        // console.log(tree2);
       }
       else {
         console.log("getTree not found tree info viewTree.js", error)

@@ -22,6 +22,7 @@ class Loading extends Component {
     }
   }
 
+  
   componentDidMount() {
     this._GenerateRSAKey(this.props.navigation.state.params.data);
   }

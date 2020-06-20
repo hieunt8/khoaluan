@@ -1,2 +1,15 @@
-export const API_URL="http://192.168.0.102:10000";
-export const DEFAULT_KEY="@McQeThWmZq4t7w!z%C*F-JaNdRgUjXn2r5u8x/A?D(G+KbPeShVmYp3s6v9y$B&";
+export const API_URL = "http://192.168.137.1:10000";
+export const DEFAULT_KEY = convertStringToByteArray("PeShVmYq3t6w9z$B&E)H@McQfTjWnZr4u7x!A%D*G-JaNdRgUkXp2s5v8y/B?E(H");
+
+function convertStringToByteArray(str) {
+  String.prototype.encodeHex = function () {
+    var bytes = [];
+    for (var i = 0; i < this.length; ++i) {
+      bytes.push(this.charCodeAt(i));
+    }
+    return bytes;
+  };
+
+  var byteArray = str.encodeHex();
+  return byteArray
+}

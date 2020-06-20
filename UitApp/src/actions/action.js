@@ -2,17 +2,17 @@ import * as types from './ActionTypes';
 import * as link from '../api/ApiLink';
 import callApi from '../api/ApiCaller';
 
-// const Realm = require('realm');
-// import DEFAULT_KEY from '../api/Config'
-// import { userSchema, GroupSchema } from '../models/Realm'
-// const realm = new Realm({ schema: [userSchema, GroupSchema], encryptionKey: DEFAULT_KEY });
+const Realm = require('realm');
+import DEFAULT_KEY from '../api/Config'
+import { userSchema, GroupSchema, listuserSchema } from '../models/Realm'
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
 
 
 //compensatory
 export const responseCompensatory=(data)=>{ //POST StudenID && Reponse Data from Student ID
   return dispatch=>{
       return callApi(link.compensatory,'POST',{data:data}).then(res=>{
-          //console.log("dsadsadasd", res.data);
+          // console.log("dsadsadasd", res.data);
           dispatch(saveCompensatory(res.data));
       })
   }
@@ -184,8 +184,8 @@ export const responseCreategroup = (data) => {
 }
 export const getDataFromCreategroup = (data) => {
   return dispatch => {
-    return callApi(link.getdatacg, 'GET',null).then(res => {
-      // console.log(res.data)
+    return callApi(link.getdatacg, 'GET', null).then(res => {
+      // console.log(res.data);
       dispatch(saveCreategroup(res.data));
     })
   }

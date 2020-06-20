@@ -13,5 +13,6 @@ export const chatreal = 'uit/chatreal'
 export const creategroup = 'uit/creategroup'
 export const getdatacg = 'uit/getcreategroup'
 export const getlistuser = 'uit/listuser'
-
+export const getlistGroup = 'uit/grouploading'
+export const getdataGroup = 'uit/getdataGroup'
 export const chatting = 'http://127.0.0.1:3000'

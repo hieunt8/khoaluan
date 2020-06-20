@@ -3,15 +3,17 @@ import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList, 
 import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { datas } from './titleButton';
-import { responseEschedule, getDataFromCreategroup, responseLogin } from '../../actions/action';
+import { getDataFromCreategroup } from '../../actions/action';
 import { Icon, SearchBar } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 let checkName = "The name should not be empty!";
+import groupLoading from '../../api/ApiGroupLoading';
+import * as link from '../../api/ApiLink';
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
-import { userSchema } from '../../models/Realm'
-const realm = new Realm({ schema: [userSchema], encryptionKey: DEFAULT_KEY });
+import { userSchema, listgroupInfoSchema, listgroupSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [userSchema, listgroupInfoSchema, listgroupSchema ], encryptionKey: DEFAULT_KEY });
 
 
 class menu extends Component {
@@ -67,6 +69,7 @@ class menu extends Component {
   componentDidMount() {
     this._GetAsync();
     setInterval(() => {
+      groupLoading(this.state.mssv);
       this.props.getData();
     }, 5000);
 
@@ -103,11 +106,14 @@ class menu extends Component {
     }
   }
   xlarr = () => {
-    const creategroupReducers = this.props.creategroupReducers;
-    // alert(getDeadline);
-
-    const datas = Object.values(creategroupReducers);
-    // alert(datas[1].title)
+    const allGroup = realm.objects('listGroup');
+    // const creategroupReducers = this.props.creategroupReducers;
+    let datas = null;
+    if (allGroup[0])
+      datas = allGroup[0].info;
+    else
+      datas = [];
+    // const datas = Object.values(creategroupReducers);
     if (datas.length != 0) {
       return datas;
     }
@@ -150,7 +156,8 @@ class menu extends Component {
     // alert(title1);
     for (let i = 0; i < data.length; i++) {
       if (data[i].groupName === title1) {
-        if (data[i].listMssv && data[i].listMssv.includes(mssv1)) {
+        // if (data[i].listMssv && data[i].listMssv.includes(mssv1)) {
+          if (data[i].listMssv) {
           // console.log(data[i])
           this.props.navigation.navigate('NewChatting', {
             room: data[i].groupName,
@@ -257,13 +264,13 @@ class menu extends Component {
                   <View style={{ flexDirection: 'row' }}>
                     <Image
                       style={{ width: 40, height: 40, borderRadius: 100, marginRight: 5 }}
-                      source={{ uri: 'https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/62238278_2331875950424004_4230353030609895424_n.jpg?_nc_cat=109&_nc_sid=8024bb&_nc_ohc=dKhGXgTISkcAX--zEJt&_nc_ht=scontent.fsgn5-6.fna&oh=e80a15e7bd91b820cb9825e0939b508a&oe=5EEAD72A' }} />
+                      source={require('../../../assets/logo/UIT.png')} />
                     <View>
                       <Text style={{ marginTop: 2, paddingLeft: 5 }}>{item.groupName}</Text>
-                      <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, paddingLeft: 5 }}>{item.listMssv}</Text>
+                      <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, paddingLeft: 5 }}>{item.listMssv.toString()}</Text>
                     </View>
                   </View>
-                  <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, marginTop: 10 }}>4:30PM</Text>
+                  {/* <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, marginTop: 10 }}>4:30PM</Text> */}
                 </View>
                 <Divider />
               </TouchableOpacity>)}
@@ -301,12 +308,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    getEschedule: (data) => {
-      dispatch(responseEschedule(data));
-    },
-    getAccount: (data) => {
-      dispatch(responseLogin(data));
-    },
     getData: () => {
       dispatch(getDataFromCreategroup());
     }

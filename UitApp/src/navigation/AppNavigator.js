@@ -3,7 +3,7 @@ import tabNavigator from './MainTabNavigator';
 import LoginScreen from '../screens/LoginScreen';
 // import authNavigator from './authNavigator'
 import Loading from '../loading/Loading';
-import GroupLoading from '../loading/GroupLoading'
+import GroupAddLoading from '../loading/GroupAddLoading'
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -17,7 +17,7 @@ export default createAppContainer(
       screen: LoginScreen
     },
     Loading: Loading,
-    GroupLoading: GroupLoading
+    GroupAddLoading: GroupAddLoading
   },
  ), 
   
