@@ -65,6 +65,7 @@ class Addmember extends Component {
           treeInfo: '',
         });
         newgroup.infolistMssv.push(info);
+        console.log("saveToDatabase Addmember.js create group ", newgroup.groupName);
       });
     }
     catch (error) {

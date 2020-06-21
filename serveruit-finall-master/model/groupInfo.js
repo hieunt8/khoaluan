@@ -42,12 +42,23 @@ exports.saveGroupInfo = async (data) => {
       }
     })
 }
-
+ 
 
 exports.getDataGroup = async (req, res, next) => {
   const { data } = req.body;
   const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
-  groupInfoModel.find({ "version": { $gte: data.version } }).sort({ _id: -1 })
+  groupInfoModel.find({ "version": { $gt: data.version } }).sort({ _id: -1 })
+    .exec(function (err, data) {
+      if (err) return handleError(err);
+      res.json(data);
+      // console.log(data);
+    })
+}
+
+exports.getspecialDataGroup = async (req, res, next) => {
+  const { data } = req.body;
+  const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
+  groupInfoModel.find({ "version": data.version }).sort({ _id: -1 })
     .exec(function (err, data) {
       if (err) return handleError(err);
       res.json(data);
