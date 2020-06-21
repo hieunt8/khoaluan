@@ -2,6 +2,8 @@ import * as link from './ApiLink';
 import callApi from './ApiCaller';
 import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
+import { RSA } from 'react-native-rsa-native';
+
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
@@ -73,15 +75,15 @@ _updateGroup = (data, isExist, group) => {
           console.log("_updateGroupuser call", user[0].mssv , " + check true");
           // console.log("current group",currentGroup)
           tree = tree.deserialize(currentGroup.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)));
-          _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize());
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), null);
+          _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize(), );
         }
         else {
           console.log("_updateGroup user call", user[0].mssv, "+ check false ");
           check = true;
           let tree = new ratchetTree();
           tree = tree.deserialize(groupData.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)));
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), null);
           currentGroup = _CreateGroupDatabase(groupData, tree.serialize());
         }
         break;

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { responseCreategroup } from '../actions/action';
 const { width } = Dimensions.get('window');
 import ratchetTree from '../components/menu/RatchetTrees';
+import { RSA } from 'react-native-rsa-native';
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
@@ -19,7 +20,7 @@ class Loading extends Component {
       listMssv: this.props.navigation.state.params.listMssv,
       groupName: this.props.navigation.state.params.groupName,
       infolistMssv: this.props.navigation.state.params.info,
-      sender : this.props.navigation.state.params.sender,
+      sender: this.props.navigation.state.params.sender,
       checkFinished: true
     }
   }
@@ -36,7 +37,7 @@ class Loading extends Component {
       console.log("_GetAsync GroupAddLoading.js", error)
     }
   };
-  
+
   _SaveGroupDatabase = (mssv, info, group, newtree_serialize) => {
     let currentGroup = group;
     try {
@@ -76,19 +77,30 @@ class Loading extends Component {
         groupName: this.state.groupName,
         Status: "ADD",
         listMssv: group.listMssv.toString(),
+        version: group.version + 1,
         senderName: this.state.sender.senderName,
         senderInfo: this.state.sender.senderInfo,
         userAddRemove: this.state.listMssv[i],
         useraddRemoveInfo: this.state.infolistMssv[i],
-        version: group.version + 1,
-        treeInfo:tree.serialize()
+        treeInfo: tree.serialize()
       };
       // console.log(data.listMssv);
       this.props.sendCreategroup(data);
       await this.delay(500);
       this.setState({ info: `Building tree!\nAdd user ${this.state.listMssv[i]}`, });
-      tree.addNode(this.state.infolistMssv[i], Math.ceil(Math.log2(group.listMssv.length + 1)));
-      group = this._SaveGroupDatabase(this.state.listMssv[i], this.state.infolistMssv[i], group, tree.serialize());
+      let keys = RSA.generateKeys(2048);
+      tree.addNode(
+        this.state.infolistMssv[i],
+        Math.ceil(Math.log2(group.listMssv.length + 1)),
+        {
+          publicKey: keys.public,
+          privateKey: keys.private
+        });
+      group = this._SaveGroupDatabase(
+        this.state.listMssv[i],
+        this.state.infolistMssv[i],
+        group,
+        tree.serialize());
     }
     setTimeout(() => {
       this.setState({
