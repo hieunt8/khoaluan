@@ -88,7 +88,7 @@ export default class Chatting extends Component {
           </View>
           <Text>{room}</Text>
           <TouchableOpacity onPress={
-              ()=>{this.props.navigation.navigate('viewTree', {groupName: this.props.navigation.state.params.room});}
+              ()=>{this.props.navigation.navigate('viewgroupInfo', {groupName: this.props.navigation.state.params.room});}
           }>
             <Icon
               name="add"

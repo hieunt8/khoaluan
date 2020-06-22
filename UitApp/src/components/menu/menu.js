@@ -130,8 +130,7 @@ class menu extends Component {
         text: "YES", onPress: () => {
           try {
             realm.write(() => {
-              const user = realm.objects('user');
-              realm.delete(user);
+              realm.deleteAll();
             });
             setTimeout(() => {
               this.props.navigation.navigate('Login');

@@ -5,6 +5,8 @@ import { responseCreategroup } from '../actions/action';
 const { width } = Dimensions.get('window');
 import ratchetTree from '../components/menu/RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
+import { AesEnc, AesDec } from '../api/ApiAES'
+
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
@@ -73,6 +75,12 @@ class Loading extends Component {
 
   buildTree = async (group, tree) => {
     for (var i = 0; i < this.state.listMssv.length; i++) {
+      let keys = await RSA.generateKeys(2048);
+      let keyPair = {
+        publicKey: keys.public,
+        privateKey: keys.private
+      };
+      console.log(keyPair);
       const data = {
         groupName: this.state.groupName,
         Status: "ADD",
@@ -82,25 +90,23 @@ class Loading extends Component {
         senderInfo: this.state.sender.senderInfo,
         userAddRemove: this.state.listMssv[i],
         useraddRemoveInfo: this.state.infolistMssv[i],
+        // keyPair: AesEnc(keyPair,group.shareKey),
+        keyPair: JSON.stringify(keyPair),
         treeInfo: tree.serialize()
       };
-      // console.log(data.listMssv);
-      this.props.sendCreategroup(data);
-      await this.delay(500);
       this.setState({ info: `Building tree!\nAdd user ${this.state.listMssv[i]}`, });
-      let keys = RSA.generateKeys(2048);
       tree.addNode(
         this.state.infolistMssv[i],
         Math.ceil(Math.log2(group.listMssv.length + 1)),
-        {
-          publicKey: keys.public,
-          privateKey: keys.private
-        });
+        keyPair
+      );
       group = this._SaveGroupDatabase(
         this.state.listMssv[i],
         this.state.infolistMssv[i],
         group,
         tree.serialize());
+      this.props.sendCreategroup(data);
+      await this.delay(500);
     }
     setTimeout(() => {
       this.setState({

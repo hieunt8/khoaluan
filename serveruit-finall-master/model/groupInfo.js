@@ -10,7 +10,8 @@ const groupInfo = mongoose.Schema(
     senderInfo: {},
     userAddRemove: String,
     useraddRemoveInfo: {},
-    treeInfo: String
+    treeInfo: String,
+    keyPair: String,
   }
 )
 const GroupInfo = mongoose.connection.useDb('GroupInfo');
@@ -27,6 +28,7 @@ exports.saveGroupInfo = async (data) => {
     senderInfo: data.senderInfo,
     userAddRemove: data.userAddRemove,
     useraddRemoveInfo: data.useraddRemoveInfo,
+    keyPair:data.keyPair,
     treeInfo : data.treeInfo
   })
   // res.json(newGroupInfo);

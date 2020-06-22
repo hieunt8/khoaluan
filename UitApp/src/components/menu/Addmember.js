@@ -10,7 +10,7 @@ import randomKey from '../../api/RandomKey'
 import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
-import testAes from '../../api/ApiAES'
+import { AesEnc, AesDec }  from '../../api/ApiAES'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
@@ -31,7 +31,6 @@ class Addmember extends Component {
   }
 
   componentDidMount() {
-    testAes();
     callApi(link.getlistuser, 'GET', null).then(res => {
       this.setState({ emails: res.data })
     })
@@ -74,11 +73,11 @@ class Addmember extends Component {
     }
   };
 
-  createGroup = () => {
+  createGroup = async () => {
     let listMssvString = this.state.listMssv;
     let tree = new ratchetTree();
     let info = this.getinfoListMSSV();
-    let keys = RSA.generateKeys(2048);
+    let keys = await RSA.generateKeys(2048);
     tree.addNode(info[0], 1, {
       publicKey: keys.public,
       privateKey: keys.private 

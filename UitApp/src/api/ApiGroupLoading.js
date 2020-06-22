@@ -8,7 +8,7 @@ import { RSA } from 'react-native-rsa-native';
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
 import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../models/Realm'
-import { Group } from 'react-native';
+// import { Group } from 'react-native';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
 const user = realm.objects('user');
 
@@ -72,18 +72,18 @@ _updateGroup = (data, isExist, group) => {
       case "ADD":
         if (check) {
           let tree = new ratchetTree();
-          console.log("_updateGroupuser call", user[0].mssv , " + check true");
+          // console.log("_updateGroupuser call", user[0].mssv , " + check true");
           // console.log("current group",currentGroup)
           tree = tree.deserialize(currentGroup.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), null);
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), JSON.parse(groupData.keyPair));
           _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize(), );
         }
         else {
-          console.log("_updateGroup user call", user[0].mssv, "+ check false ");
+          // console.log("_updateGroup user call", user[0].mssv, "+ check false ");
           check = true;
           let tree = new ratchetTree();
           tree = tree.deserialize(groupData.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), null);
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), JSON.parse(groupData.keyPair));
           currentGroup = _CreateGroupDatabase(groupData, tree.serialize());
         }
         break;
@@ -102,17 +102,17 @@ _checkGroup = async (data) => {
       if (groupLocal.version < groupServer.version) {
         callApi(link.getdataGroup, 'POST', { data: { version: groupLocal.version, groupName: groupServer.groupName } }).then(res => {
           // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@");
-          console.log("_checkGroup user call exist", user[0].mssv);
-          console.log("_checkGroup Exist groupLocal.version: ", groupLocal.version, "+ groupServer.version", groupServer.version);
-          console.log("_checkGroup data", res.data);
+          // console.log("_checkGroup user call exist", user[0].mssv);
+          // console.log("_checkGroup Exist groupLocal.version: ", groupLocal.version, "+ groupServer.version", groupServer.version);
+          // console.log("_checkGroup data", res.data);
           _updateGroup(res.data, true, groupLocal);
         })
       }
     }
     else {
       callApi(link.getspecialdataGroup, 'POST', { data: { version: 1, groupName: groupServer.groupName } }).then(res => {
-        console.log("_checkGroup user call", user[0].mssv);
-        console.log("_checkGroup groupLocal.version: ", "none", "+ groupServer.groupName", groupServer.version);
+        // console.log("_checkGroup user call", user[0].mssv);
+        // console.log("_checkGroup groupLocal.version: ", "none", "+ groupServer.groupName", groupServer.version);
         // console.log("data none group", res.data);
         _updateGroup(res.data, false, null);
       })

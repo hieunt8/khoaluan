@@ -3,14 +3,14 @@ class Node {
     if (info) {
       this._mssv = info.mssv;
       this._name = info.name;
-      this._publickey = info.publickey;
+      // this._publickey = info.publickey;
     }
     else {
       this._mssv = null;
       this._name = null;
-      this._publickey = null;
+      // this._publickey = null;
     }
-    // this._publickey = null;
+    this._publickey = null;
     this._isLeaf = true;
     this._privateKey = null;
     this._pathSecret = null;
@@ -55,7 +55,7 @@ export default class RatchetTrees {
     traverse(current, temp, _mssv);
     return visited;
   }
-  addNode(info, _depth, keypair) {
+  addNode(info, _depth, keyPair) {
     const newNode = new Node(info);
     if (!this.root) {
       this.root = newNode;
@@ -74,8 +74,8 @@ export default class RatchetTrees {
           let te = { ...node };
           node._mssv = "mer" + te._mssv + "vs" + newNode._mssv;
           node._name = null;
-          node._publickey = null;
-          node._privateKey = null;
+          node._publickey = keyPair.publicKey;
+          node._privateKey = keyPair.privateKey;
           node._pathSecret = null;
           node._nodeSecret = null;
           node._isLeaf = false;
