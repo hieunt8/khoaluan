@@ -193,8 +193,9 @@ class menu extends Component {
                   anchor={
                     <TouchableOpacity onPress={this._openMenu}>
                       <Icon
-                        name="menu"
-                        color='black'
+                        name='av-timer'
+                        type='evilicon'
+                        color='#517fa4'
                         size={20} />
                     </TouchableOpacity>
                   }

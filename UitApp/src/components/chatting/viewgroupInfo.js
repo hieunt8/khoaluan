@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import ratchetTree from '../../components/menu/RatchetTrees';
 import JSONTree from 'react-native-json-tree'
-
-
+import { Provider, Divider } from 'react-native-paper';
+// import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
 import { GroupSchema, listuserSchema } from '../../models/Realm'
@@ -17,7 +18,10 @@ class viewgroupInfo extends Component {
       treeInfo: {},
       groupName: this.props.navigation.state.params.groupName,
       viewTree: false,
-      showInfo: false
+      showInfo: false,
+      userInfo: false,
+      userMssv: null,
+      infolistMssv: null
     }
   }
 
@@ -37,6 +41,7 @@ class viewgroupInfo extends Component {
         this.setState({
           tree: tree2,
           treeInfo: group[0].treeInfo,
+          infolistMssv: group[0].infolistMssv,
         });
         // console.log(tree2);
       }
@@ -57,9 +62,45 @@ class viewgroupInfo extends Component {
       return null;
     }
     return (
-      <View>
+      <View style={{ marginLeft: 17 }}>
         <ScrollView>
-          <JSONTree data={this.state.tree} theme={theme} invertTheme={false} hideRoot />
+          <ScrollView horizontal>
+            <JSONTree data={this.state.tree} theme={theme} invertTheme={true} hideRoot />
+          </ScrollView>
+        </ScrollView>
+      </View>
+    )
+  }
+  clickviewuserInfo = async (mssv) => {
+    await this.setState({
+      userInfo: !this.state.userInfo,
+      userMssv: mssv
+    })
+    // console.log("userInfo", this.state.userInfo)
+  }
+  actionclickviewuserInfo = (item) => {
+    // console.log("@@@@@@@@@userInfo", this.state.userInfo)
+    if (this.state.userInfo == false) {
+      return null;
+    }
+    if (this.state.userMssv != item.mssv) {
+      return null;
+    }
+    // console.log("222222222222222",  JSON.parse(item));
+    let data = {
+      _id: item._id,
+      mssv: item.mssv,
+      name: item.name,
+      publicKey: item.publicKey
+    }
+    return (
+      // <Text>{item.name}</Text>
+      <View style={{ marginLeft: 17 }}>
+        {/* <Text>{item}</Text> */}
+        <ScrollView>
+          <ScrollView horizontal>
+            <JSONTree data={data} theme={theme} invertTheme={true} hideRoot />
+          </ScrollView>
         </ScrollView>
       </View>
     )
@@ -69,34 +110,79 @@ class viewgroupInfo extends Component {
     this.setState({ showInfo: !this.state.showInfo })
   }
   actionclickshowInfo = () => {
+    const DATA = [
+      {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        title: 'First Item',
+      },
+      {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        title: 'Second Item',
+      },
+      {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        title: 'Third Item',
+      },
+    ];
     // alert(this.state.value)
     if (this.state.showInfo == false) {
       return null;
     }
     return (
-      <View>
-        <Text>
-          Try editing me! 🎉
-        </Text>
-      </View>
+      <SafeAreaView style={{ marginLeft: 17 }}>
+        <FlatList
+          data={this.state.infolistMssv}
+          renderItem={({ item }) => (
+            <View>
+            <TouchableOpacity onPress={() => {this.clickviewuserInfo(item.mssv)}}>
+              <View>
+                <Text> <Icon name="arrow-right-bold" size={20} color="black" /> {item.mssv}</Text>
+              </View>
+              </TouchableOpacity>
+              {this.actionclickviewuserInfo(item)}
+            </View>
+          )}
+          keyExtractor={item => item.id}
+        />
+      </SafeAreaView>
     )
   }
+
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => this.clickviewTree()}>
-          <Text style={styles.paragraph}>
-            ViewTree
-          </Text>
-        </TouchableOpacity>
-        {this.actionclickviewTree()}
-        <TouchableOpacity onPress={() => this.clickshowInfo()}>
-          <Text style={styles.paragraph}>
-            Show Info
-          </Text>
-        </TouchableOpacity>
-        {this.actionclickshowInfo()}
-      </View>
+      <Provider style={styles.backgroud}>
+        <View style={{ flexDirection: 'row', marginTop: 5, marginHorizontal: 10, justifyContent: 'space-between', paddingVertical: 10 }}>
+          <View style={{ paddingTop: -5 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center'
+              }}>
+
+              <TouchableOpacity onPress={this.backAction}>
+                <Icon name="backspace" size={20} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View >
+          <Text>{this.state.groupName}</Text>
+          <TouchableOpacity onPress={
+            () => { }
+          }>
+            <Icon name="info" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+        <Divider />
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => this.clickviewTree()}>
+            <Text> <Icon name="arrow-right-bold" size={20} color="black" /> ViewTree </Text>
+          </TouchableOpacity>
+          {this.actionclickviewTree()}
+          <TouchableOpacity onPress={() => this.clickshowInfo()}>
+            <Text> <Icon name="arrow-right-bold" size={20} color="black" /> Show User Info</Text>
+          </TouchableOpacity>
+          {this.actionclickshowInfo()}
+        </View>
+      </Provider>
     );
   }
 }
@@ -123,7 +209,7 @@ const theme = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxHeight: '80%',
+    maxHeight: '80%'
   },
   title: { margin: 10 },
 });
