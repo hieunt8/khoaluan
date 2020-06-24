@@ -32,7 +32,12 @@ class Addmember extends Component {
 
   componentDidMount() {
     callApi(link.getlistuser, 'GET', null).then(res => {
-      this.setState({ emails: res.data })
+      if (res) {
+        this.setState({ emails: res.data })
+      }
+      else {
+        console.log("Addmember.js network error");
+      }
     })
   }
   searchUpdated(term) {
@@ -65,7 +70,7 @@ class Addmember extends Component {
           treeInfo: '',
         });
         newgroup.infolistMssv.push(info);
-        console.log("saveToDatabase Addmember.js create group ", newgroup.groupName);
+        // console.log("saveToDatabase Addmember.js create group ", newgroup.groupName);
       });
     }
     catch (error) {
@@ -83,7 +88,7 @@ class Addmember extends Component {
       privateKey: keys.private 
     });
     this.saveToDatabase(info[0]);
-    sender = {senderName: this.props.navigation.state.params.Sender, senderInfo: info[0]}
+    sender = {senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0]}
     const data = {
       groupName: this.props.navigation.state.params.title,
       sender: sender,

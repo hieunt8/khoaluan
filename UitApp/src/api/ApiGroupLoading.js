@@ -3,20 +3,20 @@ import callApi from './ApiCaller';
 import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
 import { RSA } from 'react-native-rsa-native';
+import groupUpdate from './ApiGroupUpdate'
+import { AesEnc, AesDec } from './ApiAES'
 
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
 import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../models/Realm'
-// import { Group } from 'react-native';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
 const user = realm.objects('user');
 
-_GetAsync = (groupName) => {
+_getGroupDatabase = (groupName) => {
   try {
     const allGroup = realm.objects('group');
     let group = allGroup.filtered(`groupName = "${groupName}"`);
-    // console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", allGroup);
     if (group[0])
       return group[0];
     else {
@@ -24,7 +24,7 @@ _GetAsync = (groupName) => {
     }
 
   } catch (error) {
-    console.log("_GetAsync ApiGroupLoading.js", error)
+    console.log("_getGroupDatabase ApiGroupLoading.js", error)
   }
 };
 _SaveGroupDatabase = (mssv, info, group, newtree_serialize) => {
@@ -41,21 +41,35 @@ _SaveGroupDatabase = (mssv, info, group, newtree_serialize) => {
   }
   return currentGroup;
 }
-_CreateGroupDatabase = (groupData, tree) => {
+_CreateGroupDatabase = (groupData, tree, shareKey) => {
   try {
     realm.write(() => {
       let newgroup = realm.create('group', {
         groupName: groupData.groupName,
-        listMssv: [groupData.senderName],
+        listMssv: groupData.listMssv.split(","),
+        // listMssv: [],
         infolistMssv: [],
-        version: 1,
-        shareKey: randomKey(32),
+        version: groupData.version,
+        shareKey: shareKey,
         treeInfo: tree,
       });
       newgroup.listMssv.push(groupData.userAddRemove);
-      newgroup.infolistMssv.push(groupData.senderInfo);
-      newgroup.infolistMssv.push(groupData.useraddRemoveInfo);
-      return newgroup;
+      callApi(link.requestUserInfo, 'POST', { data: { listMssv: groupData.listMssv.split(",") } })
+        .then(res => {
+          if (res) {
+            realm.write(() => {
+              for (let i of res.data) {
+                newgroup.infolistMssv.push(i);
+              }
+              newgroup.infolistMssv.push(groupData.useraddRemoveInfo);
+              console.log("newgroup.listMssv", newgroup.listMssv);
+              return newgroup;
+            })
+          }
+          else {
+            console.log("ApiGroupLoading.js network error");
+          }
+        })
     });
   }
   catch (error) {
@@ -63,7 +77,7 @@ _CreateGroupDatabase = (groupData, tree) => {
   }
 };
 
-_updateGroup = (data, isExist, group) => {
+_updateGroup = async (data, isExist, group) => {
   let check = isExist;
   let currentGroup = group;
 
@@ -72,19 +86,19 @@ _updateGroup = (data, isExist, group) => {
       case "ADD":
         if (check) {
           let tree = new ratchetTree();
-          // console.log("_updateGroupuser call", user[0].mssv , " + check true");
-          // console.log("current group",currentGroup)
           tree = tree.deserialize(currentGroup.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), JSON.parse(groupData.keyPair));
-          _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize(), );
+          let keyPair = await AesDec(groupData.keyPair, currentGroup.shareKey);
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), JSON.parse(keyPair));
+          _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize());
         }
         else {
-          // console.log("_updateGroup user call", user[0].mssv, "+ check false ");
           check = true;
           let tree = new ratchetTree();
           tree = tree.deserialize(groupData.treeInfo);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), JSON.parse(groupData.keyPair));
-          currentGroup = _CreateGroupDatabase(groupData, tree.serialize());
+          let shareKey = await RSA.decrypt(groupData.shareKey, user[0].privateKey);
+          let keyPair = await AesDec(groupData.keyPair, shareKey)
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), JSON.parse(keyPair));
+          currentGroup = _CreateGroupDatabase(groupData, tree.serialize(), shareKey);
         }
         break;
       case "UPDATE":
@@ -97,24 +111,39 @@ _updateGroup = (data, isExist, group) => {
 
 _checkGroup = async (data) => {
   for (let groupServer of data) {
-    let groupLocal = _GetAsync(groupServer.groupName);
+    let groupLocal = _getGroupDatabase(groupServer.groupName);
+    // console.log("user", user[0].mssv);
+    // console.log("@#4254357654q656", groupLocal);
     if (groupLocal) {
       if (groupLocal.version < groupServer.version) {
-        callApi(link.getdataGroup, 'POST', { data: { version: groupLocal.version, groupName: groupServer.groupName } }).then(res => {
-          // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@");
-          // console.log("_checkGroup user call exist", user[0].mssv);
-          // console.log("_checkGroup Exist groupLocal.version: ", groupLocal.version, "+ groupServer.version", groupServer.version);
-          // console.log("_checkGroup data", res.data);
-          _updateGroup(res.data, true, groupLocal);
-        })
+        callApi(link.getdataGroup, 'POST', { data: { version: groupLocal.version, groupName: groupServer.groupName } })
+          .then(res => {
+            if (res) {
+              _updateGroup(res.data, true, groupLocal);
+            } else {
+              console.log("ApiGroupLoading.js network error");
+            }
+          })
+      }
+      else if (groupLocal.version == groupServer.version && groupLocal.Updated) {
+        // groupUpdate(groupLocal.groupName);
       }
     }
     else {
-      callApi(link.getspecialdataGroup, 'POST', { data: { version: 1, groupName: groupServer.groupName } }).then(res => {
-        // console.log("_checkGroup user call", user[0].mssv);
-        // console.log("_checkGroup groupLocal.version: ", "none", "+ groupServer.groupName", groupServer.version);
-        // console.log("data none group", res.data);
-        _updateGroup(res.data, false, null);
+      // console.log("1111111111111");
+      callApi(link.getspecialdataGroup, 'POST', {
+        data: {
+          userAddRemove: user[0].mssv,
+          groupName: groupServer.groupName,
+          Status: "ADD",
+        }
+      }).then(res => {
+        if (res) {
+          // console.log("@@@@@@@@@@@@@@@@@@@@@@@", res.data);
+          _updateGroup(res.data, false, null);
+        } else {
+          console.log("ApiGroupLoading.js network error");
+        }
       })
     }
   }
@@ -151,11 +180,12 @@ _saveListGroup = (data) => {
 
 export default function groupLoading(mssv) {
   callApi(link.getlistGroup, 'POST', { data: { mssv: mssv } }).then(res => {
-    let data = res.data;
-    _saveListGroup(data);
-    const allGroup = realm.objects('group');
-    // console.log("allGroup", allGroup);
-    _checkGroup(data);
-    // return data
+    if (res) {
+      _saveListGroup(res.data);
+      _checkGroup(res.data);
+    }
+    else {
+      console.log("ApiGroupLoading.js network error");
+    }
   })
 }; 

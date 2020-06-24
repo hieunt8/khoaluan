@@ -27,16 +27,16 @@ class Loading extends Component {
     }
   }
 
-  _GetAsync = () => {
+  _getGroupDatabase = () => {
     try {
       const allGroup = realm.objects('group');
       let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
       if (group[0])
         return group[0];
       else
-        console.log("_GetAsync GroupAddLoading.js not found group name");
+        console.log("_getGroupDatabase GroupAddLoading.js not found group name");
     } catch (error) {
-      console.log("_GetAsync GroupAddLoading.js", error)
+      console.log("_getGroupDatabase GroupAddLoading.js", error)
     }
   };
 
@@ -65,7 +65,7 @@ class Loading extends Component {
   }
 
   componentDidMount() {
-    let group = this._GetAsync();
+    let group = this._getGroupDatabase();
     let tree = this.props.navigation.state.params.tree;
     this.setState({ info: "Building tree!!!" })
     this.buildTree(group, tree);
@@ -80,18 +80,16 @@ class Loading extends Component {
         publicKey: keys.public,
         privateKey: keys.private
       };
-      console.log(keyPair);
       const data = {
         groupName: this.state.groupName,
         Status: "ADD",
         listMssv: group.listMssv.toString(),
         version: group.version + 1,
-        senderName: this.state.sender.senderName,
+        senderMssv: this.state.sender.senderMssv,
         senderInfo: this.state.sender.senderInfo,
         userAddRemove: this.state.listMssv[i],
         useraddRemoveInfo: this.state.infolistMssv[i],
-        // keyPair: AesEnc(keyPair,group.shareKey),
-        keyPair: JSON.stringify(keyPair),
+        keyPair: AesEnc(JSON.stringify(keyPair), group.shareKey),
         treeInfo: tree.serialize()
       };
       this.setState({ info: `Building tree!\nAdd user ${this.state.listMssv[i]}`, });
@@ -104,7 +102,10 @@ class Loading extends Component {
         this.state.listMssv[i],
         this.state.infolistMssv[i],
         group,
-        tree.serialize());
+        tree.serialize()
+      );
+      // data.treeInfo = await RSA.encrypt(tree.serialize(), this.state.infolistMssv[i].publickey)
+      data.shareKey = await RSA.encrypt(group.shareKey, this.state.infolistMssv[i].publickey);
       this.props.sendCreategroup(data);
       await this.delay(500);
     }

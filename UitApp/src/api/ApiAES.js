@@ -12,7 +12,7 @@ const convertStringToByteArray = (str) => {
   var byteArray = str.encodeHex();
   return byteArray
 }
-
+//// 128-bit, 192-bit and 256-bit keys
 export const AesEnc = (plainText, key) => {
   key = convertStringToByteArray(key);
   plainText = JSON.stringify(plainText);

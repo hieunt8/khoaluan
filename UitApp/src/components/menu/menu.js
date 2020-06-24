@@ -4,16 +4,20 @@ import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native
 import { connect } from 'react-redux';
 import { datas } from './titleButton';
 import { getDataFromCreategroup } from '../../actions/action';
-import { Icon, SearchBar } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 const { width } = Dimensions.get('window');
 let checkName = "The name should not be empty!";
 import groupLoading from '../../api/ApiGroupLoading';
 import * as link from '../../api/ApiLink';
+import groupUpdate from '../../api/ApiGroupUpdate'
+
+
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
-import { userSchema, listgroupInfoSchema, listgroupSchema } from '../../models/Realm'
-const realm = new Realm({ schema: [userSchema, listgroupInfoSchema, listgroupSchema ], encryptionKey: DEFAULT_KEY });
+import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
 
 
 class menu extends Component {
@@ -29,7 +33,6 @@ class menu extends Component {
       // checkName: false
     }
   }
-
 
   updateSearch = search => {
     this.setState({ search });
@@ -156,7 +159,7 @@ class menu extends Component {
     for (let i = 0; i < data.length; i++) {
       if (data[i].groupName === title1) {
         // if (data[i].listMssv && data[i].listMssv.includes(mssv1)) {
-          if (data[i].listMssv) {
+        if (data[i].listMssv) {
           // console.log(data[i])
           this.props.navigation.navigate('NewChatting', {
             room: data[i].groupName,
@@ -193,14 +196,14 @@ class menu extends Component {
                   anchor={
                     <TouchableOpacity onPress={this._openMenu}>
                       <Icon
-                        name='av-timer'
+                        name='menu'
                         type='evilicon'
-                        color='#517fa4'
+                        color='black'
                         size={20} />
                     </TouchableOpacity>
                   }
                 >
-                  <Menu.Item onPress={() => { alert(1) }} title="Item 1" />
+                  <Menu.Item onPress={() => { groupUpdate("abcdef") }} title="Item 1" />
                   <Menu.Item onPress={() => { }} title="Item 2" />
                   <Divider />
                   <Menu.Item onPress={this.Logout} title="Logout" />
@@ -212,7 +215,7 @@ class menu extends Component {
               this._openPopup
             }>
               <Icon
-                name="add"
+                name="group-add"
                 color='black'
                 size={20} />
             </TouchableOpacity>

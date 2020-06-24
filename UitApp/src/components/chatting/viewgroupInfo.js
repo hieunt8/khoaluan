@@ -16,10 +16,12 @@ class viewgroupInfo extends Component {
     this.state = {
       tree: new ratchetTree(),
       treeInfo: {},
+      group: null,
       groupName: this.props.navigation.state.params.groupName,
       viewTree: false,
       showInfo: false,
       userInfo: false,
+      viewGroup:false,
       userMssv: null,
       infolistMssv: null
     }
@@ -36,12 +38,14 @@ class viewgroupInfo extends Component {
       const allGroup = realm.objects('group');
       let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
       if (group[0]) {
+        // console.log(group[0]);
         let tree2 = new ratchetTree();
         tree2 = tree2.deserialize(group[0].treeInfo);
         this.setState({
           tree: tree2,
           treeInfo: group[0].treeInfo,
           infolistMssv: group[0].infolistMssv,
+          group: group[0]
         });
         // console.log(tree2);
       }
@@ -66,6 +70,27 @@ class viewgroupInfo extends Component {
         <ScrollView>
           <ScrollView horizontal>
             <JSONTree data={this.state.tree} theme={theme} invertTheme={true} hideRoot />
+          </ScrollView>
+        </ScrollView>
+      </View>
+    )
+  }
+  clickviewGroup = () => {
+    this.setState({ viewGroup: !this.state.viewGroup })
+  }
+  actionclickviewGroup = () => {
+    // alert(this.state.value)
+    if (this.state.viewGroup == false) {
+      return null;
+    }
+    let groupData = JSON.stringify(this.state.group);
+    groupData = JSON.parse(groupData);
+    groupData.treeInfo = JSON.parse(groupData.treeInfo);
+    return (
+      <View style={{ marginLeft: 17 }}>
+        <ScrollView>
+          <ScrollView horizontal>
+            <JSONTree data={groupData} theme={theme} invertTheme={true} hideRoot />
           </ScrollView>
         </ScrollView>
       </View>
@@ -110,41 +135,26 @@ class viewgroupInfo extends Component {
     this.setState({ showInfo: !this.state.showInfo })
   }
   actionclickshowInfo = () => {
-    const DATA = [
-      {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'First Item',
-      },
-      {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Second Item',
-      },
-      {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Third Item',
-      },
-    ];
-    // alert(this.state.value)
     if (this.state.showInfo == false) {
       return null;
     }
     return (
-      <SafeAreaView style={{ marginLeft: 17 }}>
+      <View style={{ marginLeft: 17 }}>
         <FlatList
           data={this.state.infolistMssv}
           renderItem={({ item }) => (
             <View>
-            <TouchableOpacity onPress={() => {this.clickviewuserInfo(item.mssv)}}>
-              <View>
-                <Text> <Icon name="arrow-right-bold" size={20} color="black" /> {item.mssv}</Text>
-              </View>
+              <TouchableOpacity onPress={() => { this.clickviewuserInfo(item.mssv) }}>
+                <View>
+                  <Text> <Icon name="arrow-right-bold" size={20} color="black" /> {item.mssv}</Text>
+                </View>
               </TouchableOpacity>
               {this.actionclickviewuserInfo(item)}
             </View>
           )}
           keyExtractor={item => item.id}
         />
-      </SafeAreaView>
+      </View>
     )
   }
 
@@ -164,7 +174,7 @@ class viewgroupInfo extends Component {
               </TouchableOpacity>
             </View>
           </View >
-          <Text>{this.state.groupName}</Text>
+          <Text>Group Information</Text>
           <TouchableOpacity onPress={
             () => { }
           }>
@@ -172,16 +182,22 @@ class viewgroupInfo extends Component {
           </TouchableOpacity>
         </View>
         <Divider />
-        <View style={styles.container}>
-          <TouchableOpacity onPress={() => this.clickviewTree()}>
-            <Text> <Icon name="arrow-right-bold" size={20} color="black" /> ViewTree </Text>
-          </TouchableOpacity>
-          {this.actionclickviewTree()}
-          <TouchableOpacity onPress={() => this.clickshowInfo()}>
-            <Text> <Icon name="arrow-right-bold" size={20} color="black" /> Show User Info</Text>
-          </TouchableOpacity>
-          {this.actionclickshowInfo()}
-        </View>
+        {/* <ScrollView> */}
+          <View style={styles.container}>
+            <TouchableOpacity onPress={() => this.clickviewTree()}>
+              <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Tree </Text>
+            </TouchableOpacity>
+            {this.actionclickviewTree()}
+            <TouchableOpacity onPress={() => this.clickviewGroup()}>
+              <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Group</Text>
+            </TouchableOpacity>
+            {this.actionclickviewGroup()}
+            <TouchableOpacity onPress={() => this.clickshowInfo()}>
+              <Text><Icon name="arrow-right-bold" size={20} color="black" /> Show User Info</Text>
+            </TouchableOpacity>
+            {this.actionclickshowInfo()}
+          </View>
+        {/* </ScrollView> */}
       </Provider>
     );
   }
@@ -209,7 +225,7 @@ const theme = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    maxHeight: '80%'
+    maxHeight: '60%'
   },
   title: { margin: 10 },
 });

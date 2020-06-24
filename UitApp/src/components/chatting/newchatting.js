@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import io from "socket.io-client";
 import * as Config from '../../api/Config';
-import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {  Text, View, StyleSheet, TouchableOpacity, BackHandler, Dimensions } from 'react-native';
 import { Provider, Divider } from 'react-native-paper';
-
 const { width } = Dimensions.get('window');
+
+const Realm = require('realm');
+import DEFAULT_KEY from '../../api/Config'
+import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
+
+
+
+
 export default class Chatting extends Component {
   state = {
     messages: [],
@@ -91,7 +99,7 @@ export default class Chatting extends Component {
               ()=>{this.props.navigation.navigate('viewgroupInfo', {groupName: this.props.navigation.state.params.room});}
           }>
             <Icon
-              name="add"
+              name="info-outline"
               color='black'
               size={20}/>
           </TouchableOpacity>

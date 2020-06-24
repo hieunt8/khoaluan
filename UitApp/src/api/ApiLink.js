@@ -15,5 +15,9 @@ export const getdatacg = 'uit/getcreategroup'
 export const getlistuser = 'uit/listuser'
 export const getlistGroup = 'uit/grouploading'
 export const getdataGroup = 'uit/getdataGroup'
+export const requestUpdate = 'uit/requestUpdate'
+export const requestUserInfo = 'uit/requestUserInfo'
+
+
 export const getspecialdataGroup = 'uit/getspecialdataGroup'
 export const chatting = 'http://127.0.0.1:3000'

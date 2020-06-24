@@ -3,14 +3,14 @@ class Node {
     if (info) {
       this._mssv = info.mssv;
       this._name = info.name;
-      // this._publickey = info.publickey;
+      this._publickey = info.publickey;
     }
     else {
       this._mssv = null;
       this._name = null;
-      // this._publickey = null;
+      this._publickey = null;
     }
-    this._publickey = null;
+    // this._publickey = null;
     this._isLeaf = true;
     this._privateKey = null;
     this._pathSecret = null;
@@ -88,25 +88,34 @@ export default class RatchetTrees {
     traverse(current, temp, _depth);
   }
   getPath(_mssvToFind) {
+    let getData = (node) => {
+      return {
+        mssv: node._mssv,
+        name: node._name,
+        publicKey: node._publickey,
+        privateKey: node._privateKey
+      }
+    }
     let handling = (root, _mssvToFind) => {
       if (root._mssv === _mssvToFind) {
-        return [[root._mssv], [], []];
+        return [[getData(root)], [], []];
       }
       if (root.left) {
         const result = handling(root.left, _mssvToFind);
         if (result) {
-          result[0].unshift(root._mssv);
+
+          result[0].unshift(getData(root));
           result[1].unshift("left");
-          result[2].unshift(root.right._mssv);
+          result[2].unshift(getData(root.right));
           return result;
         }
       }
       if (root.right) {
         const result = handling(root.right, _mssvToFind);
         if (result) {
-          result[0].unshift(root._mssv);
+          result[0].unshift(getData(root));
           result[1].unshift("right");
-          result[2].unshift(root.left._mssv);
+          result[2].unshift(getData(root.left));
           return result;
         }
       }

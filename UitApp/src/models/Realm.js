@@ -33,7 +33,9 @@ export const GroupSchema = {
     infolistMssv: {type: 'list',objectType:'listUser'},
     version: 'int',
     shareKey: { type: 'string', default: "" },
-    treeInfo: 'string',
+    treeInfo: { type: 'string', default: "" },
+    treeLocalInfo: { type: 'string', default: "" },
+    Updated: { type: 'bool', default: false }
   }
 };
 

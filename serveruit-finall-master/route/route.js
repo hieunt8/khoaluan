@@ -5,11 +5,13 @@ const getdataGroup = require('../model/groupInfo');
 // const checklogin = require('./../controller/Checklogin')
 module.exports = (app) => {
     // eslint-disable-next-line
-  app.post('/newlogin', checklogin.Createnewuser) // Check login when logging into the website
+  app.post('/newlogin', checklogin.Createnewuser)
+  app.post('/requestUserInfo', checklogin.requestUserInfo)
   app.get('/listuser', listuser.listuser);
   app.post('/creategroup', creategroup.CreategroupChat);
   app.post('/grouploading', creategroup.groupLoading);
   app.post('/getdataGroup', getdataGroup.getDataGroup);
+  app.post('/requestUpdate', getdataGroup.requestUpdate);
   app.post('/getspecialdataGroup', getdataGroup.getspecialDataGroup);
   app.get('/getcreategroup', creategroup.getDataGC);
   // app.post('/checklogin',checklogin.checkLogin)

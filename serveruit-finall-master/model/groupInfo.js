@@ -6,12 +6,14 @@ const groupInfo = mongoose.Schema(
     groupName: String,
     Status: String,
     version: { type: Number, unique: true, required: true },
-    senderName: String,
+    listMssv: String,
+    senderMssv: String,
     senderInfo: {},
     userAddRemove: String,
     useraddRemoveInfo: {},
     treeInfo: String,
     keyPair: String,
+    shareKey: String
   }
 )
 const GroupInfo = mongoose.connection.useDb('GroupInfo');
@@ -24,12 +26,14 @@ exports.saveGroupInfo = async (data) => {
     groupName: data.groupName,
     Status: data.Status,
     version: data.version,
-    senderName: data.senderName,
+    listMssv:data.listMssv,
+    senderMssv: data.senderMssv,
     senderInfo: data.senderInfo,
     userAddRemove: data.userAddRemove,
     useraddRemoveInfo: data.useraddRemoveInfo,
-    keyPair:data.keyPair,
-    treeInfo : data.treeInfo
+    keyPair: data.keyPair,
+    shareKey: data.shareKey,
+    treeInfo: data.treeInfo
   })
   // res.json(newGroupInfo);
   // console.log("Create group", newGroupInfo.groupName)
@@ -44,7 +48,7 @@ exports.saveGroupInfo = async (data) => {
       }
     })
 }
- 
+
 
 exports.getDataGroup = async (req, res, next) => {
   const { data } = req.body;
@@ -60,8 +64,24 @@ exports.getDataGroup = async (req, res, next) => {
 exports.getspecialDataGroup = async (req, res, next) => {
   const { data } = req.body;
   const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
-  groupInfoModel.find({ "version": data.version }).sort({ _id: -1 })
+  // console.log(data);
+  groupInfoModel.find({ "userAddRemove": data.userAddRemove, "Status": data.Status }).sort({ _id: -1 })
     .exec(function (err, data) {
+      // console.log(data);
+      if (err) return handleError(err);
+      res.json(data);
+      // console.log(data);
+    })
+}
+
+
+exports.requestUpdate = async (req, res, next) => {
+  const { data } = req.body;
+  const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
+  // console.log(data);
+  groupInfoModel.find({ "userAddRemove": data.userAddRemove, "Status": data.Status }).sort({ _id: -1 })
+    .exec(function (err, data) {
+      // console.log(data);
       if (err) return handleError(err);
       res.json(data);
       // console.log(data);

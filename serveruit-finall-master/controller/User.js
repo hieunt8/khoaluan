@@ -31,3 +31,11 @@ exports.Createnewuser = async (req, res, next) => {
 }
 
 
+exports.requestUserInfo = async (req, res, next) => {
+  const { data } = req.body;
+  User.find({mssv: {$in: data.listMssv}}).sort({ _id: -1 })
+    .exec(function (err, data) {
+      if (err) return handleError(err);
+      res.json(data);
+    })
+}
