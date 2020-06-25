@@ -13,7 +13,8 @@ const groupInfo = mongoose.Schema(
     useraddRemoveInfo: {},
     treeInfo: String,
     keyPair: String,
-    shareKey: String
+    shareKey: String,
+    packetUpdate: String,
   }
 )
 const GroupInfo = mongoose.connection.useDb('GroupInfo');
@@ -78,12 +79,22 @@ exports.getspecialDataGroup = async (req, res, next) => {
 exports.requestUpdate = async (req, res, next) => {
   const { data } = req.body;
   const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
-  // console.log(data);
-  groupInfoModel.find({ "userAddRemove": data.userAddRemove, "Status": data.Status }).sort({ _id: -1 })
+  const newGroupInfo = new groupInfoModel({
+    groupName: data.groupName,
+    Status: data.Status,
+    version: data.version,
+    senderMssv: data.senderMssv,
+    packetUpdate: data.packetUpdate,
+  })
+  groupInfoModel.find({ version: data.version })
     .exec(function (err, data) {
-      // console.log(data);
+      // console.log("data", data);
       if (err) return handleError(err);
-      res.json(data);
-      // console.log(data);
+      if (!data.length) {
+        newGroupInfo.save(function (err) {
+          if (err) throw err;
+        })
+        res.json("ACCEPTED");
+      }
     })
 }

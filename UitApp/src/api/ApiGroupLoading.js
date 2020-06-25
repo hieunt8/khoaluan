@@ -96,7 +96,7 @@ _updateGroup = async (data, isExist, group) => {
           let tree = new ratchetTree();
           tree = tree.deserialize(groupData.treeInfo);
           let shareKey = await RSA.decrypt(groupData.shareKey, user[0].privateKey);
-          let keyPair = await AesDec(groupData.keyPair, shareKey)
+          let keyPair = await AesDec(groupData.keyPair, shareKey);
           tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), JSON.parse(keyPair));
           currentGroup = _CreateGroupDatabase(groupData, tree.serialize(), shareKey);
         }

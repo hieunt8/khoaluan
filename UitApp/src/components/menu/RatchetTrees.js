@@ -1,3 +1,6 @@
+import { RSA } from "react-native-rsa-native";
+var CryptoJS = require("crypto-js");
+
 class Node {
   constructor(info) {
     if (info) {
@@ -74,10 +77,10 @@ export default class RatchetTrees {
           let te = { ...node };
           node._mssv = "mer" + te._mssv + "vs" + newNode._mssv;
           node._name = null;
-          node._publickey = keyPair.publicKey;
-          node._privateKey = keyPair.privateKey;
-          node._pathSecret = null;
-          node._nodeSecret = null;
+          node._publickey = null;
+          node._privateKey = null;
+          node._pathSecret = keyPair.pathSecret;
+          node._nodeSecret = CryptoJS.HmacMD5(keyPair.pathSecret, "Node-uit-@@@123").toString();
           node._isLeaf = false;
           node.right = newNode;
           node.left = te;
@@ -103,7 +106,6 @@ export default class RatchetTrees {
       if (root.left) {
         const result = handling(root.left, _mssvToFind);
         if (result) {
-
           result[0].unshift(getData(root));
           result[1].unshift("left");
           result[2].unshift(getData(root.right));
@@ -150,6 +152,38 @@ export default class RatchetTrees {
       current[path[path.length - 2]] = current[path[path.length - 2]].right;
     else current[path[path.length - 2]] = current[path[path.length - 2]].left;
     return this;
+  }
+
+  updateNode (flow, packet, check) {
+    let node = this.root;
+    let i = 0;
+
+    const insertValue = async (node, packet) => {
+      let keys =  RSA.generateKeys(2048, "packet.nodeSecret");
+      if (check) {
+        node._pathSecret = packet.pathSecret;
+        node._nodeSecret = packet.nodeSecret;
+        node._publickey = keys.public;
+        node._privateKey = keys.private;
+      }
+      else {
+        node._publickey = keys.public;
+      }
+
+    }
+    const updateValue =  (node) => {
+      if (i === flow.length) return;
+      i++;
+      if (flow[i - 1] && node.left._mssv === packet[i - 1].mssv) {
+        node =  insertValue(node.left, packet[i - 1]);
+        updateValue(node.left);
+      }
+      else if (node.right._mssv === packet.mssv) {
+        node =  insertValue(node.right, packet[i - 1]);
+        updateValue(node.right);
+      }
+    };
+    updateValue(node);
   }
 
   toGraphviz() {
