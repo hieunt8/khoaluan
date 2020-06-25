@@ -11,6 +11,8 @@ import { AesEnc, AesDec } from '../api/ApiAES'
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
 import { userSchema, GroupSchema, listuserSchema } from '../models/Realm'
+import { random } from 'faker';
+import randomKey from '../api/RandomKey';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
 
 
@@ -75,10 +77,8 @@ class Loading extends Component {
 
   buildTree = async (group, tree) => {
     for (var i = 0; i < this.state.listMssv.length; i++) {
-      let keys = await RSA.generateKeys(2048);
       let keyPair = {
-        publicKey: keys.public,
-        privateKey: keys.private
+        pathSecret: randomKey(32)
       };
       const data = {
         groupName: this.state.groupName,

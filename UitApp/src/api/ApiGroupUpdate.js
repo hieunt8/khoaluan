@@ -2,15 +2,13 @@ import * as link from './ApiLink';
 import callApi from './ApiCaller';
 import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
-import { RSA } from 'react-native-rsa-native';
+import { RSA, RSAKeychain } from 'react-native-rsa-native';
 var CryptoJS = require("crypto-js");
-
 
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
 import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../models/Realm'
-import { copyBundledRealmFiles } from 'realm';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
 const user = realm.objects('user');
 
@@ -51,10 +49,43 @@ _generatorSecret = (directPath) => {
   return data;
 };
 
-_requestUpdate = (packet, group) => {
-  
-  callApi(link.requestUpdate, 'POST', { data: { mssv: mssv } }).then(res => {
+_SaveGroupDatabase = (tree, treeLocalInfo, group) => {
+  let currentGroup = group;
+  try {
+    realm.write(() => {
+      currentGroup.infolistMssv.push(info);
+      currentGroup.treeInfo = tree;
+    });
+  } catch (erro) {
+    console.log("_SaveGroupDatabase ApiGroupLoading.js", erro)
+  }
+  // return currentGroup;
+}
+
+_updateDataBase = (Secret, group, coPath) => {
+  let tree = new ratchetTree();
+  let treeLocalInfo = new ratchetTree();
+  tree = tree.deserialize(group.treeInfo);
+  treeLocalInfo = treeLocalInfo.deserialize(group.treeInfo);
+  tree.updateNode(coPath, Secret, false);
+  treeLocalInfo.updateNode(coPath, Secret, true);
+  _SaveGroupDatabase(tree.serialize(), treeLocalInfo.serialize(), group);
+}
+
+_requestUpdate = (Secret, packet, group, coPath) => {
+  let data = {
+    groupName: group.groupName,
+    Status: "UPDATE",
+    version: group.version + 1,
+    senderMssv: user[0].mssv,
+    packetUpdate: JSON.stringify(packet),
+
+  };
+  callApi(link.requestUpdate, 'POST', { data: data }).then(res => {
     if (res) {
+      if (res.data === "ACCEPTED") {
+        _updateDataBase(Secret, group, coPath);
+      }
     }
     else {
       console.log("ApiGroupUpdate.js network error");
@@ -66,14 +97,13 @@ _encryptSecret = async (Secret, coPath, group) => {
   let packet = [];
   for (let i in coPath) {
     let pSEnc = await RSA.encrypt(Secret[i].pathSecret, coPath[i].publicKey)
-    // console.log(pSEnc)
     packet.push({
       mssv: coPath[i].mssv,
       pSEncx: pSEnc
     })
   }
-  console.log(packet);
-  _requestUpdate(packet, group);
+  // console.log(packet);
+  // _requestUpdate(Secret,packet,group, coPath);
   return packet;
 }
 
@@ -82,12 +112,9 @@ export default function groupUpdate(groupName) {
   if (group) {
     let tree = new ratchetTree();
     tree = tree.deserialize(group.treeInfo);
-    let path = tree.getPath(user[0].mssv);
-    // console.log("direct path: ", path[0].length);
-    let Secret = _generatorSecret(path[0]);
-    _encryptSecret(Secret, path[2], group);
-    let clone = Object.assign(Object.create(Object.getPrototypeOf(tree)), tree);
-    // console.log("flow root to node", path[1]);
-    // console.log("co path", path[2]);
+
+    // let path = tree.getPath(user[0].mssv);
+    // let Secret = _generatorSecret(path[0]);
+    // _encryptSecret(Secret, path[2], group);
   }
 }; 
