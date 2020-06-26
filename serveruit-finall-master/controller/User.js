@@ -5,7 +5,7 @@ exports.Createnewuser = async (req, res, next) => {
     const newUser = new User({
         name:data.password,
         mssv:data.username,
-        publickey:data.publickey,
+        publicKey:data.publicKey,
     })
     form = {
         "username": data.username,

@@ -56,7 +56,7 @@ class Loading extends Component {
       .then(keys => {
         this.setState({ privateKey: keys.private })
         this.setState({ publicKey: keys.public })
-        data.publickey = keys.public;
+        data.publicKey = keys.public;
         this.props.getAccount(data);
       });
   }

@@ -1,19 +1,20 @@
 import { RSA } from "react-native-rsa-native";
-var CryptoJS = require("crypto-js");
 
+import { generateRSAKey } from '../../api/ApiRSA'
+var CryptoJS = require("crypto-js");
 class Node {
   constructor(info) {
     if (info) {
       this._mssv = info.mssv;
       this._name = info.name;
-      this._publickey = info.publickey;
+      this._publicKey = info.publicKey;
     }
     else {
       this._mssv = null;
       this._name = null;
-      this._publickey = null;
+      this._publicKey = null;
     }
-    // this._publickey = null;
+    // this._publicKey = null;
     this._isLeaf = true;
     this._privateKey = null;
     this._pathSecret = null;
@@ -25,7 +26,7 @@ class Node {
     let renode = new Node();
     renode._mssv = info._mssv;
     renode._name = info._name;
-    renode._publickey = info._publickey;
+    renode._publicKey = info._publicKey;
     renode._isLeaf = info._isLeaf;
     renode._privateKey = info._privateKey;
     renode._pathSecret = info._pathSecret;
@@ -77,10 +78,10 @@ export default class RatchetTrees {
           let te = { ...node };
           node._mssv = "mer" + te._mssv + "vs" + newNode._mssv;
           node._name = null;
-          node._publickey = null;
-          node._privateKey = null;
-          node._pathSecret = keyPair.pathSecret;
-          node._nodeSecret = CryptoJS.HmacMD5(keyPair.pathSecret, "Node-uit-@@@123").toString();
+          node._publicKey = keyPair.publicKey;
+          node._privateKey = keyPair.privateKey;
+          node._pathSecret = null;
+          node._nodeSecret = null;
           node._isLeaf = false;
           node.right = newNode;
           node.left = te;
@@ -95,7 +96,7 @@ export default class RatchetTrees {
       return {
         mssv: node._mssv,
         name: node._name,
-        publicKey: node._publickey,
+        publicKey: node._publicKey,
         privateKey: node._privateKey
       }
     }
@@ -107,7 +108,7 @@ export default class RatchetTrees {
         const result = handling(root.left, _mssvToFind);
         if (result) {
           result[0].unshift(getData(root));
-          result[1].unshift("left");
+          result[1].unshift(0);
           result[2].unshift(getData(root.right));
           return result;
         }
@@ -116,7 +117,7 @@ export default class RatchetTrees {
         const result = handling(root.right, _mssvToFind);
         if (result) {
           result[0].unshift(getData(root));
-          result[1].unshift("right");
+          result[1].unshift(1);
           result[2].unshift(getData(root.left));
           return result;
         }
@@ -154,36 +155,25 @@ export default class RatchetTrees {
     return this;
   }
 
-  updateNode (flow, packet, check) {
+  updateNode(flow, packet) {
     let node = this.root;
     let i = 0;
-
-    const insertValue = async (node, packet) => {
-      let keys =  RSA.generateKeys(2048, "packet.nodeSecret");
-      if (check) {
-        node._pathSecret = packet.pathSecret;
-        node._nodeSecret = packet.nodeSecret;
-        node._publickey = keys.public;
-        node._privateKey = keys.private;
+    const updateValue = async (node, i) => {
+      if (i === flow.length) return this;
+      node._publicKey = packet.publicKey;
+      node._pathSecret = null;
+      node._nodeSecret = null;
+      node._publicKey = null;
+      i++;
+      if (flow[i - 1]) {
+        updateValue(node['left'], i);
       }
       else {
-        node._publickey = keys.public;
-      }
-
-    }
-    const updateValue =  (node) => {
-      if (i === flow.length) return;
-      i++;
-      if (flow[i - 1] && node.left._mssv === packet[i - 1].mssv) {
-        node =  insertValue(node.left, packet[i - 1]);
-        updateValue(node.left);
-      }
-      else if (node.right._mssv === packet.mssv) {
-        node =  insertValue(node.right, packet[i - 1]);
-        updateValue(node.right);
+        updateValue(node['right'], i);
       }
     };
-    updateValue(node);
+    updateValue(node, i);
+    return this;
   }
 
   toGraphviz() {
@@ -217,7 +207,7 @@ export default class RatchetTrees {
       let a = {
         _mssv: node._mssv,
         _name: node._name,
-        _publickey: node._publickey,
+        _publicKey: node._publicKey,
         _isLeaf: node._isLeaf,
         _privateKey: node._privateKey,
         _pathSecret: node._pathSecret,

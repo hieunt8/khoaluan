@@ -23,6 +23,28 @@ export const listuserSchema = {
   }
 };
 
+export const listDirectPathInfoSchema = {
+  name: 'listDirectPathInfo',
+  // primaryKey: 'mssv',
+  properties: {
+    groupName: 'string',
+    nameNode: 'string',
+    publicKey: { type: 'string', default: "" },
+    privateKey: { type: 'string', default: "" },
+    pathSecret: { type: 'string', default: "" },
+    nodeSecret:  { type: 'string', default: "" }
+  }
+};
+
+export const DirectPathSchema = {
+  name: 'listDirectPath',
+  primaryKey: 'groupName',
+  properties: {
+    groupName: 'string',
+    listNodePath: 'string[]',
+    listNodePathKey: {type: 'list',objectType:'listDirectPathInfo'}
+  }
+};
 
 export const GroupSchema = {
   name: 'group',

@@ -34,7 +34,8 @@ exports.saveGroupInfo = async (data) => {
     useraddRemoveInfo: data.useraddRemoveInfo,
     keyPair: data.keyPair,
     shareKey: data.shareKey,
-    treeInfo: data.treeInfo
+    treeInfo: data.treeInfo,
+    packetUpdate: data.packetUpdate,
   })
   // res.json(newGroupInfo);
   // console.log("Create group", newGroupInfo.groupName)
@@ -72,29 +73,5 @@ exports.getspecialDataGroup = async (req, res, next) => {
       if (err) return handleError(err);
       res.json(data);
       // console.log(data);
-    })
-}
-
-
-exports.requestUpdate = async (req, res, next) => {
-  const { data } = req.body;
-  const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
-  const newGroupInfo = new groupInfoModel({
-    groupName: data.groupName,
-    Status: data.Status,
-    version: data.version,
-    senderMssv: data.senderMssv,
-    packetUpdate: data.packetUpdate,
-  })
-  groupInfoModel.find({ version: data.version })
-    .exec(function (err, data) {
-      // console.log("data", data);
-      if (err) return handleError(err);
-      if (!data.length) {
-        newGroupInfo.save(function (err) {
-          if (err) throw err;
-        })
-        res.json("ACCEPTED");
-      }
     })
 }

@@ -5,7 +5,7 @@ const User=mongoose.Schema(
     { 
         name:String,
         mssv:String,
-        publickey:String,
+        publicKey:String,
     }
 )
 

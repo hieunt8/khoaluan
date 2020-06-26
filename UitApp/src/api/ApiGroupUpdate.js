@@ -4,12 +4,32 @@ import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
 import { RSA, RSAKeychain } from 'react-native-rsa-native';
 var CryptoJS = require("crypto-js");
+import { generateRSAKey, encryptRSAKey, decryptRSAKey } from './ApiRSA'
 
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
-import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../models/Realm'
-const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
+import {
+  userSchema,
+  GroupSchema,
+  listuserSchema,
+  listgroupInfoSchema,
+  listgroupSchema,
+  listDirectPathInfoSchema,
+  DirectPathSchema
+} from '../models/Realm'
+const realm = new Realm({
+  schema: [
+    userSchema,
+    GroupSchema,
+    listuserSchema,
+    listgroupInfoSchema,
+    listgroupSchema,
+    listDirectPathInfoSchema,
+    DirectPathSchema
+  ],
+  encryptionKey: DEFAULT_KEY
+});
 const user = realm.objects('user');
 
 _getGroupDatabase = (groupName) => {
@@ -32,7 +52,9 @@ _hashNode = (mes) => {
 _hashPath = (mes) => {
   return CryptoJS.HmacMD5(mes, "Path-uit-@@@123").toString();
 }
-
+_hashShareKey = (mes) => {
+  return CryptoJS.HmacMD5(mes, "ShareKey-uit-@@@123").toString();
+}
 _generatorSecret = (directPath) => {
   let newPathSecret = "randomKey(32)";
   let data = [{
@@ -48,31 +70,71 @@ _generatorSecret = (directPath) => {
   }
   return data;
 };
-
-_SaveGroupDatabase = (tree, treeLocalInfo, group) => {
-  let currentGroup = group;
+_SaveGroupDatabase3 = (tree, groupName, shareKey, Data) => {
+  // let currentGroup = _getGroupDatabase(groupName);
+  // console.log(tree);
   try {
     realm.write(() => {
-      currentGroup.infolistMssv.push(info);
-      currentGroup.treeInfo = tree;
+      let newgroup = realm.create(
+        'group', {
+        groupName: groupName,
+        treeInfo: tree,
+        shareKey: shareKey,
+        Updated: true
+      },
+        'modified'
+      );
+      newgroup.version = newgroup.version + 1;
     });
   } catch (erro) {
-    console.log("_SaveGroupDatabase ApiGroupLoading.js", erro)
+    console.log("_SaveGroupDatabase3 ApiGroupUpdate.js", erro)
   }
-  // return currentGroup;
 }
 
-_updateDataBase = (Secret, group, coPath) => {
+_SaveGroupDatabase2 = (tree, group, shareKey, Data) => {
+  try {
+    realm.write(() => {
+      let newlistDirectPath = realm.create('listDirectPath', {
+        groupName: group.groupName,
+        listNodePath: [],
+        listNodePathKey: [],
+      });
+      for (let i in Data) {
+        newlistDirectPath.listNodePath.push(Data[i].nameNode);
+        newlistDirectPath.listNodePathKey.push(Data[i]);
+      }
+    });
+  }
+  catch (error) {
+    console.log("_SaveGroupDatabase2 ApiGroupUpdate.js 2", error)
+  }
+}
+
+_updateDataBase = async (Secret, group, path) => {
   let tree = new ratchetTree();
-  let treeLocalInfo = new ratchetTree();
   tree = tree.deserialize(group.treeInfo);
-  treeLocalInfo = treeLocalInfo.deserialize(group.treeInfo);
-  tree.updateNode(coPath, Secret, false);
-  treeLocalInfo.updateNode(coPath, Secret, true);
-  _SaveGroupDatabase(tree.serialize(), treeLocalInfo.serialize(), group);
+  let Data = [];
+  let directPath = path[0];
+  for (let i in Secret) {
+    let nodeSecret = CryptoJS.HmacMD5(Secret[i].pathSecret, "Node-uit-@@@123").toString();
+    let keys = await generateRSAKey(nodeSecret, 512);
+    Data.push({
+      nameNode: directPath[i].mssv,
+      groupName: group.groupName,
+      pathSecret: Secret[i].pathSecret,
+      nodeSecret: nodeSecret,
+      publicKey: keys.public,
+      private: keys.private
+    })
+  }
+  tree.updateNode(path[1], Data);
+  let shareKey = _hashShareKey(Data[0].nodeSecret);
+  let newtreeSer = tree.serialize();
+  _SaveGroupDatabase2(newtreeSer, group, shareKey, Data);
+  _SaveGroupDatabase3(newtreeSer, group.groupName, shareKey, Data);
 }
 
-_requestUpdate = (Secret, packet, group, coPath) => {
+_requestUpdate = (Secret, packet, group, path) => {
   let data = {
     groupName: group.groupName,
     Status: "UPDATE",
@@ -81,10 +143,11 @@ _requestUpdate = (Secret, packet, group, coPath) => {
     packetUpdate: JSON.stringify(packet),
 
   };
-  callApi(link.requestUpdate, 'POST', { data: data }).then(res => {
+  callApi(link.creategroup, 'POST', { data: data }).then(res => {
     if (res) {
+      console.log(res.data);
       if (res.data === "ACCEPTED") {
-        _updateDataBase(Secret, group, coPath);
+        _updateDataBase(Secret, group, path);
       }
     }
     else {
@@ -93,7 +156,7 @@ _requestUpdate = (Secret, packet, group, coPath) => {
   })
 }
 
-_encryptSecret = async (Secret, coPath, group) => {
+_encryptSecret = async (Secret, coPath, group, path) => {
   let packet = [];
   for (let i in coPath) {
     let pSEnc = await RSA.encrypt(Secret[i].pathSecret, coPath[i].publicKey)
@@ -103,18 +166,26 @@ _encryptSecret = async (Secret, coPath, group) => {
     })
   }
   // console.log(packet);
-  // _requestUpdate(Secret,packet,group, coPath);
-  return packet;
+  _requestUpdate(Secret, packet, group, path);
+  // return packet;
 }
 
+// aaaaaaaaaaa = async () => {
+//   let MattsRSAkey = generateRSAKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", 512);
+//   var PlainText = "Matt, I need you to help me with my Starcraft strategy.";
+//   console.log(MattsRSAkey);
+//   var EncryptionResult = encryptRSAKey(PlainText, MattsRSAkey.public);
+//   console.log(EncryptionResult);
+//   var DecryptionResult = decryptRSAKey(EncryptionResult.cipher, MattsRSAkey.private);
+//   console.log(DecryptionResult);
+// }
 export default function groupUpdate(groupName) {
   let group = _getGroupDatabase(groupName);
   if (group) {
     let tree = new ratchetTree();
     tree = tree.deserialize(group.treeInfo);
-
-    // let path = tree.getPath(user[0].mssv);
-    // let Secret = _generatorSecret(path[0]);
-    // _encryptSecret(Secret, path[2], group);
+    let path = tree.getPath(user[0].mssv);
+    let Secret = _generatorSecret(path[0]);
+    _encryptSecret(Secret, path[2], group, path);
   }
 }; 

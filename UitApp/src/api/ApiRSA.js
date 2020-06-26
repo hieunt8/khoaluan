@@ -2901,7 +2901,7 @@ function depad(bytes) {
 
 function publicKeyFromString(string) {
   var N = b64to16(string.split("|")[0]);
-  var E = "03";
+  var E = "65537";
   var rsa = new RSAKey();
   rsa.setPublic(N, E);
   return rsa
@@ -2933,6 +2933,7 @@ function encryptAESCBC(plaintext, key) {
   return b256to64(ciphertext)
 }
 
+
 function decryptAESCBC(encryptedText, key) {
   var exkey = key.slice(0);
   aes.ExpandKey(exkey);
@@ -2953,8 +2954,13 @@ function decryptAESCBC(encryptedText, key) {
 export function generateRSAKey(passphrase, bitlength) {
   Math.seedrandom(sha256.hex(passphrase));
   var rsa = new RSAKey();
-  rsa.generate(bitlength, "03");
-  return rsa;
+  rsa.generate(bitlength, "65537");
+
+  let keys = {
+    private: privateKeyString(rsa),
+    public: publicKeyString(rsa)
+  }
+  return keys;
 }
 
 export function publicKeyString(rsakey) {
@@ -2962,12 +2968,33 @@ export function publicKeyString(rsakey) {
   return pubkey;
 }
 
-export function encryptRSAKey(plaintext, publickeystring, signingkey) {
+export function privateKeyString(rsakey) {
+  var parametersBigint = ["n", "d", "p", "q", "dmp1", "dmq1", "coeff"];
+  var keyObj = {};
+  parametersBigint.forEach(function (parameter) {
+    keyObj[parameter] = b16to64(rsakey[parameter].toString(16));
+  });
+  // e is 65537 implicitly
+  return JSON.stringify(keyObj);
+}
+export function privateKeyFromString(string) {
+  var parametersBigint = ["n", "d", "p", "q", "dmp1", "dmq1", "coeff"];
+  var keyObj = JSON.parse(string);
+  var rsa = new RSAKey();
+  parametersBigint.forEach(function (parameter) {
+    rsa[parameter] = parseBigInt(b64to16(keyObj[parameter].split("|")[0]), 16);
+  });
+  rsa.e = parseInt("65537", 16);
+  return rsa
+}
+
+
+export function encryptRSAKey(plaintext, publicKeystring, signingkey) {
   var cipherblock = "";
   var aeskey = generateAESKey();
   try {
-    var publickey = publicKeyFromString(publickeystring);
-    cipherblock += b16to64(publickey.encrypt(bytes2string(aeskey))) + "?";
+    var publicKey = publicKeyFromString(publicKeystring);
+    cipherblock += b16to64(publicKey.encrypt(bytes2string(aeskey))) + "?";
   }
   catch (err) {
     console.log(err);
@@ -2986,6 +3013,7 @@ export function encryptRSAKey(plaintext, publickeystring, signingkey) {
 
 
 export function decryptRSAKey(ciphertext, key) {
+  key = privateKeyFromString(key);
   var cipherblock = ciphertext.split("?");
   var aeskey = key.decrypt(b64to16(cipherblock[0]));
   if (aeskey == null) {
@@ -2994,14 +3022,14 @@ export function decryptRSAKey(ciphertext, key) {
   aeskey = string2bytes(aeskey);
   var plaintext = decryptAESCBC(cipherblock[1], aeskey).split("::52cee64bb3a38f6403386519a39ac91c::");
   if (plaintext.length == 3) {
-    var publickey = publicKeyFromString(plaintext[1]);
+    var publicKey = publicKeyFromString(plaintext[1]);
     var signature = b64to16(plaintext[2]);
-    if (publickey.verifyString(plaintext[0], signature)) {
+    if (publicKey.verifyString(plaintext[0], signature)) {
       return {
         status: "success",
         plaintext: plaintext[0],
         signature: "verified",
-        publicKeyString: publicKeyString(publickey)
+        publicKeyString: publicKeyString(publicKey)
       };
     }
     else {
@@ -3009,7 +3037,7 @@ export function decryptRSAKey(ciphertext, key) {
         status: "success",
         plaintext: plaintext[0],
         signature: "forged",
-        publicKeyString: publicKeyString(publickey)
+        publicKeyString: publicKeyString(publicKey)
       };
     }
   }

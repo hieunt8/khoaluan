@@ -151,6 +151,10 @@ class menu extends Component {
   Logout = () => {
     this.logoutAction();
   }
+  
+  TestUppdate = async () => {
+    groupUpdate("dxd");
+  }
 
   setClickTransfer(title1, mssv1, namest) {
     let flag = false;
@@ -203,7 +207,7 @@ class menu extends Component {
                     </TouchableOpacity>
                   }
                 >
-                  <Menu.Item onPress={() => { groupUpdate("bcd") }} title="Item 1" />
+                  <Menu.Item onPress={ this.TestUppdate} title="Item 1" />
                   <Menu.Item onPress={() => { }} title="Item 2" />
                   <Divider />
                   <Menu.Item onPress={this.Logout} title="Logout" />

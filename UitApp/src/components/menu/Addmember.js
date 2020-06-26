@@ -10,7 +10,7 @@ import randomKey from '../../api/RandomKey'
 import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
-import { AesEnc, AesDec }  from '../../api/ApiAES'
+import { AesEnc, AesDec } from '../../api/ApiAES'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
@@ -26,11 +26,13 @@ class Addmember extends Component {
     this.state = {
       searchTerm: '',
       listMssv: [this.props.navigation.state.params.Sender],
-      emails: []
+      emails: [],
+      keys: null
     }
   }
 
   componentDidMount() {
+    this.createKey();
     callApi(link.getlistuser, 'GET', null).then(res => {
       if (res) {
         this.setState({ emails: res.data })
@@ -77,18 +79,23 @@ class Addmember extends Component {
       console.log("saveToDatabase Addmember.js", error)
     }
   };
-
-  createGroup = async () => {
+  createKey = () => {
+    RSA.generateKeys(2048)
+      .then(keys => {
+        this.setState({ keys: keys });
+      })
+  }
+  createGroup = () => {
     let listMssvString = this.state.listMssv;
     let tree = new ratchetTree();
     let info = this.getinfoListMSSV();
-    let keys = await RSA.generateKeys(2048);
+
     tree.addNode(info[0], 1, {
-      publicKey: keys.public,
-      privateKey: keys.private 
+      publicKey: this.state.keys.public,
+      privateKey: this.state.keys.private
     });
     this.saveToDatabase(info[0]);
-    sender = {senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0]}
+    let sender = { senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0] }
     const data = {
       groupName: this.props.navigation.state.params.title,
       sender: sender,
@@ -96,7 +103,7 @@ class Addmember extends Component {
       tree: tree,
       info: info.slice(1)
     };
-    this.props.navigation.navigate('GroupAddLoading', data); 
+    this.props.navigation.navigate('GroupAddLoading', data);
   }
   onDeleteItem = (index) => {
     if (index) {

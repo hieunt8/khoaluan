@@ -102,6 +102,7 @@ _updateGroup = async (data, isExist, group) => {
         }
         break;
       case "UPDATE":
+
         break;
       case "REMOVE":
         break;
@@ -114,6 +115,7 @@ _checkGroup = async (data) => {
     let groupLocal = _getGroupDatabase(groupServer.groupName);
     // console.log("user", user[0].mssv);
     // console.log("@#4254357654q656", groupLocal);
+    
     if (groupLocal) {
       if (groupLocal.version < groupServer.version) {
         callApi(link.getdataGroup, 'POST', { data: { version: groupLocal.version, groupName: groupServer.groupName } })
@@ -125,8 +127,9 @@ _checkGroup = async (data) => {
             }
           })
       }
-      else if (groupLocal.version == groupServer.version && groupLocal.Updated) {
-        // groupUpdate(groupLocal.groupName);
+      else if (groupLocal.version === groupServer.version && !groupLocal.Updated) {
+        // console.log("123444");
+        await groupUpdate(groupLocal.groupName);
       }
     }
     else {
@@ -139,7 +142,6 @@ _checkGroup = async (data) => {
         }
       }).then(res => {
         if (res) {
-          // console.log("@@@@@@@@@@@@@@@@@@@@@@@", res.data);
           _updateGroup(res.data, false, null);
         } else {
           console.log("ApiGroupLoading.js network error");
@@ -181,6 +183,7 @@ _saveListGroup = (data) => {
 export default function groupLoading(mssv) {
   callApi(link.getlistGroup, 'POST', { data: { mssv: mssv } }).then(res => {
     if (res) {
+      // console.log(res.data);
       _saveListGroup(res.data);
       _checkGroup(res.data);
     }
