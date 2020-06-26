@@ -102,7 +102,7 @@ _updateGroup = async (data, isExist, group) => {
         }
         break;
       case "UPDATE":
-
+        groupUpdate(groupData, false);
         break;
       case "REMOVE":
         break;
@@ -128,8 +128,7 @@ _checkGroup = async (data) => {
           })
       }
       else if (groupLocal.version === groupServer.version && !groupLocal.Updated) {
-        // console.log("123444");
-        await groupUpdate(groupLocal.groupName);
+        groupUpdate(groupLocal, true);
       }
     }
     else {
@@ -180,7 +179,7 @@ _saveListGroup = (data) => {
   }
 }
 
-export default function groupLoading(mssv) {
+export default async function groupLoading(mssv) {
   callApi(link.getlistGroup, 'POST', { data: { mssv: mssv } }).then(res => {
     if (res) {
       // console.log(res.data);

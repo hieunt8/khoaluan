@@ -7,8 +7,8 @@ import { Provider, Divider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
-import { GroupSchema, listuserSchema } from '../../models/Realm'
-const realm = new Realm({ schema: [GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
+import { GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema } from '../../models/Realm'
+const realm = new Realm({ schema: [GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema], encryptionKey: DEFAULT_KEY });
 
 class viewgroupInfo extends Component {
   constructor(props) {
@@ -21,8 +21,12 @@ class viewgroupInfo extends Component {
       viewTree: false,
       showInfo: false,
       userInfo: false,
-      viewGroup:false,
+      viewGroup: false,
+      directPath: false,
+      nodeInfo: false,
+      listdirectPath: null,
       userMssv: null,
+      nameNode: null,
       infolistMssv: null
     }
   }
@@ -47,13 +51,30 @@ class viewgroupInfo extends Component {
           infolistMssv: group[0].infolistMssv,
           group: group[0]
         });
-        // console.log(tree2);
+        // console.log(group[0].infolistMssv);
       }
       else {
         console.log("getTree not found tree info viewgroupInfo.js", error)
       }
     } catch (error) {
       console.log("getTree viewgroupInfo.js", error)
+    }
+
+
+    try {
+      const allGroup = realm.objects('listDirectPath');
+      let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
+      if (group[0]) {
+        this.setState({
+          listdirectPath: group[0].listNodePathKey,
+        });
+        // console.log(group[0].listNodePathKey);
+      }
+      else {
+        console.log("getTree not found DirectPath info viewgroupInfo.js", error)
+      }
+    } catch (error) {
+      console.log("getTree  DirectPath viewgroupInfo.js", error)
     }
   }
 
@@ -158,6 +179,71 @@ class viewgroupInfo extends Component {
     )
   }
 
+
+
+  clickviewDirectPathInfo = async (nameNode) => {
+    await this.setState({
+      nodeInfo: !this.state.nodeInfo,
+      nameNode: nameNode
+    })
+    // console.log("userInfo", this.state.userInfo)
+  }
+  actionclickviewDirectPathInfo = (item) => {
+    // console.log("@@@@@@@@@userInfo", this.state.userInfo)
+    if (this.state.nodeInfo == false) {
+      return null;
+    }
+    if (this.state.nameNode != item.nameNode) {
+      return null;
+    }
+    // console.log("222222222222222",  JSON.parse(item));
+    let data = {
+      nameNode: item.nameNode,
+      pathSecret: item.pathSecret,
+      nodeSecret: item.nodeSecret,
+      publicKey: item.publicKey,
+      privateKey: item.privateKey,
+    }
+    return (
+      // <Text>{item.name}</Text>
+      <View style={{ marginLeft: 17 }}>
+        {/* <Text>{item}</Text> */}
+        <ScrollView>
+          <ScrollView horizontal>
+            <JSONTree data={data} theme={theme} invertTheme={true} hideRoot />
+          </ScrollView>
+        </ScrollView>
+      </View>
+    )
+  }
+
+  clickshowDirectPathInfo = () => {
+    this.setState({ directPath: !this.state.directPath })
+  }
+  actionclickshowDirectPathInfo = () => {
+    if (this.state.directPath == false) {
+      return null;
+    }
+    return (
+      <View style={{ marginLeft: 17 }}>
+        <FlatList
+          data={this.state.listdirectPath}
+          renderItem={({ item }) => (
+            <View>
+              <TouchableOpacity onPress={() => { this.clickviewDirectPathInfo(item.nameNode) }}>
+                <View>
+                  <Text> <Icon name="arrow-right-bold" size={20} color="black" /> {item.nameNode}</Text>
+                </View>
+              </TouchableOpacity>
+              {this.actionclickviewDirectPathInfo(item)}
+            </View>
+          )}
+          keyExtractor={item => item.nameNode.toString()}
+        />
+      </View>
+    )
+  }
+
   render() {
     return (
       <Provider style={styles.backgroud}>
@@ -183,20 +269,24 @@ class viewgroupInfo extends Component {
         </View>
         <Divider />
         {/* <ScrollView> */}
-          <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.clickviewTree()}>
-              <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Tree </Text>
-            </TouchableOpacity>
-            {this.actionclickviewTree()}
-            <TouchableOpacity onPress={() => this.clickviewGroup()}>
-              <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Group</Text>
-            </TouchableOpacity>
-            {this.actionclickviewGroup()}
-            <TouchableOpacity onPress={() => this.clickshowInfo()}>
-              <Text><Icon name="arrow-right-bold" size={20} color="black" /> Show User Info</Text>
-            </TouchableOpacity>
-            {this.actionclickshowInfo()}
-          </View>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => this.clickviewTree()}>
+            <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Tree </Text>
+          </TouchableOpacity>
+          {this.actionclickviewTree()}
+          <TouchableOpacity onPress={() => this.clickviewGroup()}>
+            <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Group</Text>
+          </TouchableOpacity>
+          {this.actionclickviewGroup()}
+          <TouchableOpacity onPress={() => this.clickshowInfo()}>
+            <Text><Icon name="arrow-right-bold" size={20} color="black" /> View User Info</Text>
+          </TouchableOpacity>
+          {this.actionclickshowInfo()}
+          <TouchableOpacity onPress={() => this.clickshowDirectPathInfo()}>
+            <Text><Icon name="arrow-right-bold" size={20} color="black" /> View Direct Path Info</Text>
+          </TouchableOpacity>
+          {this.actionclickshowDirectPathInfo()}
+        </View>
         {/* </ScrollView> */}
       </Provider>
     );

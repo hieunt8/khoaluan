@@ -153,7 +153,17 @@ class menu extends Component {
   }
   
   TestUppdate = async () => {
-    groupUpdate("dxd");
+    let a = {
+      "lishcoPathNode": ["77777777"],
+      "groupName": "laosj",
+      "Status": "UPDATE",
+      "version": 2,
+      "senderMssv": "88888888",
+      "packetUpdate": "[{\"mssv\":\"77777777\",\"isLeaf\":true,\"pSEncx\":\"yPRJ6R67COIkSK2vqGUv7EOXsw0xutte5npys8P3E5BhaYftei0E/IsbSAXuz2vrJ+2zGf3yNGxa\\nPfHDh4rbFqtnqJ05+5sR8H/gAb+CobfZ8h7TDq2b+7srOQMQh+cnEbVl1Q4LauHN45zMJtdoApn1\\ndrNckSbsbsJYKcsKKl1cFKYJnfKQGdUzML7hMMjIGsRq+Xr//z7rzVsHj1iWxK7BFzRpax9nmPcI\\ngoV2xqDvcpNhprGllJaPXVRWIiKpZNhfWGh8ZdVxRrGAsNjJ3RKuyh12wJopV5l5vSiFQqIVTsUf\\nRUtOPEBT3fLfskHiGim28w0+wVGHkUo2AOgPlA==\\n\"}]",
+      "__v": 0
+  }
+    groupUpdate(a, false);
+
   }
 
   setClickTransfer(title1, mssv1, namest) {

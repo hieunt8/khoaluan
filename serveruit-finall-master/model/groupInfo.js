@@ -15,6 +15,7 @@ const groupInfo = mongoose.Schema(
     keyPair: String,
     shareKey: String,
     packetUpdate: String,
+    lishcoPathNode: []
   }
 )
 const GroupInfo = mongoose.connection.useDb('GroupInfo');
@@ -36,6 +37,7 @@ exports.saveGroupInfo = async (data) => {
     shareKey: data.shareKey,
     treeInfo: data.treeInfo,
     packetUpdate: data.packetUpdate,
+    lishcoPathNode: data.lishcoPathNode
   })
   // res.json(newGroupInfo);
   // console.log("Create group", newGroupInfo.groupName)

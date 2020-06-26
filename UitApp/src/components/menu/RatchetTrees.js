@@ -97,12 +97,13 @@ export default class RatchetTrees {
         mssv: node._mssv,
         name: node._name,
         publicKey: node._publicKey,
-        privateKey: node._privateKey
+        privateKey: node._privateKey,
+        isLeaf: node._isLeaf
       }
     }
     let handling = (root, _mssvToFind) => {
       if (root._mssv === _mssvToFind) {
-        return [[getData(root)], [], []];
+        return [[getData(root)], [], [], [getData(root)]];
       }
       if (root.left) {
         const result = handling(root.left, _mssvToFind);
@@ -160,10 +161,13 @@ export default class RatchetTrees {
     let i = 0;
     const updateValue = async (node, i) => {
       if (i === flow.length) return this;
-      node._publicKey = packet.publicKey;
-      node._pathSecret = null;
-      node._nodeSecret = null;
-      node._publicKey = null;
+      if (!node._isLeaf) {
+        node._publicKey = packet[i].publicKey;
+        node._pathSecret = null;
+        node._nodeSecret = null;
+        node._privateKey = null;
+      }
+
       i++;
       if (flow[i - 1]) {
         updateValue(node['left'], i);
