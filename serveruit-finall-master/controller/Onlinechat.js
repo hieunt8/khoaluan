@@ -17,7 +17,7 @@ module.exports = (io) => {
     });
     socket.on('sendMessage', async msg => {
       const user = await getUser(socket.id);
-      console.log("User: ", user.name, " Send: ", msg.text);
+      console.log("User: ", user.name, " Send: ", msg[0].text, "At: ", msg[0].createdAt);
       io.to(user.room).emit('sendMessage', { user: user.name, text: msg });
       // callback();
     });
