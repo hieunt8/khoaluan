@@ -56,21 +56,7 @@ _hashPath = (mes) => {
 _hashShareKey = (mes) => {
   return CryptoJS.HmacMD5(mes, "ShareKey-uit-@@@123").toString();
 }
-_generatorSecret = (directPath) => {
-  let newPathSecret = randomKey(32);
-  let data = [{
-    pathSecret: newPathSecret,
-    nodeSecret: _hashNode(newPathSecret),
-  }];
-  for (let i = 1; i < directPath.length; i++) {
-    newPathSecret = _hashPath(data[i - 1].pathSecret);
-    data.unshift({
-      pathSecret: newPathSecret,
-      nodeSecret: _hashNode(newPathSecret),
-    });
-  }
-  return data;
-};
+
 _SaveGroupDatabase3 = (tree, groupName, shareKey, Data) => {
   // let currentGroup = _getGroupDatabase(groupName);
   // console.log(tree);
@@ -205,6 +191,21 @@ _getprivateKeyInfo = (groupName) => {
     console.log("_rebuildSecret  DirectPath ApiGroupUpdate.js", error)
   }
 }
+_generatorSecret = async (directPath) => {
+  let newPathSecret = randomKey(32);
+  let data = [{
+    pathSecret: newPathSecret,
+    nodeSecret: _hashNode(newPathSecret),
+  }];
+  for (let i = 1; i < directPath.length; i++) {
+    newPathSecret = _hashPath(newPathSecret);
+    data.unshift({
+      pathSecret: newPathSecret,
+      nodeSecret: _hashNode(newPathSecret),
+    });
+  }
+  return data;
+};
 _rebuildSecret = async (groupData, NodeUpdateInfo, path) => {
   // let privateKey = _getprivateKeyInfo(groupData.groupName);
   // privateKey = publicKey.privateKey;
@@ -224,7 +225,7 @@ _rebuildSecret = async (groupData, NodeUpdateInfo, path) => {
   }];
 
   for (let i = 1; i < path[0].length; i++) {
-    newPathSecret = _hashPath(data[i - 1].pathSecret);
+    newPathSecret = _hashPath(newPathSecret);
     data.unshift({
       pathSecret: newPathSecret,
       nodeSecret: _hashNode(newPathSecret),
@@ -241,7 +242,7 @@ export default async function groupUpdate(groupData, Check) {
 
   if (group) {
     if (Check) {
-      let Secret = _generatorSecret(path[0]);
+      let Secret = await _generatorSecret(path[0]);
       console.log("Secret",Secret);
       _encryptSecret(Secret, path[2], group, path);
     }
@@ -254,7 +255,7 @@ export default async function groupUpdate(groupData, Check) {
         let Secret = await _rebuildSecret(groupData, NodeUpdateInfo, path);
         // console.log("Secret 2", Secret);
         let shiftData = Secret.shift()
-        // console.log("Secret 2 shift",Secret);
+        console.log("Secret 2 shift",Secret);
         _updateDataBase(Secret, group, path);
       }
     }

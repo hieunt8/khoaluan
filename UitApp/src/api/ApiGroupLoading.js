@@ -97,7 +97,10 @@ _updateGroup = async (data, isExist, group) => {
           tree = tree.deserialize(groupData.treeInfo);
           let shareKey = await RSA.decrypt(groupData.shareKey, user[0].privateKey);
           let keyPair = await AesDec(groupData.keyPair, shareKey);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(2)), JSON.parse(keyPair));
+          let listMssv = groupData.listMssv.split(",");
+          console.log("listMssv", listMssv);
+          console.log(" Math.ceil(Math.log2(listMssv + 1)): ",  Math.ceil(Math.log2(listMssv.length + 1)));  
+          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(listMssv.length + 1)), JSON.parse(keyPair));
           currentGroup = _CreateGroupDatabase(groupData, tree.serialize(), shareKey);
         }
         break;
@@ -115,7 +118,7 @@ _checkGroup = async (data) => {
     let groupLocal = _getGroupDatabase(groupServer.groupName);
     // console.log("user", user[0].mssv);
     // console.log("@#4254357654q656", groupLocal);
-    
+
     if (groupLocal) {
       if (groupLocal.version < groupServer.version) {
         callApi(link.getdataGroup, 'POST', { data: { version: groupLocal.version, groupName: groupServer.groupName } })

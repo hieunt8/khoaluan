@@ -51,7 +51,7 @@ exports.CreategroupChat = (req, res, next) => {
               if (err) throw err;
             }
           );
-          await delay(500);
+          // await delay(500);
           res.json("ACCEPTED");
           break;
         case "UPDATE":

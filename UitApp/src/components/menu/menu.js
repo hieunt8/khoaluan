@@ -11,7 +11,7 @@ let checkName = "The name should not be empty!";
 import groupLoading from '../../api/ApiGroupLoading';
 import * as link from '../../api/ApiLink';
 import groupUpdate from '../../api/ApiGroupUpdate'
-
+var CryptoJS = require("crypto-js");
 
 
 const Realm = require('realm');
@@ -152,18 +152,19 @@ class menu extends Component {
     this.logoutAction();
   }
   
-  TestUppdate = async () => {
-    let a = {
-      "lishcoPathNode": ["77777777"],
-      "groupName": "laosj",
-      "Status": "UPDATE",
-      "version": 2,
-      "senderMssv": "88888888",
-      "packetUpdate": "[{\"mssv\":\"77777777\",\"isLeaf\":true,\"pSEncx\":\"yPRJ6R67COIkSK2vqGUv7EOXsw0xutte5npys8P3E5BhaYftei0E/IsbSAXuz2vrJ+2zGf3yNGxa\\nPfHDh4rbFqtnqJ05+5sR8H/gAb+CobfZ8h7TDq2b+7srOQMQh+cnEbVl1Q4LauHN45zMJtdoApn1\\ndrNckSbsbsJYKcsKKl1cFKYJnfKQGdUzML7hMMjIGsRq+Xr//z7rzVsHj1iWxK7BFzRpax9nmPcI\\ngoV2xqDvcpNhprGllJaPXVRWIiKpZNhfWGh8ZdVxRrGAsNjJ3RKuyh12wJopV5l5vSiFQqIVTsUf\\nRUtOPEBT3fLfskHiGim28w0+wVGHkUo2AOgPlA==\\n\"}]",
-      "__v": 0
+  _hashNode = (mes) => {
+    return CryptoJS.HmacMD5(mes, "Node-uit-@@@123").toString();
   }
-    groupUpdate(a, false);
+  _hashPath = (mes) => {
+    return CryptoJS.HmacMD5(mes, "Path-uit-@@@123").toString();
+  }
+  _hashShareKey = (mes) => {
+    return CryptoJS.HmacMD5(mes, "ShareKey-uit-@@@123").toString();
+  }
 
+  TestUppdate = async () => {
+    var a = 'eddab1e6850674f270d781de2c4275d1';
+    console.log(this._hashPath(a));
   }
 
   setClickTransfer(title1, mssv1, namest) {
