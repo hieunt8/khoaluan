@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, BackHandler, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, BackHandler, Dimensions, Image } from 'react-native';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 // import emails from './Listuser';
 import { connect } from 'react-redux';
 import { responseCreategroup } from './../../actions/action';
 const { width } = Dimensions.get('window');
-import callApi from '../../api/ApiCaller';
-import randomKey from '../../api/RandomKey'
-import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
-import { RSA } from 'react-native-rsa-native';
-import { AesEnc, AesDec } from '../../api/ApiAES'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
@@ -21,20 +16,42 @@ const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], enc
 
 const KEYS_TO_FILTERS = ['mssv', 'subject'];
 
-class Addmember extends Component {
+class removeUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchTerm: '',
-      listMssv: [this.props.navigation.state.params.Sender],
+      listMssv: [],
       emails: [],
-      keys: null
+      keys: null,
+      groupName: this.props.navigation.state.params.groupName,
+    }
+  }
+
+
+  getTree = () => {
+    try {
+      const allGroup = realm.objects('group');
+      let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
+      if (group[0]) {
+        // console.log(group[0]);
+
+        this.setState({
+          emails: group[0].infolistMssv
+        });
+        // console.log(group[0].infolistMssv);
+      }
+
+      else {
+        console.log("getTree not found tree info viewgroupInfo.js", error)
+      }
+    } catch (error) {
+      console.log("getTree viewgroupInfo.js", error)
     }
   }
   backAction = () => {
     // this.socket.emit('Disco', {});
     this.props.navigation.navigate('Menu');
-    console.log('disconnect')
     return true;
   };
   componentWillUnmount() {
@@ -46,15 +63,16 @@ class Addmember extends Component {
       "hardwareBackPress",
       this.backAction
     );
-    this.createKey();
-    callApi(link.getlistuser, 'GET', null).then(res => {
-      if (res) {
-        this.setState({ emails: res.data })
-      }
-      else {
-        console.log("Addmember.js network error");
-      }
-    })
+     // this.createKey();
+    this.getTree();
+    // callApi(link.getlistuser, 'GET', null).then(res => {
+    //   if (res) {
+    //     this.setState({ emails: res.data })
+    //   }
+    //   else {
+    //     console.log("Addmember.js network error");
+    //   }
+    // })
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term })
@@ -74,31 +92,13 @@ class Addmember extends Component {
     return info;
   }
 
-  saveToDatabase = (info) => {
-    try {
-      realm.write(() => {
-        let newgroup = realm.create('group', {
-          groupName: this.props.navigation.state.params.title,
-          listMssv: [this.props.navigation.state.params.Sender],
-          infolistMssv: [],
-          version: 0,
-          shareKey: randomKey(32),
-          treeInfo: '',
-        });
-        newgroup.infolistMssv.push(info);
-        // console.log("saveToDatabase Addmember.js create group ", newgroup.groupName);
-      });
-    }
-    catch (error) {
-      console.log("saveToDatabase Addmember.js", error)
-    }
-  };
-  createKey = () => {
-    RSA.generateKeys(2048)
-      .then(keys => {
-        this.setState({ keys: keys });
-      })
-  }
+
+  // createKey = () => {
+  //   RSA.generateKeys(2048)
+  //     .then(keys => {
+  //       this.setState({ keys: keys });
+  //     })
+  // }
   createGroup = () => {
     let listMssvString = this.state.listMssv;
     let tree = new ratchetTree();
@@ -108,36 +108,33 @@ class Addmember extends Component {
       publicKey: this.state.keys.public,
       privateKey: this.state.keys.private
     });
-    this.saveToDatabase(info[0]);
     let sender = { senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0] }
     const data = {
-      groupName: this.props.navigation.state.params.title,
+      groupName: this.props.navigation.state.params.groupName,
       sender: sender,
       listMssv: listMssvString.slice(1),
       tree: tree,
       info: info.slice(1)
     };
-    setTimeout(() => {
-      this.props.navigation.navigate('GroupAddLoading', data);
-    }, 500);
+    this.props.navigation.navigate('GroupAddLoading', data);
   }
   onDeleteItem = (index) => {
-    if (index) {
-      let newTaskList = this.state.listMssv.filter((item, i) => i != index);
-      this.setState({ listMssv: newTaskList });
-    }
+    let newTaskList = this.state.listMssv.filter((item, i) => i != index);
+    this.setState({ listMssv: newTaskList });
+
   }
   ShowSelectMember() {
     let members = [];
     this.state.listMssv.map((item, index) => {
       members.push(
         <View key={index}>
-          <Image
-            source={require('../../../assets/logo/UIT.png')}
-            style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
-          <TouchableOpacity style={{ marginTop: -55, marginLeft: 40 }}
+
+          <TouchableOpacity
             onPress={() => this.onDeleteItem(index)}>
-            <Text>{`❌`}</Text>
+            <Image
+              source={require('../../../assets/logo/UIT.png')}
+              style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
+            <Text style={{ marginTop: -55, marginLeft: 40 }}>{`❌`}</Text>
           </TouchableOpacity>
           <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
         </View>
@@ -162,7 +159,7 @@ class Addmember extends Component {
               </TouchableOpacity>
             </View>
           </View >
-          <Text>Add member</Text>
+          <Text>Remove user</Text>
           <TouchableOpacity onPress={
             () => { }
           }>
@@ -220,7 +217,7 @@ const mapDispatchToProps = (dispatch, props) => {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Addmember)
+export default connect(mapStateToProps, mapDispatchToProps)(removeUser)
 
 const styles = StyleSheet.create({
   container: {

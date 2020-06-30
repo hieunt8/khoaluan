@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 import ratchetTree from '../components/menu/RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
 import { AesEnc, AesDec } from '../api/ApiAES'
-import {generateRSAKey} from '../api/ApiRSA'
+import { generateRSAKey } from '../api/ApiRSA'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
@@ -80,7 +80,7 @@ class Loading extends Component {
       let keys = await generateRSAKey(randomKey(32), 512);
       let keyPair = {
         publicKey: keys.public,
-        privateKey: keys.private 
+        privateKey: keys.private
       };
       const data = {
         groupName: this.state.groupName,

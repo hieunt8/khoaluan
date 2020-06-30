@@ -11,7 +11,11 @@ import listFriend from '../components/chatting/listFriend';
 import NewChatting from '../components/chatting/newchatting';
 import Addmember from '../components/menu/Addmember'
 import viewgroupInfo from '../components/chatting/viewgroupInfo'
-
+import viewTree from '../components/chatting/groupInfo/viewTree'
+import viewGroup from '../components/chatting/groupInfo/viewGroup'
+import viewDirectPathInfo from '../components/chatting/groupInfo/viewDirectPath_Info'
+import viewUserInfo from '../components/chatting/groupInfo/viewUserInfo'
+import  removeUser from '../components/menu/removeUser'
 const MainNavigator = createStackNavigator({
   
   Menu: {
@@ -143,6 +147,90 @@ const MainNavigator = createStackNavigator({
     }
   },
 
+
+  viewTree: {
+    screen: viewTree,
+    navigationOptions: {
+      title: 'viewTree',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
+
+  removeUser: {
+    screen: removeUser,
+    navigationOptions: {
+      title: 'viewTree',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
+
+    
+  viewUserInfo:{
+    screen: viewUserInfo,
+    navigationOptions: {
+      title: 'viewTree',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
+
+
+  viewGroup: {
+    screen: viewGroup,
+    navigationOptions: {
+      title: 'viewTree',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
+
+  viewDirectPathInfo:{
+    screen: viewDirectPathInfo,
+    navigationOptions: {
+      title: 'viewDirectPathInfo',
+      header:null,
+      headerTintColor: colors.white,
+      headerStyle: {
+        backgroundColor: colors.white,
+        elevation: 0,
+        height: APPBAR_HEIGHT,
+      },
+      headerTitleStyle: {
+      },
+    }
+  },
+
+
   listFriend:{
     screen: listFriend,
     navigationOptions: {
@@ -159,6 +247,7 @@ const MainNavigator = createStackNavigator({
     }
   },
 });
+
 
  
 

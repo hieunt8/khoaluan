@@ -163,8 +163,10 @@ class menu extends Component {
   }
 
   TestUppdate = async () => {
-    var a = 'eddab1e6850674f270d781de2c4275d1';
-    console.log(this._hashPath(a));
+    // var a = 'eddab1e6850674f270d781de2c4275d1';
+    // console.log(this._hashPath(a));
+    this.props.navigation.navigate('removeUser', { groupName: 'gh' });
+    this._closeMenu()
   }
 
   setClickTransfer(title1, mssv1, namest) {

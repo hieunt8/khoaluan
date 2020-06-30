@@ -243,7 +243,7 @@ export default async function groupUpdate(groupData, Check) {
   if (group) {
     if (Check) {
       let Secret = await _generatorSecret(path[0]);
-      console.log("Secret",Secret);
+      // console.log("Secret",Secret);
       _encryptSecret(Secret, path[2], group, path);
     }
     else {
@@ -255,7 +255,7 @@ export default async function groupUpdate(groupData, Check) {
         let Secret = await _rebuildSecret(groupData, NodeUpdateInfo, path);
         // console.log("Secret 2", Secret);
         let shiftData = Secret.shift()
-        console.log("Secret 2 shift",Secret);
+        // console.log("Secret 2 shift",Secret);
         _updateDataBase(Secret, group, path);
       }
     }
