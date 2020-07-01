@@ -49,10 +49,10 @@ class viewTree extends Component {
         // console.log(group[0].infolistMssv);
       }
       else {
-        console.log("getTree not found tree info viewgroupInfo.js", error)
+        console.log("getTree not found tree info viewTree.js", error)
       }
     } catch (error) {
-      console.log("getTree viewgroupInfo.js", error)
+      console.log("getTree viewTree.js", error)
     }
   }
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, ActivityIndicator } from 'react-native';
+import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { responseCreategroup } from '../actions/action';
 const { width } = Dimensions.get('window');
@@ -20,11 +21,11 @@ class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      info: 'Creating Group!',
-      listMssv: this.props.navigation.state.params.listMssv,
-      groupName: this.props.navigation.state.params.groupName,
-      infolistMssv: this.props.navigation.state.params.info,
-      sender: this.props.navigation.state.params.sender,
+      info: 'Loading!',
+      // listMssv: this.props.navigation.state.params.listMssv,
+      // groupName: this.props.navigation.state.params.groupName,
+      // infolistMssv: this.props.navigation.state.params.info,
+      // sender: this.props.navigation.state.params.sender,
       checkFinished: false
     }
   }
@@ -36,9 +37,9 @@ class Loading extends Component {
       if (group[0])
         return group[0];
       else
-        console.log("_getGroupDatabase GroupAddLoading.js not found group name");
+        console.log("_getGroupDatabase GroupRemoveLoading.js not found group name");
     } catch (error) {
-      console.log("_getGroupDatabase GroupAddLoading.js", error)
+      console.log("_getGroupDatabase GroupRemoveLoading.js", error)
     }
   };
 
@@ -52,7 +53,7 @@ class Loading extends Component {
         currentGroup.treeInfo = newtree_serialize;
       });
     } catch (erro) {
-      console.log("_SaveGroupDatabase GroupAddLoading.js", erro)
+      console.log("_SaveGroupDatabase GroupRemoveLoading.js", erro)
     }
     return currentGroup;
   }
@@ -67,12 +68,13 @@ class Loading extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      let group = this._getGroupDatabase();
-      let tree = this.props.navigation.state.params.tree;
-      this.setState({ info: "Building tree!!!" })
-      this.buildTree(group, tree);
-    }, 500);
+    console.log(1);
+    // setTimeout(() => {
+    //   let group = this._getGroupDatabase();
+    //   let tree = this.props.navigation.state.params.tree;
+    //   this.setState({ info: "Building tree!!!" })
+    //   this.buildTree(group, tree);
+    // }, 500);
   }
 
   delay = ms => new Promise(res => setTimeout(res, ms));

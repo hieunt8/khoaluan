@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image, Dimensions, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
+import { Text, View, StyleSheet, Button, Image, Dimensions, TouchableOpacity, FlatList, BackHandler, Alert } from 'react-native';
 import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { datas } from './titleButton';
@@ -151,21 +151,10 @@ class menu extends Component {
   Logout = () => {
     this.logoutAction();
   }
-  
-  _hashNode = (mes) => {
-    return CryptoJS.HmacMD5(mes, "Node-uit-@@@123").toString();
-  }
-  _hashPath = (mes) => {
-    return CryptoJS.HmacMD5(mes, "Path-uit-@@@123").toString();
-  }
-  _hashShareKey = (mes) => {
-    return CryptoJS.HmacMD5(mes, "ShareKey-uit-@@@123").toString();
-  }
 
   TestUppdate = async () => {
-    // var a = 'eddab1e6850674f270d781de2c4275d1';
-    // console.log(this._hashPath(a));
-    this.props.navigation.navigate('removeUser', { groupName: 'gh' });
+    // alert(1);
+    this.props.navigation.navigate('removeUser', { groupName: 'a' });
     this._closeMenu()
   }
 
@@ -220,7 +209,7 @@ class menu extends Component {
                     </TouchableOpacity>
                   }
                 >
-                  <Menu.Item onPress={ this.TestUppdate} title="Item 1" />
+                  <Menu.Item onPress={this.TestUppdate} title="Item 1" />
                   <Menu.Item onPress={() => { }} title="Item 2" />
                   <Divider />
                   <Menu.Item onPress={this.Logout} title="Logout" />
@@ -295,6 +284,14 @@ class menu extends Component {
                 <Divider />
               </TouchableOpacity>)}
             keyExtractor={item => item._id.toString()} />
+          <TouchableOpacity style={styles.LoginStyles}
+            onPress={this.TestUppdate}>
+            <Text style={{
+              fontWeight: "bold",
+              color: 'white',
+              fontSize: 20,
+            }}>Test</Text>
+          </TouchableOpacity>
         </View>
       </Provider>
     );
@@ -314,7 +311,17 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'blue',
     borderRadius: 7
-  }
+  },
+  LoginStyles: {
+    height: 40,
+    backgroundColor: '#3399FF',
+    borderRadius: 7,
+    marginTop: 10,
+    width: width - 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 20,
+  },
 })
 
 const mapStateToProps = state => {

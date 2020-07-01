@@ -48,10 +48,10 @@ class viewUserInfo extends Component {
         });
       }
       else {
-        console.log("getTree not found tree info viewgroupInfo.js", error)
+        console.log("getTree not found tree info viewUserInfo.js", error)
       }
     } catch (error) {
-      console.log("getTree viewgroupInfo.js", error)
+      console.log("getTree viewUserInfo.js", error)
     }
   }
   actionclickviewuserInfo = (item) => {

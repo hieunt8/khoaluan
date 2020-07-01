@@ -6,6 +6,7 @@ import { Provider, Divider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
 import { GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema } from '../../models/Realm'
@@ -48,7 +49,7 @@ class viewgroupInfo extends Component {
               });
             }
           }>
-            <Text> <Entypo name="flow-tree" size={20} color="black" />  View Tree </Text>
+            <Text>   <Entypo name="flow-tree" size={20} color="black" />   View Tree </Text>
             <Icon name="chevron-right" size={20} color="grey" />
           </TouchableOpacity>
           <Divider />
@@ -56,7 +57,7 @@ class viewgroupInfo extends Component {
           <TouchableOpacity style={styles.styleeTouch} onPress={() => {
             this.props.navigation.navigate('viewGroup', { groupName: this.props.navigation.state.params.groupName });
           }}>
-            <Text> <Icon name="account-group" size={20} color="black" />  View Group</Text>
+            <Text>   <Icon name="account-group" size={20} color="black" />   View Group</Text>
             <Icon name="chevron-right" size={20} color="grey" />
           </TouchableOpacity>
           <Divider />
@@ -64,7 +65,7 @@ class viewgroupInfo extends Component {
           <TouchableOpacity style={styles.styleeTouch} onPress={() => {
             this.props.navigation.navigate('viewUserInfo', { groupName: this.props.navigation.state.params.groupName })
           }}>
-            <Text> <Feather name="users" size={20} color="black" />  View User Info </Text>
+            <Text>   <Feather name="users" size={20} color="black" />   View User Info </Text>
             <Icon name="chevron-right" size={20} color="grey" />
           </TouchableOpacity>
           <Divider />
@@ -72,11 +73,17 @@ class viewgroupInfo extends Component {
           <TouchableOpacity style={styles.styleeTouch} onPress={() => {
             this.props.navigation.navigate('viewDirectPathInfo', { groupName: this.props.navigation.state.params.groupName })
           }}>
-            <Text> <Entypo name="flow-branch" size={20} color="black" />  View Direct Path Info</Text>
+            <Text>   <Entypo name="flow-branch" size={20} color="black" />   View Direct Path Info</Text>
             <Icon name="chevron-right" size={20} color="grey" />
           </TouchableOpacity>
           <Divider />
-
+          <TouchableOpacity style={styles.styleeTouch} onPress={() => {
+            this.props.navigation.navigate('removeUser', { groupName: this.props.navigation.state.params.groupName })
+          }}>
+            <Text>   <Feather name="user-x" size={20} color="black" />   Remove User</Text>
+            <Icon name="chevron-right" size={20} color="grey" />
+          </TouchableOpacity>
+          <Divider />
         </View>
 
       </Provider>

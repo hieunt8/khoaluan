@@ -1,5 +1,5 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 import colors from '../components/Common/Colors';
 import { APPBAR_HEIGHT } from '../components/Common/Dimension';
 import MenuScreen from '../screens/MenuScreen';
@@ -15,14 +15,14 @@ import viewTree from '../components/chatting/groupInfo/viewTree'
 import viewGroup from '../components/chatting/groupInfo/viewGroup'
 import viewDirectPathInfo from '../components/chatting/groupInfo/viewDirectPath_Info'
 import viewUserInfo from '../components/chatting/groupInfo/viewUserInfo'
-import  removeUser from '../components/menu/removeUser'
+import removeUser from '../components/menu/removeUser'
 const MainNavigator = createStackNavigator({
-  
+
   Menu: {
     screen: MenuScreen,
     navigationOptions: {
       title: 'Menu',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -38,7 +38,7 @@ const MainNavigator = createStackNavigator({
     screen: viewgroupInfo,
     navigationOptions: {
       title: 'viewgroupInfo',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -70,7 +70,7 @@ const MainNavigator = createStackNavigator({
     screen: Addmember,
     navigationOptions: {
       title: 'Addmember',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -87,7 +87,7 @@ const MainNavigator = createStackNavigator({
     screen: NewChatting,
     navigationOptions: {
       title: 'Chat',
-      header:null,
+      header: null,
       headerTintColor: colors.gray,
       headerStyle: {
         backgroundColor: colors.white,
@@ -152,7 +152,7 @@ const MainNavigator = createStackNavigator({
     screen: viewTree,
     navigationOptions: {
       title: 'viewTree',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -168,7 +168,7 @@ const MainNavigator = createStackNavigator({
     screen: removeUser,
     navigationOptions: {
       title: 'viewTree',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -180,12 +180,12 @@ const MainNavigator = createStackNavigator({
     }
   },
 
-    
-  viewUserInfo:{
+
+  viewUserInfo: {
     screen: viewUserInfo,
     navigationOptions: {
       title: 'viewTree',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -202,7 +202,7 @@ const MainNavigator = createStackNavigator({
     screen: viewGroup,
     navigationOptions: {
       title: 'viewTree',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -214,11 +214,11 @@ const MainNavigator = createStackNavigator({
     }
   },
 
-  viewDirectPathInfo:{
+  viewDirectPathInfo: {
     screen: viewDirectPathInfo,
     navigationOptions: {
       title: 'viewDirectPathInfo',
-      header:null,
+      header: null,
       headerTintColor: colors.white,
       headerStyle: {
         backgroundColor: colors.white,
@@ -231,7 +231,7 @@ const MainNavigator = createStackNavigator({
   },
 
 
-  listFriend:{
+  listFriend: {
     screen: listFriend,
     navigationOptions: {
       title: 'Chatting',
@@ -249,7 +249,7 @@ const MainNavigator = createStackNavigator({
 });
 
 
- 
+
 
 
 const tabNavigator = createAppContainer(

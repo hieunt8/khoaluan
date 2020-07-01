@@ -35,10 +35,10 @@ class viewDirectPathInfo extends Component {
         // console.log(group[0].listNodePathKey);
       }
       else {
-        console.log("getTree not found DirectPath info viewgroupInfo.js", error)
+        console.log("getTree not found DirectPath info viewDirectPath.js", error)
       }
     } catch (error) {
-      console.log("getTree  DirectPath viewgroupInfo.js", error)
+      console.log("getTree  DirectPath viewDirectPath.js", error)
     }
   }
 

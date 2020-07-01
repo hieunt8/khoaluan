@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, BackHandler, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ActivityIndicator, BackHandler, Dimensions, Image } from 'react-native';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 // import emails from './Listuser';
+import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { responseCreategroup } from './../../actions/action';
 const { width } = Dimensions.get('window');
 import ratchetTree from './RatchetTrees';
+import groupRemove from '../../api/ApiGroupRemove'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import GroupRemoveLoading from '../../loading/GroupRemoveLoading'
+
+
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
 import { userSchema, GroupSchema, listuserSchema } from '../../models/Realm'
-import { Divider } from 'react-native-elements';
+// import { Divider } from 'react-native-elements';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
 
 
@@ -25,32 +30,28 @@ class removeUser extends Component {
       emails: [],
       keys: null,
       groupName: this.props.navigation.state.params.groupName,
+      visiblePopup: false,
     }
   }
-
 
   getTree = () => {
     try {
       const allGroup = realm.objects('group');
       let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
       if (group[0]) {
-        // console.log(group[0]);
-
         this.setState({
           emails: group[0].infolistMssv
         });
-        // console.log(group[0].infolistMssv);
       }
 
       else {
-        console.log("getTree not found tree info viewgroupInfo.js", error)
+        console.log("getTree not found tree info removeUser.js", error)
       }
     } catch (error) {
-      console.log("getTree viewgroupInfo.js", error)
+      console.log("getTree removeUser.js", error)
     }
   }
   backAction = () => {
-    // this.socket.emit('Disco', {});
     this.props.navigation.navigate('Menu');
     return true;
   };
@@ -63,23 +64,14 @@ class removeUser extends Component {
       "hardwareBackPress",
       this.backAction
     );
-     // this.createKey();
     this.getTree();
-    // callApi(link.getlistuser, 'GET', null).then(res => {
-    //   if (res) {
-    //     this.setState({ emails: res.data })
-    //   }
-    //   else {
-    //     console.log("Addmember.js network error");
-    //   }
-    // })
   }
   searchUpdated(term) {
     this.setState({ searchTerm: term })
   }
 
   selectMember = (item) => {
-    if (!this.state.listMssv.includes(item.mssv))
+    if (!this.state.listMssv.includes(item.mssv) && this.state.listMssv.length != this.state.emails.length - 1)
       this.setState({
         listMssv: this.state.listMssv.concat([item.mssv])
       })
@@ -92,31 +84,8 @@ class removeUser extends Component {
     return info;
   }
 
-
-  // createKey = () => {
-  //   RSA.generateKeys(2048)
-  //     .then(keys => {
-  //       this.setState({ keys: keys });
-  //     })
-  // }
-  createGroup = () => {
-    let listMssvString = this.state.listMssv;
-    let tree = new ratchetTree();
-    let info = this.getinfoListMSSV();
-
-    tree.addNode(info[0], 1, {
-      publicKey: this.state.keys.public,
-      privateKey: this.state.keys.private
-    });
-    let sender = { senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0] }
-    const data = {
-      groupName: this.props.navigation.state.params.groupName,
-      sender: sender,
-      listMssv: listMssvString.slice(1),
-      tree: tree,
-      info: info.slice(1)
-    };
-    this.props.navigation.navigate('GroupAddLoading', data);
+  removeGroup = () => {
+    this.setState({ visiblePopup: true });
   }
   onDeleteItem = (index) => {
     let newTaskList = this.state.listMssv.filter((item, i) => i != index);
@@ -128,15 +97,14 @@ class removeUser extends Component {
     this.state.listMssv.map((item, index) => {
       members.push(
         <View key={index}>
-
           <TouchableOpacity
             onPress={() => this.onDeleteItem(index)}>
             <Image
               source={require('../../../assets/logo/UIT.png')}
               style={{ width: 40, height: 40, marginLeft: 5, marginRight: 5, borderRadius: 100 }} />
             <Text style={{ marginTop: -55, marginLeft: 40 }}>{`❌`}</Text>
+            <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
           </TouchableOpacity>
-          <Text style={{ marginTop: 50, fontSize: 9, color: 'grey', paddingLeft: 5 }}>{item}</Text>
         </View>
       );
     });
@@ -145,61 +113,80 @@ class removeUser extends Component {
   render() {
     const filteredEmails = this.state.emails.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
     return (
-      <View style={styles.container}>
-        <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', paddingVertical: 10 }}>
-          <View style={{ paddingTop: -5 }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center'
-              }}>
+      <Provider style={styles.backgroud}>
+        <View style={styles.container}>
+          <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'space-between', paddingVertical: 10 }}>
+            <View style={{ paddingTop: -5 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center'
+                }}>
 
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Menu')}>
-                <Icon name="backspace" size={20} color="black" />
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Menu')}>
+                  <Icon name="backspace" size={20} color="black" />
+                </TouchableOpacity>
+              </View>
+            </View >
+            <Text>Remove user</Text>
+            <TouchableOpacity onPress={
+              () => { }
+            }>
+              <Icon name="info" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.AddImgStyles}>
+            <View style={styles.ImgStyles}>
+              {this.ShowSelectMember()}
             </View>
-          </View >
-          <Text>Remove user</Text>
-          <TouchableOpacity onPress={
-            () => { }
-          }>
-            <Icon name="info" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.AddImgStyles}>
-          <View style={styles.ImgStyles}>
-            {this.ShowSelectMember()}
+          </View>
+          <Divider />
+          <SearchInput
+            onChangeText={(term) => { this.searchUpdated(term) }}
+            style={styles.searchInput}
+            placeholder="Type a message to search"
+          />
+          <View>
+            <Portal>
+              <Dialog visible={this.state.visiblePopup} onDismiss={() => this.setState({ visiblePopup: false })}>
+              {/* <Dialog visible={this.state.visiblePopup} > */}
+                {/* <Dialog.Title>Alert</Dialog.Title> */}
+                <ScrollView style={{
+                  paddingTop: 20,
+                  paddingBottom: 20
+                }}>
+                  <GroupRemoveLoading />
+                </ScrollView >
+                {/* <Dialog.Actions>
+              
+            </Dialog.Actions> */}
+              </Dialog>
+            </Portal>
+          </View>
+          <ScrollView>
+            {filteredEmails.map(email => {
+              return (
+                <TouchableOpacity onPress={() => {
+                  this.selectMember(email)
+                }} key={email.mssv} style={styles.emailItem}>
+                  <View>
+                    <Text>{email.mssv}</Text>
+                    <Text style={styles.emailSubject}>{email.name}</Text>
+                  </View>
+                </TouchableOpacity>
+              )
+            })}
+          </ScrollView>
+          <View style={{ flexDirection: 'row', marginTop: 5, marginHorizontal: 10, justifyContent: 'flex-end', paddingVertical: 10 }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Menu'); }}>
+              <Text style={{ marginHorizontal: 10, color: 'blue' }}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.removeGroup} >
+              <Text style={{ marginHorizontal: 10, color: 'blue' }}>Remove</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <Divider />
-        <SearchInput
-          onChangeText={(term) => { this.searchUpdated(term) }}
-          style={styles.searchInput}
-          placeholder="Type a message to search"
-        />
-        <ScrollView>
-          {filteredEmails.map(email => {
-            return (
-              <TouchableOpacity onPress={() => {
-                this.selectMember(email)
-              }} key={email.mssv} style={styles.emailItem}>
-                <View>
-                  <Text>{email.mssv}</Text>
-                  <Text style={styles.emailSubject}>{email.name}</Text>
-                </View>
-              </TouchableOpacity>
-            )
-          })}
-        </ScrollView>
-        <View style={{ flexDirection: 'row', marginTop: 5, marginHorizontal: 10, justifyContent: 'flex-end', paddingVertical: 10 }}>
-          <TouchableOpacity onPress={() => { this.props.navigation.navigate('Menu'); }}>
-            <Text style={{ marginHorizontal: 10, color: 'blue' }}>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.createGroup} >
-            <Text style={{ marginHorizontal: 10, color: 'blue' }}>Create</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </Provider>
     );
   }
 

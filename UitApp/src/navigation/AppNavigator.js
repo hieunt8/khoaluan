@@ -4,6 +4,7 @@ import LoginScreen from '../screens/LoginScreen';
 // import authNavigator from './authNavigator'
 import Loading from '../loading/Loading';
 import GroupAddLoading from '../loading/GroupAddLoading'
+import GroupRemoveLoading from '../loading/GroupRemoveLoading'
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -17,7 +18,8 @@ export default createAppContainer(
       screen: LoginScreen
     },
     Loading: Loading,
-    GroupAddLoading: GroupAddLoading
+    GroupAddLoading: GroupAddLoading,
+    GroupRemoveLoading:GroupRemoveLoading
   },
  ), 
   

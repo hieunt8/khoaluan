@@ -117,9 +117,9 @@ class Addmember extends Component {
       tree: tree,
       info: info.slice(1)
     };
-    setTimeout(() => {
-      this.props.navigation.navigate('GroupAddLoading', data);
-    }, 500);
+
+    this.props.navigation.navigate('GroupAddLoading', data);
+
   }
   onDeleteItem = (index) => {
     if (index) {

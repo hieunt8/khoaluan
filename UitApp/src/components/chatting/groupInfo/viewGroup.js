@@ -53,7 +53,7 @@ class viewGroup extends Component {
         });
       }
     } catch (error) {
-      console.log("getTree viewgroupInfo.js", error)
+      console.log("getTree viewGroup.js", error)
     }
 
 
@@ -67,10 +67,10 @@ class viewGroup extends Component {
         // console.log(group[0].listNodePathKey);
       }
       else {
-        console.log("getTree not found DirectPath info viewgroupInfo.js", error)
+        console.log("getTree not found DirectPath info viewGroup.js", error)
       }
     } catch (error) {
-      console.log("getTree  DirectPath viewgroupInfo.js", error)
+      console.log("getTree  DirectPath viewGroup.js", error)
     }
   }
 
