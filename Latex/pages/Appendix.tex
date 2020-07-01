@@ -1,0 +1,918 @@
+\documentclass[../main-report.tex]{subfiles}
+\begin{document}
+\chapter{Mã hợp đồng thông minh - Wallet}
+Mã nguồn hợp đồng thông minh Wallet được viết bằng ngôn ngữ Solidity:
+
+\begin{lstlisting}
+pragma solidity ^0.5.3;
+import {SafeMath} from "./SafeMath.sol";
+import {Campaigns} from "./Campaigns.sol";
+
+contract Wallet {
+    using SafeMath for uint;
+
+    Campaigns internal camp;
+    uint internal mGranularity; //Minium value of Wei
+    uint internal mTotalBalances;
+    address internal deployer;
+    mapping(address => uint) internal mBalances; // wei
+
+    event Deposit(address from, uint amount);
+    event Withdraw(address to, uint amount);
+
+    /* -- Constructor -- */
+    //
+    /// @notice Constructor to create a Wallet
+    /// @dev This contract is deployed by system and only once deploy
+    /// @param addrCampaign is address of Campaign contract
+    constructor(Campaigns addrCampaign) public {
+        camp = addrCampaign;
+        deployer = msg.sender;
+        mGranularity = 10**15; // 1 ETH = 1000 tokens
+    }
+
+    /// @dev granularity can be understood as the price of a token. 1 token = granularity form as wei
+    /// @return the granularity of the token
+    function granularity() external view returns (uint) { return mGranularity; }
+
+    /// @dev Get token of user without campaigns
+    /// @param user is address of user that you want check token
+    /// @return Number of token
+    function balances(address user) external view returns(uint) {
+        return mBalances[user] / mGranularity;
+    }
+
+    /// @notice get my balance (form as Token) of msg.sender with campaign
+    /// @param user is address of user
+    /// @return Result is number of token
+    function getBalance(address user) public view returns (uint) {
+        if (mBalances[msg.sender] == 0) {
+            return 0;
+        }
+        uint balance;
+        balance = mBalances[msg.sender] / mGranularity;
+        balance = balance.sub(camp.getAllDonation(user));
+        return balance;
+    }
+
+    /// @notice Allow user transfer balances to this contract
+    /// @dev This function will receive balance that user send into contract and store in contract
+    /// value will be stored in the mBalances variable
+    /// Amount is msg.value form as Wei (1 ETH = 10^18 wei)
+    function deposit() public payable {
+        require(
+            msg.value > 0,
+            "Amount to deposit MUST be greater zero"
+        );
+        require(
+            msg.value % mGranularity == 0,
+            "Amount is not a multiple of granualrity"
+        );
+        mBalances[msg.sender] = mBalances[msg.sender].add(msg.value);
+        mTotalBalances = mTotalBalances.add(msg.value);
+        assert(address(this).balance >= mTotalBalances);
+        emit Deposit(msg.sender, msg.value);
+    }
+
+    /// @notice This function allow user withdraw balances in contract to ETH
+    /// @dev Withdraw token in system to ETH. (Wei = token * mGranularity)
+    /// @param amount number of token that you want withdraw
+    /// @return `true` if withdraw process successful
+    function withdraw(uint amount) external returns (bool) {
+        require(
+            amount > 0,
+            "Amount to deposit MUST be greater zero"
+        );
+        require(
+            amount <= getBalance(msg.sender),
+            "You don't have enough token"
+        );
+        uint weiValue = amount.mul(mGranularity); // exchange from token to Wei
+        
+        mBalances[msg.sender] -= weiValue;
+        mTotalBalances = mTotalBalances.sub(weiValue);
+        emit Withdraw(msg.sender, weiValue);
+        if (!msg.sender.send(weiValue)) {
+            mBalances[msg.sender] = mBalances[msg.sender].add(weiValue);
+            mTotalBalances = mTotalBalances.add(weiValue);
+            return false;
+        } else {
+            assert(address(this).balance >= mTotalBalances);
+            return true;
+        }
+    }
+
+    /// @notice Allow campaign owner (startups) can withdraw token from a succeed campaign
+    /// @dev This function MUST be run by Campaign contract
+    /// @param to is owner of campaign
+    /// @param amount total token was sold in campaign
+    /// @return `true` if withdraw process successful
+    function addToken(address to, uint amount) external
+    returns(bool)
+    {
+        require(
+            address(camp) == msg.sender,
+            "Sender address is invalid"
+        );
+        require(
+            amount > 0,
+            "Amount MUST be greater zero"
+        );
+
+        mBalances[to] = mBalances[to] + (amount * mGranularity);
+        return true;
+    }
+
+    /// @notice This function for contract owner to change granularity
+    /// @param newGranularity is new value of granularity
+    function changeGranularity(uint newGranularity) external {
+        require(
+            msg.sender == deployer,
+            "This function must be run by deployer"
+        );
+        mGranularity = newGranularity;
+    }
+
+    function () external payable {deposit();}
+}
+\end{lstlisting}
+
+\chapter{Mã hợp đồng thông minh - Campaigns}
+Mã nguồn hợp đồng thông minh Campaigns được viết bằng ngôn ngữ Solidity:
+
+\begin{lstlisting}
+pragma solidity ^0.5.3;
+import {SafeMath} from "./SafeMath.sol";
+import {Wallet} from "./Wallet.sol";
+import {Identity} from "./Identity.sol";
+import {Disbursement} from "./Disbursement.sol";
+
+contract Campaigns {
+    Wallet internal token;
+    Identity internal id;
+    Disbursement internal disb;
+    using SafeMath for uint;
+
+    /* Explaintation of campaign status
+    * During: end date < now
+    * Failed: end date >= now AND token collected < goal
+    * Succeed: end date >= now AND token collected >= goal
+    */
+    enum Status {during, failed, succeed}
+
+    /* Explaintation of campaign FINACIAL status
+    * Pending: new campaign just added. NOT allow donor fund to campaign
+    * Accepted: a campaign was verified => Allow donors fund to campaign
+    * Paid: a campaign that owner withdraw token completed => end campaign
+    */
+    enum FinStatus {pending, accepted, rejected, paid}
+
+    struct CampaignInfo {
+        address owner;
+        uint startDate;
+        uint endDate;
+        uint goal;
+        uint collected;
+        uint stage;
+        FinStatus finstt;
+        string ref; // store reference to other info as name, description on db
+        string hashIntegrity; // hash of data store in server
+        address[] donors;
+        mapping(address => uint) donation;
+        mapping(address => bool) isDonate;
+        
+    }
+
+    CampaignInfo[] internal campaigns;
+    mapping(address => uint[]) internal donor2campaigns; //mapping donors to campaigns id
+    address internal deployer;
+    event Added(uint id);
+    event Accepted(uint id);
+    event Donated(uint id, address donor, uint token);
+    event Refund(uint id, address donor, uint token);
+    event Paid(uint id, address ownerCampaign, uint token);
+
+    /* -- Constructor -- */
+    //
+    /// @notice Constructor to create a campaign contract
+    /// @dev This contract MUST be run after Wallet
+    /// @param addrIdentity is address of Identity contract
+    constructor(Identity addrIdentity) public {
+        deployer = msg.sender;
+        id = addrIdentity;
+    }
+
+    /// @notice Update address of other contracts
+    /// @param addrWallet is address of Wallet contract
+    /// @param addrDisb is address of Disbursement contract
+    function linkOtherContracts(Wallet addrWallet, Disbursement addrDisb) external {
+        require(
+            msg.sender == deployer,
+            "Only deployer"
+        );
+        token = addrWallet;
+        disb = addrDisb;
+    }
+
+    /// @notice Get properties of a campaign
+    /// @param i is index of campaigns array
+    /// @return object {startDate, endDate, goal, collected, owner, finStatus, status, ref}
+    function getInfo(uint i) external view
+    returns(
+        uint startDate,
+        uint endDate,
+        uint goal,
+        uint collected,
+        address owner,
+        FinStatus finStatus,
+        Status status,
+        string memory ref,
+        string memory hashIntegrity
+        ) {
+        ref = campaigns[i].ref;
+        hashIntegrity = campaigns[i].hashIntegrity;
+        startDate = campaigns[i].startDate;
+        endDate = campaigns[i].endDate;
+        goal = campaigns[i].goal;
+        collected = campaigns[i].collected;
+        owner = campaigns[i].owner;
+        finStatus = campaigns[i].finstt;
+        status = getStatus(i);
+    }
+
+    /// @notice Create a campaign
+    /// @dev Add an element to variable campaigns array
+    /// @param deadline is deadline for fundraising of a campaign. (unit: seconds)
+    /// @param goal is goal of a campaign. Min-Max: 100.000-1.000.000.000
+    /// @param numStage is number of stage withdraw campaign
+    /// @param amountStages is amount of each stage withdraw campaign
+    /// @param mode is mode for disburse campaign
+    /// @param timeStages is deadline for each stage withdraw campaign
+    /// @param ref is campaign reference to other information about campaign
+    /// @param hashData is hash of data will store in db server, to check integrity
+    function createCampaign(
+        uint deadline,
+        uint goal,
+        uint numStage,
+        uint[] calldata amountStages,
+        Disbursement.Mode mode,
+        uint[] calldata timeStages,
+        string calldata ref,
+        string calldata hashData
+        )
+    external {
+        // To testing, you can comment following lines
+        require(
+            goal >= 1e5 && goal <= 1e9,
+            "The goal of campaign must be include range is from 100.000 to 1.000.000.000 tokens"
+        );
+        require(
+            id.isVerified(msg.sender),
+            "You must be register identity and be accepted"
+        );
+
+        // To testing, you can comment following lines
+        require(
+           deadline >= 15 days,
+           "The minimum fundraising time for the campaign is 15 days."
+        );
+        
+        campaigns.push(CampaignInfo(
+            msg.sender,
+            now,
+            now + deadline,
+            goal,
+            0,
+            0,
+            FinStatus.pending,
+            ref,
+            hashData,
+            new address[](0)
+        ));
+
+        if (numStage > 1) {
+            if (amountStages.length != numStage) {
+                revert('number element amount stage is invalid');
+            }
+            if (mode >= Disbursement.Mode.TimingFlexible && timeStages.length != numStage) {
+                revert('Number of deadline is invalid');
+            }
+            uint sumOfAmount;
+            uint[] memory times = new uint[](numStage);
+            for (uint i = 0; i < numStage; i++) {
+                sumOfAmount += amountStages[i];
+                if (mode >= Disbursement.Mode.TimingFlexible) {
+                    if (i == 0) {
+                        times[0] = now + deadline;
+                    } else {
+                        times[i] = times[i-1] + timeStages[i];
+                    }
+                }
+            }
+            if (sumOfAmount != goal) {
+                revert('Sum of amount must be equal goal');
+            }
+
+            disb.create(
+                campaigns.length-1,
+                numStage,
+                amountStages,
+                mode,
+                times
+            );
+        }
+
+        emit Added(campaigns.length - 1);
+    }
+
+    /// @notice Count how many people donated into a campaign
+    /// @param i is index of campaign
+    /// @return Number of donors of a campaign
+    function getNumberOfDonors(uint i) external view returns(uint) {
+        return campaigns[i].donors.length;
+    }
+
+    /// @notice Determine a campaign is allow all donor can invest to that campaign
+    /// @param i is index of campaigns array
+    /// @param isAccept is variable used for decide a campaign be allowed transact
+    function verifyCampaign(uint i, bool isAccept) external {
+        require(
+            id.isVerifier(msg.sender),
+            "You MUST be verifier");
+        campaigns[i].finstt = isAccept ? FinStatus.accepted : FinStatus.rejected;
+        emit Accepted(i);
+    }
+
+    /// @notice Allow donor can donate to a campaign
+    /// @param i is index of campaigns array
+    /// @param amount is amount of token that you want to donate
+    function donate(uint i, uint amount) external {
+        CampaignInfo memory campaign = campaigns[i];
+        require(
+            amount > 0,
+            "amount of token must be greater than zero"
+        );
+        require(
+            now <= campaign.endDate,
+            "Campaign is ended"
+        );
+        require(
+            campaign.collected < campaign.goal,
+            "Campaign is reached goal"
+        );
+        require(
+            campaign.collected + amount <= campaign.goal,
+            "Amount without goal of campaign"
+        );
+        require(
+            campaigns[i].finstt == FinStatus.accepted,
+            "This campaign MUST be accepted and NOT paid"
+        );
+        require(
+            amount <= (token.balances(msg.sender) - getAllDonation(msg.sender)),
+            "You don't have enough token");
+
+        campaigns[i].donation[msg.sender] = campaigns[i].donation[msg.sender].add(amount);
+        if (!campaigns[i].isDonate[msg.sender]) {
+            donor2campaigns[msg.sender].push(i);
+            campaigns[i].isDonate[msg.sender] = true;
+            campaigns[i].donors.push(msg.sender);
+        }
+        campaigns[i].collected = campaigns[i].collected.add(amount);
+        emit Donated(i, msg.sender, amount);
+    }
+
+    /// @notice Allow donor can claim refund when campaign during
+    /// @param i is index of campaigns array
+    /// @param amount Amount donor want withdraw
+    function claimRefund(uint i, uint amount) external {
+        require(
+            amount > 0,
+            "amount of token must be greater than zero"
+        );
+        require(
+            campaigns[i].donation[msg.sender] >= amount,
+            "You don't have enough to claim refund"
+        );
+        require(
+            getStatus(i) == Status.during,
+            "You only can claim refund when campaigns during"
+        );
+
+        campaigns[i].donation[msg.sender] -= amount;
+        campaigns[i].collected -= amount;
+        emit Refund(i, msg.sender, amount);
+    }
+
+    /// @notice Handle after campaign. Only allow campaign's owner run this function
+    /// @dev If campaign is succeed, campaign's owner will receive funds
+    /// @param i is index of campaign array
+    function endCampaign(uint i) external {
+        require(
+            msg.sender == campaigns[i].owner,
+            "This function MUST be run by owner"
+        );
+        require(
+            getStatus(i) == Status.succeed,
+            "Campaign MUST be succeed"
+        );
+        require(
+            campaigns[i].finstt == FinStatus.accepted,
+            "Campaign MUST be accepted (NOT reject or paid)");
+
+        uint numStage = 1;
+        uint amount = 0;
+        bool isCompleted = false;
+        (numStage, amount) = disb.getWithdrawInfo(
+                i,
+                campaigns[i].stage,
+                campaigns[i].donors.length,
+                campaigns[i].collected
+            );
+        if (numStage > 1) {
+            if (amount > 0) {
+                campaigns[i].stage += 1;
+                if (campaigns[i].stage == numStage) {
+                    isCompleted = true;
+                }
+            } else {
+                revert("Missing condition for withdraw");
+            }
+        } else {
+            isCompleted = true;
+            amount = campaigns[i].collected;
+        }
+
+        if (amount > 0) {
+            if (isCompleted) {
+                campaigns[i].finstt = FinStatus.paid;
+            }
+            emit Paid(i, msg.sender, amount);
+            if(!token.addToken(msg.sender, amount)) {
+                if (isCompleted) {
+                    campaigns[i].finstt = FinStatus.accepted;
+                }
+                if (numStage > 1) {
+                    campaigns[i].stage -= 1;
+                }
+            }
+        }
+    }
+
+    /// @notice Get token donated for a campaign of donor
+    /// @param i is index of campaigns
+    /// @param donor is address of donor that you want to check
+    /// @return Number of token that donor donated for a campaign
+    function getDonation(uint i, address donor) external view returns(uint) {
+        return campaigns[i].donation[donor];
+    }
+
+    /// @notice Get all amount of donor that invest to campaigns
+    /// @dev Get all amount of donor that donated and have checked campaign failed or succeed
+    /// @param donor is address that you want check to amount of invest
+    /// @return Number of token that donated all campaigns
+    function getAllDonation(address donor) public view returns(uint) {
+        uint tokens = 0;
+        uint[] memory campaignsOf = donor2campaigns[donor];
+        for (uint i = 0; i < campaignsOf.length; i++) {
+            uint campID = campaignsOf[i];
+            if (getStatus(campID) != Status.failed) {
+                if (campaigns[campID].donation[donor] > 0) {
+                    tokens += campaigns[campID].donation[donor];
+                }
+            }
+        }
+        return tokens;
+    }
+
+    /// @notice Get list of campaign that donor donated
+    /// @param donor is address of donor
+    /// @return Array of campaign's id
+    function getCampaignList(address donor) external view returns(uint[] memory) {
+        return donor2campaigns[donor];
+    }
+
+    /// @notice Get status of a campaign
+    /// @param i is index of campaigns array
+    /// @return {0 => during, 1 => failed, 2 => succeed, 3 => paid}
+    function getStatus(uint i) public view returns(Status) {
+        if (now < campaigns[i].endDate) {
+            return Status.during;
+        } else {
+            if (campaigns[i].collected < campaigns[i].goal) {
+                return Status.failed;
+            } else {
+                return Status.succeed;
+            }
+        }
+    }
+
+    /// @notice Get financial status of campaign
+    /// @param i is index of campaign
+    /// @return {0 => pending, 1 => accepted, 2 => paid}
+    function getFinStatus(uint i) external view returns(FinStatus) {
+        return campaigns[i].finstt;
+    }
+
+    /// @notice Get number of campaigns
+    /// @return Number of campaigns
+    function length() external view returns(uint) {
+        return campaigns.length;
+    }
+
+}
+\end{lstlisting}
+
+\chapter{Mã hợp đồng thông minh - Identity}
+Mã nguồn hợp đồng thông minh Identity được viết bằng ngôn ngữ Solidity:
+
+\begin{lstlisting}
+pragma solidity ^0.5.3;
+
+contract Identity {
+    enum VerifyStatus {none, pending, verified, rejected}
+
+    struct PersonalData {
+        string name;
+        string located;
+        string privData;
+        string shareKey;
+        uint dob;
+        VerifyStatus status;
+    }
+    struct VerifierData {
+        string pubKey;
+        uint task;
+    }
+
+    mapping (address => PersonalData) internal userInfo;
+    mapping (address => bool) internal isVerifyRight;
+    mapping (address => VerifierData) internal verifierInfo;
+    mapping (address => address[]) internal verifier2users;
+    address internal owner;
+    address[] internal verifiers;
+
+    /* -- Constructor -- */
+    //
+    /// @notice Constructor to create a Identity contract
+    /// @dev Owner is runner of this contract
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(
+            msg.sender == owner,
+            "Only owner"
+            );
+        _;
+    }
+
+    modifier onlyVerifier() {
+        require(
+            isVerifyRight[msg.sender] == true,
+            "Only verifier");
+        _;
+    }
+
+    /// @notice This function for user can register a identity
+    /// @param name is full name of user
+    /// @param located is located address of user
+    /// @param dob is date of birth of user
+    /// @param data is private data as hash of data that was store on IPFS
+    /// @param shareKey is secret key of user was encrypted
+    /// @param verifier is address of verifier
+    function registerIdentity(
+        string calldata name,
+        string calldata located,
+        uint dob,
+        string calldata data,
+        string calldata shareKey,
+        address verifier)
+    external {
+        require(
+            bytes(name).length > 3,
+            "Your name is must be greater 3 characters"
+        );
+
+        require(
+            bytes(located).length > 10,
+            "Your located address must be greater 10 characters"
+        );
+
+        require(
+            dob < now && dob > 0,
+            "Date of birth is wrong"
+        );
+
+        require(
+            userInfo[msg.sender].dob == 0,
+            "You have already registered info"
+        );
+
+        require(
+            isVerifyRight[verifier] == true,
+            "Address verifier is incorrect");
+        
+        require(
+            verifierInfo[verifier].task <= 10,
+            "The verifier that you selected is no longer available"
+        );
+
+        userInfo[msg.sender] = PersonalData(
+            name,
+            located,
+            data,
+            shareKey,
+            dob,
+            VerifyStatus.pending
+        );
+        
+        verifier2users[verifier].push(msg.sender);
+        verifierInfo[verifier].task += 1;
+    }
+
+    /// @notice Get information of an user
+    /// @param user is address of user
+    /// @return Name, Located Address, Date of birth and verify status
+    function getIdentity(address user) external view
+    returns (
+        string memory name,
+        string memory located,
+        uint dob,
+        string memory privData,
+        string memory shareKey,
+        VerifyStatus status
+    ) {
+        name = userInfo[user].name;
+        located = userInfo[user].located;
+        dob = userInfo[user].dob;
+        status = userInfo[user].status;
+        privData = userInfo[user].privData;
+        shareKey = userInfo[user].shareKey;
+    }
+
+
+    /// @notice This function for verifier to verify an identity
+    /// @param user is address of user
+    /// @param status is status include `true` is verified and `false` is rejected
+    function verify(address user, bool status) external onlyVerifier() {
+        require(
+            userInfo[user].status == VerifyStatus.pending,
+            "User that you verifiy must be have data"
+        );
+
+        uint loopLimit = verifier2users[msg.sender].length;
+        bool isVerifier2User = false;
+        for (uint i = 0; i < loopLimit; i++) {
+            if (verifier2users[msg.sender][i] == user) {
+                isVerifier2User = true;
+            }
+        }
+        require(
+            isVerifier2User == true,
+            "User must be requested verifier"
+        );
+
+        userInfo[user].status = status ? VerifyStatus.verified : VerifyStatus.rejected;
+        verifierInfo[msg.sender].task -= 1;
+    }
+
+    /// @notice Get status of identity
+    /// @param user is address of user
+    /// @return Status (1 => pending, 2 => verified, 3 => rejected)
+    function getStatus(address user) external view returns(VerifyStatus) {
+        return userInfo[user].status;
+    }
+
+    /// @notice This function for owner to add a verifier
+    /// @param verifier is address of verifier
+    /// @param pubKey is public key of verifier
+    function addVerifier(address verifier, string calldata pubKey) external onlyOwner() {
+        require(
+            isVerifyRight[verifier] == false,
+            "This address have already added"
+        );
+        verifierInfo[verifier] = VerifierData(pubKey, 0);
+        verifiers.push(verifier);
+        isVerifyRight[verifier] = true;
+    }
+
+    /// @notice Get list all verifiers
+    /// @return array of verifier's addresses and count
+    function getVerifierAddresses() external view returns (address[] memory) {
+        return verifiers;
+    }
+
+    /// @notice Get information of a verifier
+    /// @param verifier is address of verifier
+    /// @return Public key and number task of verifier
+    function getVerifier(address verifier) external view
+    returns(string memory pubKey, uint task) {
+        pubKey = verifierInfo[verifier].pubKey;
+        task = verifierInfo[verifier].task;
+    }
+
+    /// @notice Check identity of an address is verified
+    /// @param user is address of user
+    /// @return `true` if identity of address is verified
+    function isVerified(address user) external view returns(bool) {
+        return userInfo[user].status == VerifyStatus.verified;
+    }
+
+    /// @notice Get list user that requested by Verifier
+    /// @return List of users
+    function getUsersRequested() external onlyVerifier() view returns(address[] memory) {
+        return verifier2users[msg.sender];
+    }
+
+    /// @notice Function is used for other contract
+    /// @param verifier is address of user that you want to check
+    /// @return `true` if address is verifier
+    function isVerifier(address verifier) external view returns(bool) {
+        return isVerifyRight[verifier];
+    }
+
+    /// @notice Change public key of verifier
+    /// @param verifier is address of verifier
+    /// @param newPubKey is new public key
+    function changePubKey (address verifier, string calldata newPubKey)
+    external onlyOwner {
+        verifierInfo[verifier].pubKey = newPubKey;
+    }
+
+    /// @notice Function is used to check if owner
+    /// @return `true` if sender is owner of contract
+    function isOwner() external view returns(bool) {
+        return msg.sender == owner;
+    }
+}
+\end{lstlisting}
+
+\chapter{Mã hợp đồng thông minh - Disbursement}
+Mã nguồn hợp đồng thông minh Disbursement được viết bằng ngôn ngữ Solidity:
+
+\begin{lstlisting}
+pragma solidity ^0.5.3;
+import {Campaigns} from './Campaigns.sol';
+
+contract Disbursement {
+    enum Vote {none, Agree, Disagree}
+    enum Mode {Flexible, Fixed, TimingFlexible, TimingFixed}
+    struct Data {
+        uint numStage;
+        uint[] amount;
+        uint[] time;
+        uint[] agreed;
+        uint[] amountAgreed;
+        Mode mode;
+        mapping(address => mapping(uint => Vote)) voting; // user => stage => Vote
+    }
+
+    Campaigns internal camp;
+    mapping (uint => Data) internal stages;
+
+    /* -- Constructor -- */
+    //
+    /// @notice Constructor run only one time
+    /// @dev This contract MUST be run after TokenSystem
+    /// @param addrCampaign is address of Campaigns contract
+    constructor(Campaigns addrCampaign) public {
+        camp = addrCampaign;
+    }
+
+    /// @notice only some contracts MUST be run
+    modifier onlyAllowedContract() {
+        require(
+            msg.sender == address(camp),
+            "Only allow linked contract"
+            );
+        _;
+    }
+
+    /// @notice Create disbursement for campaign
+    /// @dev This function must be run by Campaigns contract
+    /// @param campID is campaign's id
+    /// @param numStage is number of stage
+    /// @param amount is array amount for each stages (unit: tokens, sum all must be equal with campaign's goal)
+    /// @param mode is MODE for disbursement (type and requirement for withdraw)
+    /// @param time is array of time for each stages (unit: seconds, start from campaign's end date). Notice: first element is default with zero
+    function create(
+        uint campID,
+        uint numStage,
+        uint[] calldata amount,
+        Mode mode,
+        uint[] calldata time
+        )
+    external onlyAllowedContract() {
+        stages[campID] = Data(
+            numStage,
+            amount,
+            time,
+            new uint[](numStage),
+            new uint[](numStage),
+            mode
+        );
+    }
+
+    /// @notice Return disbursement info of a campaign
+    /// @param campID is campaign's id
+    /// @return Some info as number of stage, array of amount, mode, array of time, array of number agree voted
+    function getInfo(uint campID) external view
+    returns (
+        uint numStage,
+        uint[] memory amount,
+        Mode mode,
+        uint[] memory time,
+        uint[] memory agreed) {
+        numStage = stages[campID].numStage;
+        amount = stages[campID].amount;
+        mode = stages[campID].mode;
+        time = stages[campID].time;
+        agreed = stages[campID].agreed;
+    }
+
+    /// @notice This function for backer to vote for a stage of campaign disbursement
+    /// @param campID is campaign's id
+    /// @param stage is stage number (start with 1. Stage 0 default withdraw without voting)
+    /// @param isAgree is decision for vote (Two options: `true` for agree withdraw, otherwise for disagree)
+    function vote(uint campID, uint stage, bool isAgree) external {
+        require(
+            stage > 0,
+            "Stage 0 is default full withdraw without voting"
+        );
+        require(
+            stage < stages[campID].numStage,
+            "Stage value is invalid"
+        );
+        require(
+            stages[campID].voting[msg.sender][stage] == Vote.none,
+            "You already voted for this stage"
+        );
+        require(
+            camp.getDonation(campID, msg.sender) > 0,
+            "You don't have right for this action"
+        );
+
+        require(
+            !(stages[campID].mode >= Mode.TimingFlexible &&
+            now < stages[campID].time[stage]),
+            "Don't have enough time to do this action"
+        );
+
+        if (isAgree == true) {
+            stages[campID].voting[msg.sender][stage] = Vote.Agree;
+            stages[campID].agreed[stage] += 1;
+            stages[campID].amountAgreed[stage] += camp.getDonation(campID, msg.sender);
+        } else {
+            stages[campID].voting[msg.sender][stage] = Vote.Disagree;
+        }
+    }
+
+    /// @notice This function return info about withdraw campaign related with multi-stage disbursement
+    /// @dev This function was run by Campaigns contract
+    /// @param campID is campaign's id
+    /// @param stage is stage number (start with 0)
+    /// @param numberOfDonors is number of backers (person that backed to campaign)
+    /// @param campCollected is total token that campaign was collected
+    /// @return Two values: (1) number of stage; (2) amount for withdraw, if don't meet condition, amount will have value is zero
+    function getWithdrawInfo(uint campID, uint stage, uint numberOfDonors, uint campCollected)
+    external view returns (
+        uint numStage,
+        uint amount
+    ) {
+        if (stages[campID].numStage > 0) {
+            numStage = stages[campID].numStage;
+            if (stage > 0) {
+                uint agreed = stages[campID].agreed[stage];
+                uint amountAgreed = stages[campID].amountAgreed[stage];
+                uint minAgree = numberOfDonors / 2;
+                uint minAmount = campCollected / 2;
+                amount = agreed > minAgree && amountAgreed > minAmount ? stages[campID].amount[stage] : 0;
+                if (
+                    (stages[campID].mode == Mode.Fixed ||
+                    stages[campID].mode == Mode.TimingFixed) &&
+                    stage > 1 &&
+                    stages[campID].agreed[stage-1] <= minAgree &&
+                    stages[campID].amountAgreed[stage-1] <= minAmount
+                ) {
+                    amount = 0;
+                }
+                if (
+                    stages[campID].mode >= Mode.TimingFlexible &&
+                    now < stages[campID].time[stage]
+                ) {
+                    amount = 0;
+                }
+            } else { // stage 0 is default full withdraw without voting
+                amount = stages[campID].amount[0];
+            }
+        } else {
+            numStage = 1;
+            amount = 0;
+        }
+
+    }
+}
+\end{lstlisting}
+\end{document}
