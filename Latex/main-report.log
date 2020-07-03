@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.4)  1 JUL 2020 09:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.4)  3 JUL 2020 14:35
 entering extended mode
 **./main-report.tex
 (main-report.tex
@@ -1443,9 +1443,9 @@ Using TeX to sort glossary entries---this may take a while
 ] [4
 
 
-]
+] [5]
 Using TeX to sort glossary entries---this may take a while
-[5
+[6
 
 
 ] (pages/Summarize.tex
@@ -1455,68 +1455,108 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
 ("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1ptm.
 fd"
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)) [6
+)) [7
 
 ]
 Ch\uhorn \ohorn ng 1.
-(chapters/chap1_mo_dau.tex [7
+(chapters/chap1_mo_dau.tex [8
 
 ]
-<figures/E2E.png, id=665, 462.528pt x 215.00325pt>
+<figures/E2E.png, id=669, 462.528pt x 215.00325pt>
 File: figures/E2E.png Graphic file (type png)
 <use figures/E2E.png>
 Package pdftex.def Info: figures/E2E.png  used on input line 13.
 (pdftex.def)             Requested size: 300.63962pt x 139.75044pt.
 
 
-LaTeX Warning: Citation '1' on page 8 undefined on input line 18.
+LaTeX Warning: Citation '1' on page 9 undefined on input line 18.
 
 
-LaTeX Warning: Citation '2' on page 8 undefined on input line 18.
+LaTeX Warning: Citation '2' on page 9 undefined on input line 18.
 
-<figures/SRTP.png, id=666, 560.0925pt x 264.23718pt>
+
+LaTeX Warning: Citation '3' on page 9 undefined on input line 18.
+
+<figures/SRTP.png, id=670, 560.0925pt x 264.23718pt>
 File: figures/SRTP.png Graphic file (type png)
 <use figures/SRTP.png>
 Package pdftex.def Info: figures/SRTP.png  used on input line 26.
 (pdftex.def)             Requested size: 392.06207pt x 184.96475pt.
-[8 <./figures/E2E.png>]
-<figures/ZRTP.png, id=672, 344.03531pt x 230.36063pt>
+[9 <./figures/E2E.png>]
+<figures/ZRTP.png, id=676, 344.03531pt x 230.36063pt>
 File: figures/ZRTP.png Graphic file (type png)
 <use figures/ZRTP.png>
 Package pdftex.def Info: figures/ZRTP.png  used on input line 36.
 (pdftex.def)             Requested size: 292.4314pt x 195.80743pt.
- [9 <./figures/SRTP.png> <./figures/ZRTP.png>]
-<figures/MLS-base.png, id=678, 848.57025pt x 387.24675pt>
+
+
+LaTeX Warning: Citation '4' on page 10 undefined on input line 41.
+
+
+LaTeX Warning: Citation '5' on page 10 undefined on input line 41.
+
+[10 <./figures/SRTP.png> <./figures/ZRTP.png>]
+
+LaTeX Warning: Citation '6' on page 11 undefined on input line 43.
+
+<figures/MLS-base.png, id=682, 848.57025pt x 387.24675pt>
 File: figures/MLS-base.png Graphic file (type png)
 <use figures/MLS-base.png>
 Package pdftex.def Info: figures/MLS-base.png  used on input line 48.
 (pdftex.def)             Requested size: 424.28409pt x 193.6229pt.
- [10 <./figures/MLS-base.png>]) [11] [12]
+[11 <./figures/MLS-base.png>]) [12] [13]
 Ch\uhorn \ohorn ng 2.
 (chapters/chap2_tong_quan.tex
 
-LaTeX Warning: Citation '7' on page 13 undefined on input line 6.
+LaTeX Warning: Citation '7' on page 14 undefined on input line 6.
 
 
-LaTeX Warning: Citation '8' on page 13 undefined on input line 6.
+LaTeX Warning: Citation '8' on page 14 undefined on input line 6.
 
 
-LaTeX Warning: Citation '9' on page 13 undefined on input line 6.
+LaTeX Warning: Citation '9' on page 14 undefined on input line 6.
 
-<figures/E2EApp.jpg, id=693, 542.025pt x 304.13625pt>
+<figures/E2EApp.jpg, id=697, 542.025pt x 304.13625pt>
 File: figures/E2EApp.jpg Graphic file (type jpg)
 <use figures/E2EApp.jpg>
 Package pdftex.def Info: figures/E2EApp.jpg  used on input line 11.
 (pdftex.def)             Requested size: 352.31207pt x 197.6862pt.
-[13
+[14
 
-] [14 <./figures/E2EApp.jpg>] [15] [16]
-<figures/Add1.png, id=710, 697.4055pt x 248.127pt>
+]
+
+LaTeX Warning: Citation '10' on page 15 undefined on input line 29.
+
+
+LaTeX Warning: Citation '11' on page 15 undefined on input line 29.
+
+
+LaTeX Warning: Citation '12' on page 15 undefined on input line 29.
+
+[15 <./figures/E2EApp.jpg>]
+
+LaTeX Warning: Citation '13' on page 16 undefined on input line 31.
+
+
+LaTeX Warning: Citation '14' on page 16 undefined on input line 33.
+
+
+LaTeX Warning: Citation '15' on page 16 undefined on input line 33.
+
+
+LaTeX Warning: Citation '16' on page 16 undefined on input line 38.
+
+[16]
+
+LaTeX Warning: Citation '17' on page 17 undefined on input line 42.
+
+[17]
+<figures/Add1.png, id=715, 697.4055pt x 248.127pt>
 File: figures/Add1.png Graphic file (type png)
 <use figures/Add1.png>
 Package pdftex.def Info: figures/Add1.png  used on input line 66.
 (pdftex.def)             Requested size: 453.3082pt x 161.28062pt.
-<figures/Add2.png, id=711, 432.4155pt x 407.72325pt>
+<figures/Add2.png, id=716, 432.4155pt x 407.72325pt>
 File: figures/Add2.png Graphic file (type png)
 <use figures/Add2.png>
 Package pdftex.def Info: figures/Add2.png  used on input line 67.
@@ -1529,8 +1569,8 @@ Overfull \hbox (12.29047pt too wide) in paragraph at lines 66--68
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[17]
-<figures/Update.png, id=719, 742.57425pt x 338.4645pt>
+[18]
+<figures/Update.png, id=723, 742.57425pt x 338.4645pt>
 File: figures/Update.png Graphic file (type png)
 <use figures/Update.png>
 Package pdftex.def Info: figures/Update.png  used on input line 81.
@@ -1540,8 +1580,11 @@ Overfull \hbox (41.64981pt too wide) in paragraph at lines 81--82
  [] 
  []
 
-[18 <./figures/Add1.png> <./figures/Add2.png>]
-<figures/Remove.png, id=726, 753.41475pt x 337.26pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[19 <./figures/Add1.png> <./figures/Add2.png>]
+<figures/Remove.png, id=730, 753.41475pt x 337.26pt>
 File: figures/Remove.png Graphic file (type png)
 <use figures/Remove.png>
 Package pdftex.def Info: figures/Remove.png  used on input line 91.
@@ -1551,8 +1594,8 @@ Overfull \hbox (48.69606pt too wide) in paragraph at lines 91--92
  [] 
  []
 
-[19 <./figures/Update.png> <./figures/Remove.png>]
-<figures/Ratchet tree.png, id=735, 348.70274pt x 318.59026pt>
+[20 <./figures/Update.png> <./figures/Remove.png>]
+<figures/Ratchet tree.png, id=739, 348.70274pt x 318.59026pt>
 File: figures/Ratchet tree.png Graphic file (type png)
 <use figures/Ratchet tree.png>
 Package pdftex.def Info: figures/Ratchet tree.png  used on input line 117.
@@ -1561,8 +1604,8 @@ Package pdftex.def Info: figures/Ratchet tree.png  used on input line 117.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[20]
-<figures/resolution.png, id=741, 105.5142pt x 106.4778pt>
+[21]
+<figures/resolution.png, id=745, 105.5142pt x 106.4778pt>
 File: figures/resolution.png Graphic file (type png)
 <use figures/resolution.png>
 Package pdftex.def Info: figures/resolution.png  used on input line 143.
@@ -1571,78 +1614,78 @@ Package pdftex.def Info: figures/resolution.png  used on input line 143.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[21 <./figures/Ratchet tree.png>] [22 <./figures/resolution.png>]) [23]
+[22 <./figures/Ratchet tree.png>] [23 <./figures/resolution.png>]) [24]
 Ch\uhorn \ohorn ng 3.
-(chapters/chap3_phan_tich_va_thiet_ke.tex [24
+(chapters/chap3_phan_tich_va_thiet_ke.tex [25
 
 ]
-<figures/crowdfunding-process.png, id=766, 562.38104pt x 327.50356pt>
+<figures/crowdfunding-process.png, id=770, 562.38104pt x 327.50356pt>
 File: figures/crowdfunding-process.png Graphic file (type png)
 <use figures/crowdfunding-process.png>
 Package pdftex.def Info: figures/crowdfunding-process.png  used on input line 2
 5.
 (pdftex.def)             Requested size: 421.78474pt x 245.62706pt.
- [25 <./figures/crowdfunding-process.png>]
-<figures/system-architecture.png, id=777, 445.665pt x 302.69086pt>
+ [26 <./figures/crowdfunding-process.png>]
+<figures/system-architecture.png, id=781, 445.665pt x 302.69086pt>
 File: figures/system-architecture.png Graphic file (type png)
 <use figures/system-architecture.png>
 Package pdftex.def Info: figures/system-architecture.png  used on input line 48
 .
 (pdftex.def)             Requested size: 401.09479pt x 272.41925pt.
- [26 <./figures/system-architecture.png>]
-<figures/usecase-vi.png, id=786, 554.7927pt x 633.92834pt>
+ [27 <./figures/system-architecture.png>]
+<figures/usecase-vi.png, id=790, 554.7927pt x 633.92834pt>
 File: figures/usecase-vi.png Graphic file (type png)
 <use figures/usecase-vi.png>
 Package pdftex.def Info: figures/usecase-vi.png  used on input line 69.
 (pdftex.def)             Requested size: 332.87817pt x 380.35994pt.
-<figures/function-tree.png, id=788, 536.7252pt x 251.4996pt>
+<figures/function-tree.png, id=792, 536.7252pt x 251.4996pt>
 File: figures/function-tree.png Graphic file (type png)
 <use figures/function-tree.png>
 Package pdftex.def Info: figures/function-tree.png  used on input line 88.
 (pdftex.def)             Requested size: 375.70508pt x 176.04851pt.
-<figures/user-data-flow.png, id=790, 2237.35875pt x 1478.52374pt>
+<figures/user-data-flow.png, id=794, 2237.35875pt x 1478.52374pt>
 File: figures/user-data-flow.png Graphic file (type png)
 <use figures/user-data-flow.png>
 Package pdftex.def Info: figures/user-data-flow.png  used on input line 98.
 (pdftex.def)             Requested size: 402.7072pt x 266.12279pt.
- [27]
+ [28]
 
-LaTeX Warning: Text page 28 contains only floats.
+LaTeX Warning: Text page 29 contains only floats.
 
-[28 <./figures/usecase-vi.png> <./figures/function-tree.png>] [29 <./figures/us
+[29 <./figures/usecase-vi.png> <./figures/function-tree.png>] [30 <./figures/us
 er-data-flow.png>]
-<figures/deposit-activity.png, id=807, 531.54585pt x 460.72125pt>
+<figures/deposit-activity.png, id=811, 531.54585pt x 460.72125pt>
 File: figures/deposit-activity.png Graphic file (type png)
 <use figures/deposit-activity.png>
 Package pdftex.def Info: figures/deposit-activity.png  used on input line 121.
 (pdftex.def)             Requested size: 425.23726pt x 368.5775pt.
- [30 <./figures/deposit-activity.png>]
-<figures/withdraw-activity.png, id=818, 531.54585pt x 390.0171pt>
+ [31 <./figures/deposit-activity.png>]
+<figures/withdraw-activity.png, id=822, 531.54585pt x 390.0171pt>
 File: figures/withdraw-activity.png Graphic file (type png)
 <use figures/withdraw-activity.png>
 Package pdftex.def Info: figures/withdraw-activity.png  used on input line 143.
 
 (pdftex.def)             Requested size: 425.23726pt x 312.0141pt.
- [31 <./figures/withdraw-activity.png>]
+ [32 <./figures/withdraw-activity.png>]
 
-LaTeX Warning: Citation 'henry2018blockchain' on page 32 undefined on input lin
+LaTeX Warning: Citation 'henry2018blockchain' on page 33 undefined on input lin
 e 159.
 
-[32]
-<figures/identity-process-1.png, id=836, 1026.83624pt x 536.0025pt>
+[33]
+<figures/identity-process-1.png, id=840, 1026.83624pt x 536.0025pt>
 File: figures/identity-process-1.png Graphic file (type png)
 <use figures/identity-process-1.png>
 Package pdftex.def Info: figures/identity-process-1.png  used on input line 207
 .
 (pdftex.def)             Requested size: 410.72722pt x 214.3972pt.
- [33 <./figures/identity-process-1.png>]
-<figures/identity-process-2.png, id=845, 1231.60126pt x 637.38126pt>
+ [34 <./figures/identity-process-1.png>]
+<figures/identity-process-2.png, id=849, 1231.60126pt x 637.38126pt>
 File: figures/identity-process-2.png Graphic file (type png)
 <use figures/identity-process-2.png>
 Package pdftex.def Info: figures/identity-process-2.png  used on input line 224
 .
 (pdftex.def)             Requested size: 431.0669pt x 223.08678pt.
- [34 <./figures/identity-process-2.png>]
+ [35 <./figures/identity-process-2.png>]
 LaTeX Font Info:    Trying to load font information for T5+pcr on input line 26
 0.
 
@@ -1656,45 +1699,45 @@ LaTeX Font Info:    Trying to load font information for TS1+pcr on input line 2
 ("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\ts1pcr.
 fd"
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-) [35]
-<figures/create-campaign-activity.png, id=861, 645.1302pt x 558.6471pt>
+) [36]
+<figures/create-campaign-activity.png, id=865, 645.1302pt x 558.6471pt>
 File: figures/create-campaign-activity.png Graphic file (type png)
 <use figures/create-campaign-activity.png>
 Package pdftex.def Info: figures/create-campaign-activity.png  used on input li
 ne 274.
 (pdftex.def)             Requested size: 419.32967pt x 363.1163pt.
- [36 <./figures/create-campaign-activity.png>] [37] [38] [39]
-<figures/smartcontract-structure.png, id=885, 563.10374pt x 775.4571pt>
+ [37 <./figures/create-campaign-activity.png>] [38] [39] [40]
+<figures/smartcontract-structure.png, id=889, 563.10374pt x 775.4571pt>
 File: figures/smartcontract-structure.png Graphic file (type png)
 <use figures/smartcontract-structure.png>
 Package pdftex.def Info: figures/smartcontract-structure.png  used on input lin
 e 388.
 (pdftex.def)             Requested size: 366.01309pt x 504.04115pt.
-<figures/db-design.png, id=887, 194.28584pt x 173.2071pt>
+<figures/db-design.png, id=891, 194.28584pt x 173.2071pt>
 File: figures/db-design.png Graphic file (type png)
 <use figures/db-design.png>
 Package pdftex.def Info: figures/db-design.png  used on input line 408.
 (pdftex.def)             Requested size: 194.28535pt x 173.20668pt.
 )
-[40] [41 <./figures/smartcontract-structure.png>] [42 <./figures/db-design.png>
+[41] [42 <./figures/smartcontract-structure.png>] [43 <./figures/db-design.png>
 ]
 Ch\uhorn \ohorn ng 4.
 (chapters/chap4_hien_thuc.tex
-<figures/architecture-implementation.png, id=904, 1367.1075pt x 855.195pt>
+<figures/architecture-implementation.png, id=908, 1367.1075pt x 855.195pt>
 File: figures/architecture-implementation.png Graphic file (type png)
 <use figures/architecture-implementation.png>
 Package pdftex.def Info: figures/architecture-implementation.png  used on input
  line 23.
 (pdftex.def)             Requested size: 410.13542pt x 256.56049pt.
- [43
+ [44
 
-] [44 <./figures/architecture-implementation.png>]
+] [45 <./figures/architecture-implementation.png>]
 
-LaTeX Warning: Citation 'nodejs-performance' on page 45 undefined on input line
+LaTeX Warning: Citation 'nodejs-performance' on page 46 undefined on input line
  45.
 
 
-LaTeX Warning: Citation 'mccune2011node' on page 45 undefined on input line 47.
+LaTeX Warning: Citation 'mccune2011node' on page 46 undefined on input line 47.
 
 
 
@@ -1703,116 +1746,116 @@ Overfull \hbox (13.77023pt too wide) in paragraph at lines 47--48
 ng Node.js [].
  []
 
-[45]
-<figures/material-chart-survey.png, id=931, 484.05844pt x 320.69812pt>
+[46]
+<figures/material-chart-survey.png, id=935, 484.05844pt x 320.69812pt>
 File: figures/material-chart-survey.png Graphic file (type png)
 <use figures/material-chart-survey.png>
 Package pdftex.def Info: figures/material-chart-survey.png  used on input line 
 59.
 (pdftex.def)             Requested size: 387.24727pt x 256.55884pt.
- [46 <./figures/material-chart-survey.png>]
+ [47 <./figures/material-chart-survey.png>]
 
-LaTeX Warning: Citation '6106531' on page 47 undefined on input line 69.
-
-
-LaTeX Warning: Citation '5235364' on page 47 undefined on input line 83.
+LaTeX Warning: Citation '6106531' on page 48 undefined on input line 69.
 
 
-LaTeX Warning: Citation '8441990' on page 47 undefined on input line 83.
+LaTeX Warning: Citation '5235364' on page 48 undefined on input line 83.
 
-[47] [48] [49] [50] [51] [52]
-<figures/ui-wallet.png, id=1101, 1342.01375pt x 581.17125pt>
+
+LaTeX Warning: Citation '8441990' on page 48 undefined on input line 83.
+
+[48] [49] [50] [51] [52] [53]
+<figures/ui-wallet.png, id=1106, 1342.01375pt x 581.17125pt>
 File: figures/ui-wallet.png Graphic file (type png)
 <use figures/ui-wallet.png>
 Package pdftex.def Info: figures/ui-wallet.png  used on input line 311.
 (pdftex.def)             Requested size: 429.45317pt x 185.97859pt.
-<figures/ui-add-verifier.png, id=1103, 1283.79625pt x 361.35pt>
+<figures/ui-add-verifier.png, id=1108, 1283.79625pt x 361.35pt>
 File: figures/ui-add-verifier.png Graphic file (type png)
 <use figures/ui-add-verifier.png>
 Package pdftex.def Info: figures/ui-add-verifier.png  used on input line 321.
 (pdftex.def)             Requested size: 436.48495pt x 122.85738pt.
-<figures/ui-register-identity.png, id=1105, 1280.785pt x 612.2875pt>
+<figures/ui-register-identity.png, id=1110, 1280.785pt x 612.2875pt>
 File: figures/ui-register-identity.png Graphic file (type png)
 <use figures/ui-register-identity.png>
 Package pdftex.def Info: figures/ui-register-identity.png  used on input line 3
 31.
 (pdftex.def)             Requested size: 422.66035pt x 202.0555pt.
- [53 <./figures/ui-wallet.png>]
-<figures/ui-metamask-confirm-1.png, id=1115, 356.33125pt x 616.3025pt>
+ [54 <./figures/ui-wallet.png>]
+<figures/ui-metamask-confirm-1.png, id=1119, 356.33125pt x 616.3025pt>
 File: figures/ui-metamask-confirm-1.png Graphic file (type png)
 <use figures/ui-metamask-confirm-1.png>
 Package pdftex.def Info: figures/ui-metamask-confirm-1.png  used on input line 
 342.
 (pdftex.def)             Requested size: 178.16518pt x 308.1505pt.
-<figures/ui-transaction-detail.png, id=1118, 841.1425pt x 488.82625pt>
+<figures/ui-transaction-detail.png, id=1122, 841.1425pt x 488.82625pt>
 File: figures/ui-transaction-detail.png Graphic file (type png)
 <use figures/ui-transaction-detail.png>
 Package pdftex.def Info: figures/ui-transaction-detail.png  used on input line 
 352.
 (pdftex.def)             Requested size: 420.57022pt x 244.41252pt.
-<figures/ui-list-user.png, id=1120, 1284.8pt x 320.69812pt>
+<figures/ui-list-user.png, id=1124, 1284.8pt x 320.69812pt>
 File: figures/ui-list-user.png Graphic file (type png)
 <use figures/ui-list-user.png>
 Package pdftex.def Info: figures/ui-list-user.png  used on input line 362.
 (pdftex.def)             Requested size: 436.82622pt x 109.0359pt.
-<figures/ui-identity-view.png, id=1122, 616.3025pt x 357.83687pt>
+<figures/ui-identity-view.png, id=1126, 616.3025pt x 357.83687pt>
 File: figures/ui-identity-view.png Graphic file (type png)
 <use figures/ui-identity-view.png>
 Package pdftex.def Info: figures/ui-identity-view.png  used on input line 372.
 (pdftex.def)             Requested size: 431.40881pt x 250.48409pt.
- [54 <./figures/ui-add-verifier.png> <./figures/ui-register-identity.png>]
+ [55 <./figures/ui-add-verifier.png> <./figures/ui-register-identity.png>]
 
-LaTeX Warning: Text page 55 contains only floats.
+LaTeX Warning: Text page 56 contains only floats.
 
-[55 <./figures/ui-metamask-confirm-1.png> <./figures/ui-transaction-detail.png>
+[56 <./figures/ui-metamask-confirm-1.png> <./figures/ui-transaction-detail.png>
 ]
-<figures/ui-create-campaign.jpg, id=1137, 879.285pt x 1013.7875pt>
+<figures/ui-create-campaign.jpg, id=1141, 879.285pt x 1013.7875pt>
 File: figures/ui-create-campaign.jpg Graphic file (type jpg)
 <use figures/ui-create-campaign.jpg>
 Package pdftex.def Info: figures/ui-create-campaign.jpg  used on input line 382
 .
 (pdftex.def)             Requested size: 439.64143pt x 506.89252pt.
-<figures/ui-campaign-pending.png, id=1139, 1279.78125pt x 615.29875pt>
+<figures/ui-campaign-pending.png, id=1143, 1279.78125pt x 615.29875pt>
 File: figures/ui-campaign-pending.png Graphic file (type png)
 <use figures/ui-campaign-pending.png>
 Package pdftex.def Info: figures/ui-campaign-pending.png  used on input line 39
 2.
 (pdftex.def)             Requested size: 435.11987pt x 209.1988pt.
-<figures/ui-list-campaign.png, id=1141, 1281.78876pt x 619.31375pt>
+<figures/ui-list-campaign.png, id=1145, 1281.78876pt x 619.31375pt>
 File: figures/ui-list-campaign.png Graphic file (type png)
 <use figures/ui-list-campaign.png>
 Package pdftex.def Info: figures/ui-list-campaign.png  used on input line 402.
 (pdftex.def)             Requested size: 435.80241pt x 210.56389pt.
- [56 <./figures/ui-list-user.png> <./figures/ui-identity-view.png>]
-<figures/ui-detail-campaign.png, id=1149, 1274.7625pt x 618.31pt>
+ [57 <./figures/ui-list-user.png> <./figures/ui-identity-view.png>]
+<figures/ui-detail-campaign.png, id=1153, 1274.7625pt x 618.31pt>
 File: figures/ui-detail-campaign.png Graphic file (type png)
 <use figures/ui-detail-campaign.png>
 Package pdftex.def Info: figures/ui-detail-campaign.png  used on input line 412
 .
 (pdftex.def)             Requested size: 433.41351pt x 210.22261pt.
- [57 <./figures/ui-create-campaign.jpg>] [58 <./figures/ui-campaign-pending.png
-> <./figures/ui-list-campaign.png>] [59 <./figures/ui-detail-campaign.png>] [60
+ [58 <./figures/ui-create-campaign.jpg>] [59 <./figures/ui-campaign-pending.png
+> <./figures/ui-list-campaign.png>] [60 <./figures/ui-detail-campaign.png>] [61
 ]
-<figures/result-one-stage.png, id=1187, 352.31625pt x 162.6075pt>
+<figures/result-one-stage.png, id=1191, 352.31625pt x 162.6075pt>
 File: figures/result-one-stage.png Graphic file (type png)
 <use figures/result-one-stage.png>
 Package pdftex.def Info: figures/result-one-stage.png  used on input line 476.
 (pdftex.def)             Requested size: 352.31538pt x 162.6071pt.
-<figures/result-multi-stage-1.png, id=1189, 390.70969pt x 262.73157pt>
+<figures/result-multi-stage-1.png, id=1193, 390.70969pt x 262.73157pt>
 File: figures/result-multi-stage-1.png Graphic file (type png)
 <use figures/result-multi-stage-1.png>
 Package pdftex.def Info: figures/result-multi-stage-1.png  used on input line 4
 87.
 (pdftex.def)             Requested size: 195.35435pt x 131.36545pt.
-<figures/result-multi-stage-2.png, id=1190, 401.24907pt x 305.64188pt>
+<figures/result-multi-stage-2.png, id=1194, 401.24907pt x 305.64188pt>
 File: figures/result-multi-stage-2.png Graphic file (type png)
 <use figures/result-multi-stage-2.png>
 Package pdftex.def Info: figures/result-multi-stage-2.png  used on input line 4
 89.
 (pdftex.def)             Requested size: 200.62404pt x 152.82056pt.
- [61]
+ [62]
 
-LaTeX Warning: Citation 'rouhani2017performance' on page 62 undefined on input 
+LaTeX Warning: Citation 'rouhani2017performance' on page 63 undefined on input 
 line 498.
 
 
@@ -1821,37 +1864,37 @@ Overfull \hbox (0.55823pt too wide) in paragraph at lines 498--499
 ai Ethereum pri-vate []blockchain
  []
 
-[62 <./figures/result-one-stage.png (PNG copy)> <./figures/result-multi-stage-1
-.png (PNG copy)> <./figures/result-multi-stage-2.png (PNG copy)>] [63]
-<figures/result-time-perform-chart.png, id=1216, 768.471pt x 779.0706pt>
+[63 <./figures/result-one-stage.png (PNG copy)> <./figures/result-multi-stage-1
+.png (PNG copy)> <./figures/result-multi-stage-2.png (PNG copy)>] [64]
+<figures/result-time-perform-chart.png, id=1220, 768.471pt x 779.0706pt>
 File: figures/result-time-perform-chart.png Graphic file (type png)
 <use figures/result-time-perform-chart.png>
 Package pdftex.def Info: figures/result-time-perform-chart.png  used on input l
 ine 561.
 (pdftex.def)             Requested size: 384.23456pt x 389.53435pt.
- [64]
-<figures/result-perform-cost-1.png, id=1226, 403.5075pt x 180.675pt>
+ [65]
+<figures/result-perform-cost-1.png, id=1231, 403.5075pt x 180.675pt>
 File: figures/result-perform-cost-1.png Graphic file (type png)
 <use figures/result-perform-cost-1.png>
 Package pdftex.def Info: figures/result-perform-cost-1.png  used on input line 
 620.
 (pdftex.def)             Requested size: 322.80644pt x 144.54018pt.
 
-[65 <./figures/result-time-perform-chart.png
+[66 <./figures/result-time-perform-chart.png
 
 pdfTeX warning: pdflatex (file ./figures/result-time-perform-chart.png): large 
 interlaced PNG might cause out of memory (use non-interlaced PNG to fix this)
->] [66] [67 <./figures/result-perform-cost-1.png (PNG copy)>]
+>] [67] [68 <./figures/result-perform-cost-1.png (PNG copy)>]
 
-LaTeX Warning: Citation 'atzei2016survey' on page 68 undefined on input line 68
+LaTeX Warning: Citation 'atzei2016survey' on page 69 undefined on input line 68
 4.
 
 
-LaTeX Warning: Citation 'atzei2016survey' on page 68 undefined on input line 70
+LaTeX Warning: Citation 'atzei2016survey' on page 69 undefined on input line 70
 6.
 
 
-LaTeX Warning: Citation 'atzei2016survey' on page 68 undefined on input line 70
+LaTeX Warning: Citation 'atzei2016survey' on page 69 undefined on input line 70
 6.
 
 
@@ -1860,47 +1903,47 @@ Underfull \hbox (badness 1137) in paragraph at lines 706--706
 tr¶n Ethereum
  []
 
-[68] [69] [70]
+[69] [70] [71]
 
-LaTeX Warning: Citation '8728953' on page 71 undefined on input line 780.
+LaTeX Warning: Citation '8728953' on page 72 undefined on input line 780.
 
 
-LaTeX Warning: Citation 'dika2017ethereum' on page 71 undefined on input line 7
+LaTeX Warning: Citation 'dika2017ethereum' on page 72 undefined on input line 7
 80.
 
 
-LaTeX Warning: Citation 'dika2017ethereum' on page 71 undefined on input line 7
+LaTeX Warning: Citation 'dika2017ethereum' on page 72 undefined on input line 7
 91.
 
-[71]
-<figures/result-remix-ide.png, id=1299, 697.10437pt x 526.96875pt>
+[72]
+<figures/result-remix-ide.png, id=1303, 697.10437pt x 526.96875pt>
 File: figures/result-remix-ide.png Graphic file (type png)
 <use figures/result-remix-ide.png>
 Package pdftex.def Info: figures/result-remix-ide.png  used on input line 815.
 (pdftex.def)             Requested size: 418.26584pt x 316.18369pt.
-<figures/result-slither.png, id=1301, 522.45187pt x 475.7775pt>
+<figures/result-slither.png, id=1305, 522.45187pt x 475.7775pt>
 File: figures/result-slither.png Graphic file (type png)
 <use figures/result-slither.png>
 Package pdftex.def Info: figures/result-slither.png  used on input line 825.
 (pdftex.def)             Requested size: 417.96207pt x 380.6225pt.
-<figures/result-smartcheck.png, id=1304, 1023.825pt x 494.59781pt>
+<figures/result-smartcheck.png, id=1308, 1023.825pt x 494.59781pt>
 File: figures/result-smartcheck.png Graphic file (type png)
 <use figures/result-smartcheck.png>
 Package pdftex.def Info: figures/result-smartcheck.png  used on input line 835.
 
 (pdftex.def)             Requested size: 409.52274pt x 197.8356pt.
- [72] [73 <./figures/result-remix-ide.png (PNG copy)>]) [74 <./figures/result-s
-lither.png (PNG copy)>] [75 <./figures/result-smartcheck.png (PNG copy)>]
+ [73] [74 <./figures/result-remix-ide.png (PNG copy)>]) [75 <./figures/result-s
+lither.png (PNG copy)>] [76 <./figures/result-smartcheck.png (PNG copy)>]
 Ch\uhorn \ohorn ng 5.
-(chapters/chap5_ket_luan.tex [76
+(chapters/chap5_ket_luan.tex [77
 
-] [77]) [78]
+] [78]) [79]
 
 LaTeX Warning: Empty bibliography on input line 167.
 
 (pages/Appendix.tex
 Ph\d {u} l\d {u}c A.
-[79
+[80
 
 
 ]
@@ -1924,22 +1967,22 @@ File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
 (textcomp)             Default family used instead on input line 80.
- [80]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 109.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 109.
  [81]
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 109.
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 109.
+ [82]
 Ph\d {u} l\d {u}c B.
-[82
+[83
 
-] [83] [84] [85] [86] [87] [88] [89]
+] [84] [85] [86] [87] [88] [89] [90]
 Ph\d {u} l\d {u}c C.
-[90
+[91
 
-] [91]
+] [92]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
 (textcomp)             Default family used instead on input line 658.
@@ -1952,29 +1995,29 @@ Package textcomp Info: Symbol \textasciigrave not provided by
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
 (textcomp)             Default family used instead on input line 658.
- [92]
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 718.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 718.
  [93]
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 731.
+(textcomp)             Default family used instead on input line 718.
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 731.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 745.
-Package textcomp Info: Symbol \textasciigrave not provided by
-(textcomp)             font family pcr in TS1 encoding.
-(textcomp)             Default family used instead on input line 745.
+(textcomp)             Default family used instead on input line 718.
  [94]
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 731.
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 731.
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 745.
+Package textcomp Info: Symbol \textasciigrave not provided by
+(textcomp)             font family pcr in TS1 encoding.
+(textcomp)             Default family used instead on input line 745.
+ [95]
 Ph\d {u} l\d {u}c D.
-[95
+[96
 
 ]
 Package textcomp Info: Symbol \textasciigrave not provided by
@@ -1983,9 +2026,9 @@ Package textcomp Info: Symbol \textasciigrave not provided by
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family pcr in TS1 encoding.
 (textcomp)             Default family used instead on input line 838.
- [96] [97])
+ [97] [98])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 174.
- [98]
+ [99]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 174.
  (main-report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 174.
@@ -2010,13 +2053,13 @@ Package logreq Info: Writing requests to 'main-report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26977 strings out of 480799
- 440163 string characters out of 2893915
- 1438892 words of memory out of 3000000
- 41108 multiletter control sequences out of 15000+200000
+ 28093 strings out of 480799
+ 462366 string characters out of 2893915
+ 1452946 words of memory out of 3000000
+ 42223 multiletter control sequences out of 15000+200000
  574669 words of font info for 78 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 51i,15n,66p,1913b,1955s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 78i,15n,78p,1928b,1955s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Trung Hau\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi
 600\tctt0800.pk>{C:/Users/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/enc
 /dvips/base/8r.enc}{C:/Users/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/
@@ -2034,9 +2077,9 @@ ata/Local/Programs/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Users/Trung
 Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/vntex/urwvn/utmr8v.pfb><C:/Us
 ers/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/vntex/urwvn/utmri8v
 .pfb>
-Output written on main-report.pdf (106 pages, 6956240 bytes).
+Output written on main-report.pdf (107 pages, 6953620 bytes).
 PDF statistics:
- 2640 PDF objects out of 2984 (max. 8388607)
- 1370 named destinations out of 1440 (max. 500000)
+ 2644 PDF objects out of 2984 (max. 8388607)
+ 1371 named destinations out of 1440 (max. 500000)
  1021 words of extra memory for PDF output out of 10000 (max. 10000000)
 
