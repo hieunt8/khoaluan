@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image, Dimensions, ActivityIndicator } from 'react-native';
-import { Menu, Divider, Provider, Portal, Dialog, TextInput } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { responseCreategroup } from '../actions/action';
 const { width } = Dimensions.get('window');
@@ -8,6 +7,7 @@ import ratchetTree from '../components/menu/RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
 import { AesEnc, AesDec } from '../api/ApiAES'
 import { generateRSAKey } from '../api/ApiRSA'
+import groupRemove from '../api/ApiGroupRemove'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
@@ -22,98 +22,42 @@ class Loading extends Component {
     super(props);
     this.state = {
       info: 'Loading!',
-      // listMssv: this.props.navigation.state.params.listMssv,
-      // groupName: this.props.navigation.state.params.groupName,
-      // infolistMssv: this.props.navigation.state.params.info,
-      // sender: this.props.navigation.state.params.sender,
+      listMssv: this.props.listMssv,
+      groupName: this.props.groupName,
       checkFinished: false
     }
   }
 
-  _getGroupDatabase = () => {
-    try {
-      const allGroup = realm.objects('group');
-      let group = allGroup.filtered(`groupName = "${this.state.groupName}"`);
-      if (group[0])
-        return group[0];
-      else
-        console.log("_getGroupDatabase GroupRemoveLoading.js not found group name");
-    } catch (error) {
-      console.log("_getGroupDatabase GroupRemoveLoading.js", error)
-    }
-  };
-
-  _SaveGroupDatabase = (mssv, info, group, newtree_serialize) => {
-    let currentGroup = group;
-    try {
-      realm.write(() => {
-        currentGroup.listMssv.push(mssv);
-        currentGroup.version = currentGroup.version + 1;
-        currentGroup.infolistMssv.push(info);
-        currentGroup.treeInfo = newtree_serialize;
-      });
-    } catch (erro) {
-      console.log("_SaveGroupDatabase GroupRemoveLoading.js", erro)
-    }
-    return currentGroup;
-  }
   async componentDidUpdate() {
     setTimeout(() => {
       if (this.state.checkFinished === true) {
         setTimeout(() => {
           this.props.navigation.navigate('Menu');
+          // alert(1);
         }, 500);
       }
     }, 1000);
   }
 
   componentDidMount() {
-    console.log(1);
-    // setTimeout(() => {
-    //   let group = this._getGroupDatabase();
-    //   let tree = this.props.navigation.state.params.tree;
-    //   this.setState({ info: "Building tree!!!" })
-    //   this.buildTree(group, tree);
-    // }, 500);
+    setTimeout(() => {
+      this.setState({ info: "Rebuild Data!!!" })
+      this.rebuildDatabase();
+      // this.props.navigation.navigate('Menu');
+    }, 500);
   }
 
   delay = ms => new Promise(res => setTimeout(res, ms));
 
-  buildTree = async (group, tree) => {
-    for (var i = 0; i < this.state.listMssv.length; i++) {
-      let keys = await generateRSAKey(randomKey(32), 512);
-      let keyPair = {
-        publicKey: keys.public,
-        privateKey: keys.private
-      };
-      const data = {
-        groupName: this.state.groupName,
-        Status: "ADD",
-        listMssv: group.listMssv.toString(),
-        version: group.version + 1,
-        senderMssv: this.state.sender.senderMssv,
-        senderInfo: this.state.sender.senderInfo,
-        userAddRemove: this.state.listMssv[i],
-        useraddRemoveInfo: this.state.infolistMssv[i],
-        keyPair: AesEnc(JSON.stringify(keyPair), group.shareKey),
-        treeInfo: tree.serialize()
-      };
-      this.setState({ info: `Building tree!\nAdd user ${this.state.listMssv[i]}`, });
-      tree.addNode(
-        this.state.infolistMssv[i],
-        Math.ceil(Math.log2(group.listMssv.length + 1)),
-        keyPair
-      );
-      group = this._SaveGroupDatabase(
-        this.state.listMssv[i],
-        this.state.infolistMssv[i],
-        group,
-        tree.serialize()
-      );
-      // data.treeInfo = await RSA.encrypt(tree.serialize(), this.state.infolistMssv[i].publicKey)
-      data.shareKey = await RSA.encrypt(group.shareKey, this.state.infolistMssv[i].publicKey);
-      this.props.sendCreategroup(data);
-      await this.delay(500);
+  rebuildDatabase = async () => {
+    for (let userName of this.state.listMssv) {
+      let check = await groupRemove({
+        groupName: this.state.groupName
+      }, userName, true)
+      if (check) {
+        alert("error");
+        break;
+      }
     }
     setTimeout(() => {
       this.setState({
@@ -121,8 +65,6 @@ class Loading extends Component {
         checkFinished: true
       });
     }, 1000);
-
-    return tree;
   }
   render() {
     return (

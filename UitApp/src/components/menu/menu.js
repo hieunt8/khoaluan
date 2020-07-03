@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 let checkName = "The name should not be empty!";
 import groupLoading from '../../api/ApiGroupLoading';
 import * as link from '../../api/ApiLink';
-import groupUpdate from '../../api/ApiGroupUpdate'
+import ApiGroupRemove from '../../api/ApiGroupRemove'
 var CryptoJS = require("crypto-js");
 
 
@@ -154,7 +154,8 @@ class menu extends Component {
 
   TestUppdate = async () => {
     // alert(1);
-    this.props.navigation.navigate('removeUser', { groupName: 'a' });
+    // this.props.navigation.navigate('removeUser', { groupName: 'a' });
+    ApiGroupRemove('a', '67767676', true);
     this._closeMenu()
   }
 

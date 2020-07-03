@@ -54,7 +54,23 @@ exports.CreategroupChat = (req, res, next) => {
           // await delay(500);
           res.json("ACCEPTED");
           break;
-        case "UPDATE":
+        case "REMOVE":
+          let newlistMssv = data1[0].listMssv;
+          newlistMssv = newlistMssv.filter(item => item !== data.userAddRemove)
+          Group.updateOne(
+            { groupName: data.groupName },
+            {
+              $set: {
+                listMssv: newlistMssv,
+                version: data.version
+              }
+            },
+            { upsert: false },
+            function (err) {
+              if (err) throw err;
+            }
+          );
+          res.json("ACCEPTED");
           break;
       }
       // console.log("@@@@@@@@");

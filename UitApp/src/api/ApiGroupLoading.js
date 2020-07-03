@@ -4,6 +4,7 @@ import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
 import { RSA } from 'react-native-rsa-native';
 import groupUpdate from './ApiGroupUpdate'
+import groupRemove from './ApiGroupRemove'
 import { AesEnc, AesDec } from './ApiAES'
 
 
@@ -108,6 +109,7 @@ _updateGroup = async (data, isExist, group) => {
         groupUpdate(groupData, false);
         break;
       case "REMOVE":
+        groupRemove(groupData, null, false);
         break;
     }
   }

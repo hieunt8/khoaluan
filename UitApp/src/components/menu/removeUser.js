@@ -155,7 +155,7 @@ class removeUser extends Component {
                   paddingTop: 20,
                   paddingBottom: 20
                 }}>
-                  <GroupRemoveLoading />
+                  <GroupRemoveLoading groupName={this.state.groupName} listMssv={this.state.listMssv} navigation={this.props.navigation}/>
                 </ScrollView >
                 {/* <Dialog.Actions>
               

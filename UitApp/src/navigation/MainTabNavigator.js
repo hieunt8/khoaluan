@@ -82,6 +82,7 @@ const MainNavigator = createStackNavigator({
     }
   },
 
+  
 
   NewChatting: {
     screen: NewChatting,

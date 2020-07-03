@@ -103,7 +103,7 @@ export default class RatchetTrees {
     }
     let handling = (root, _mssvToFind) => {
       if (root._mssv === _mssvToFind) {
-        return [[getData(root)], [], [], [getData(root)]];
+        return [[getData(root)], [], [], getData(root), []]; // 
       }
       if (root.left) {
         const result = handling(root.left, _mssvToFind);
@@ -111,6 +111,7 @@ export default class RatchetTrees {
           result[0].unshift(getData(root));
           result[1].unshift(0);
           result[2].unshift(getData(root.right));
+          result[4].unshift("left");
           return result;
         }
       }
@@ -120,11 +121,16 @@ export default class RatchetTrees {
           result[0].unshift(getData(root));
           result[1].unshift(1);
           result[2].unshift(getData(root.left));
+          result[4].unshift("right");
           return result;
         }
       }
     };
-    return handling(this.root, _mssvToFind);
+    return handling(this.root, _mssvToFind); // [0]: dỉrect path info
+                                             // [1]: flow node to root in 0  and 1
+                                             // [2]: co path info
+                                             // [3]: node info
+                                             // [4]: flow node to root in left and right
   }
 
   inOrder() {
@@ -147,9 +153,9 @@ export default class RatchetTrees {
       else current = current.right;
       // current = current[path[i]];
     }
-    console.log(current);
+    // console.log(current);
     // console.log([path.length - 2])
-    console.log(current[path[path.length - 2]]);
+    // console.log(current[path[path.length - 2]]);
     if (current[path[path.length - 2]].left._mssv === _mssv)
       current[path[path.length - 2]] = current[path[path.length - 2]].right;
     else current[path[path.length - 2]] = current[path[path.length - 2]].left;
