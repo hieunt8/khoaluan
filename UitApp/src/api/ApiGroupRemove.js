@@ -98,7 +98,7 @@ _SaveGroupDatabase4 = (tree, group, shareKey, Data, info) => {
   }
 }
 
-_updateDataBase2 = async (Secret, group, path, info) => {
+_updateDataBase2 = async (Secret, group, path, info, check) => {
   let tree = new ratchetTree();
   tree = tree.deserialize(group.treeInfo);
   let Data = [];
@@ -116,7 +116,14 @@ _updateDataBase2 = async (Secret, group, path, info) => {
     })
   }
   tree.updateNode(path[1], Data);
-  tree.removeNode(path[4], info.nodeRemove)
+  if (check) {
+    tree.removeNode(path[4], info.nodeRemove);
+  }
+  else {
+    let nodeRemovePath = tree.getPath(info.nodeRemove);
+    tree.removeNode(nodeRemovePath[4], info.nodeRemove);
+  }
+
   let shareKey = _hashShareKey(Data[0].nodeSecret);
   let newtreeSer = tree.serialize();
   _SaveGroupDatabase4(newtreeSer, group, shareKey, Data, info);
@@ -140,7 +147,13 @@ _requestUpdate2 = (Secret, packet, group, path, lishcoPathNode, info) => {
     if (res) {
       console.log(res.data);
       if (res.data === "ACCEPTED") {
-        _updateDataBase2(Secret, group, path, info);
+        console.log({
+          Secret: Secret,
+          treeInfo: group.treeInfo,
+          path: path,
+          info: info
+        })
+        _updateDataBase2(Secret, group, path, info, true);
       }
     }
     else {
@@ -172,7 +185,7 @@ _encryptSecret2 = async (Secret, coPath, group, path) => {
   // console.log("sibiling: ", path[2][path[2].length - 1]);
   // let sibiling= path[2][path[2].length - 1];
   let info = {
-    sibiling: path[2][path[2].length - 1],
+    sibiling: path[2][path[2].length - 1].mssv,
     nodeRemove: path[3].mssv
   }
   _requestUpdate2(Secret, packet, group, path, lishcoPathNode, info);
@@ -235,6 +248,7 @@ _rebuildSecret2 = async (groupData, NodeUpdateInfo, path) => {
 };
 
 export default async function groupRemove(groupData, userName, Check) {
+  // console.log(groupData.groupName);
   let group = _getGroupDatabase2(groupData.groupName);
   let tree = new ratchetTree();
   tree = tree.deserialize(group.treeInfo);
@@ -262,7 +276,8 @@ export default async function groupRemove(groupData, userName, Check) {
           sibiling: groupData.userAddRemoveSibiling,
           nodeRemove: groupData.userAddRemove
         }
-        _updateDataBase2(Secret, group, path, info);
+        // console.log(path[4]);
+        _updateDataBase2(Secret, group, path, info, false);
       }
     }
   }

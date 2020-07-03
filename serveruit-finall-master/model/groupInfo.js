@@ -10,7 +10,7 @@ const groupInfo = mongoose.Schema(
     senderMssv: String,
     senderInfo: {},
     userAddRemove: String,
-    userAddRemoveSibiling: {},
+    userAddRemoveSibiling: String,
     useraddRemoveInfo: {},
     treeInfo: String,
     keyPair: String,
