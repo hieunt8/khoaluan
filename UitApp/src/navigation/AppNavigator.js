@@ -5,12 +5,13 @@ import LoginScreen from '../screens/LoginScreen';
 import Loading from '../loading/Loading';
 import GroupAddLoading from '../loading/GroupAddLoading'
 import GroupRemoveLoading from '../loading/GroupRemoveLoading'
+import GroupUpdateLoading from '../loading/GroupUpdateLoading'
 
 export default createAppContainer(
   createSwitchNavigator({
     // You could add another route here for authentication.
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-    Login :{
+    Login: {
       screen: LoginScreen
     },
     Menu: tabNavigator,
@@ -19,8 +20,9 @@ export default createAppContainer(
     },
     Loading: Loading,
     GroupAddLoading: GroupAddLoading,
-    GroupRemoveLoading:GroupRemoveLoading
+    GroupRemoveLoading: GroupRemoveLoading,
+    GroupUpdateLoading: GroupUpdateLoading
   },
- ), 
-  
+  ),
+
 );

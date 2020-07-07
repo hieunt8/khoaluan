@@ -4,6 +4,7 @@ import ratchetTree from '../components/menu/RatchetTrees';
 import randomKey from './RandomKey'
 import { RSA } from 'react-native-rsa-native';
 import groupUpdate from './ApiGroupUpdate'
+import oldGroupUpdate from './ApiOldUpdateGroup'
 import groupRemove from './ApiGroupRemove'
 import { AesEnc, AesDec } from './ApiAES'
 
@@ -63,7 +64,7 @@ _CreateGroupDatabase = (groupData, tree, shareKey) => {
                 newgroup.infolistMssv.push(i);
               }
               newgroup.infolistMssv.push(groupData.useraddRemoveInfo);
-              console.log("newgroup.listMssv", newgroup.listMssv);
+              // console.log("newgroup.listMssv", newgroup.listMssv);
               return newgroup;
             })
           }
@@ -100,13 +101,16 @@ _updateGroup = async (data, isExist, group) => {
           let keyPair = await AesDec(groupData.keyPair, shareKey);
           let listMssv = groupData.listMssv.split(",");
           console.log("listMssv", listMssv);
-          console.log(" Math.ceil(Math.log2(listMssv + 1)): ",  Math.ceil(Math.log2(listMssv.length + 1)));  
+          console.log(" Math.ceil(Math.log2(listMssv + 1)): ", Math.ceil(Math.log2(listMssv.length + 1)));
           tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(listMssv.length + 1)), JSON.parse(keyPair));
           currentGroup = _CreateGroupDatabase(groupData, tree.serialize(), shareKey);
         }
         break;
       case "UPDATE":
         groupUpdate(groupData, false);
+        break;
+      case "OLDUPDATE":
+        oldGroupUpdate(groupData, false);
         break;
       case "REMOVE":
         groupRemove(groupData, null, false);

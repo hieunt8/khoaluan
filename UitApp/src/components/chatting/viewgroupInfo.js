@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, FlatList } from 'react-native';
 import ratchetTree from '../../components/menu/RatchetTrees';
 import JSONTree from 'react-native-json-tree'
-import { Provider, Divider } from 'react-native-paper';
+import { Provider, Divider, Dialog, Portal } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import GroupUpdateLoading from '../../loading/GroupUpdateLoading'
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
 import { GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema } from '../../models/Realm'
@@ -15,6 +15,10 @@ const realm = new Realm({ schema: [GroupSchema, listuserSchema, DirectPathSchema
 class viewgroupInfo extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visiblePopup: false,
+      Method: ''
+    }
   }
   render() {
     return (
@@ -84,8 +88,41 @@ class viewgroupInfo extends Component {
             <Icon name="chevron-right" size={20} color="grey" />
           </TouchableOpacity>
           <Divider />
+          <TouchableOpacity style={styles.styleeTouch} onPress={() => {
+            this.setState({
+              visiblePopup: true,
+              Method: "OLD"
+            });
+          }}>
+            <Text>   <Icon name="key" size={20} color="black" />   Update Key using Encrypt with Public Key</Text>
+            <Icon name="chevron-right" size={20} color="grey" />
+          </TouchableOpacity>
+          <Divider />
+          <TouchableOpacity style={styles.styleeTouch} onPress={() => {
+            this.setState({
+              visiblePopup: true,
+              Method: "NEW"
+            });
+          }}>
+            <Text>   <Icon name="key-change" size={20} color="black" />   Update Key using Ratchet Trees</Text>
+            <Icon name="chevron-right" size={20} color="grey" />
+          </TouchableOpacity>
+          <Divider />
         </View>
-
+        <View>
+          <Portal>
+            <Dialog visible={this.state.visiblePopup} onDismiss={() => this.setState({ visiblePopup: false })}>
+              <ScrollView style={{
+                paddingTop: 20,
+                paddingBottom: 20
+              }}>
+                <GroupUpdateLoading groupName={this.props.navigation.state.params.groupName} Method={this.state.Method} navigation={this.props.navigation} />
+              </ScrollView >
+              {/* <Dialog.Actions>
+              </Dialog.Actions> */}
+            </Dialog>
+          </Portal>
+        </View>
       </Provider>
     );
   }

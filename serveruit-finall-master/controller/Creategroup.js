@@ -14,7 +14,7 @@ exports.CreategroupChat = (req, res, next) => {
     // treeInfo: data.treeInfo
   })
   var query = Group.find({ groupName: data.groupName })
-  query.exec( async (err, data1) => {
+  query.exec(async (err, data1) => {
     if (err) return handleError(err);
     if (!data1.length) {
       newGroup.save(function (err) {
@@ -39,6 +39,22 @@ exports.CreategroupChat = (req, res, next) => {
           );
           break;
         case "UPDATE":
+          Group.updateOne(
+            { groupName: data.groupName },
+            {
+              $set: {
+                version: data.version
+              }
+            },
+            { upsert: false },
+            function (err) {
+              if (err) throw err;
+            }
+          );
+          // await delay(500);
+          res.json("ACCEPTED");
+          break;
+        case "OLDUPDATE":
           Group.updateOne(
             { groupName: data.groupName },
             {
