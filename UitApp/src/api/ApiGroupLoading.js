@@ -7,7 +7,7 @@ import groupUpdate from './ApiGroupUpdate'
 import oldGroupUpdate from './ApiOldUpdateGroup'
 import groupRemove from './ApiGroupRemove'
 import { AesEnc, AesDec } from './ApiAES'
-
+import { decryptRSAKey } from './ApiRSA'
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
@@ -97,7 +97,8 @@ _updateGroup = async (data, isExist, group) => {
           check = true;
           let tree = new ratchetTree();
           tree = tree.deserialize(groupData.treeInfo);
-          let shareKey = await RSA.decrypt(groupData.shareKey, user[0].privateKey);
+          let shareKey = await decryptRSAKey(groupData.shareKey, user[0].privateKey);
+          shareKey = shareKey.plaintext;
           let keyPair = await AesDec(groupData.keyPair, shareKey);
           let listMssv = groupData.listMssv.split(",");
           console.log("listMssv", listMssv);

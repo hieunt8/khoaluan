@@ -11,6 +11,7 @@ import * as link from '../../api/ApiLink';
 import ratchetTree from './RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
 import { AesEnc, AesDec } from '../../api/ApiAES'
+import { generateRSAKey } from '../../api/ApiRSA'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
@@ -46,7 +47,7 @@ class Addmember extends Component {
       "hardwareBackPress",
       this.backAction
     );
-    this.createKey();
+    // this.createKey();
     callApi(link.getlistuser, 'GET', null).then(res => {
       if (res) {
         this.setState({ emails: res.data })
@@ -94,10 +95,8 @@ class Addmember extends Component {
     }
   };
   createKey = () => {
-    RSA.generateKeys(2048)
-      .then(keys => {
-        this.setState({ keys: keys });
-      })
+    let keys = generateRSAKey(randomKey(32), 512);
+    this.setState({ keys: keys });
   }
   createGroup = () => {
     let listMssvString = this.state.listMssv;
@@ -105,8 +104,8 @@ class Addmember extends Component {
     let info = this.getinfoListMSSV();
 
     tree.addNode(info[0], 1, {
-      publicKey: this.state.keys.public,
-      privateKey: this.state.keys.private
+      publicKey: "",
+      privateKey: ""
     });
     this.saveToDatabase(info[0]);
     let sender = { senderMssv: this.props.navigation.state.params.Sender, senderInfo: info[0] }

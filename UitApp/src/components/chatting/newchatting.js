@@ -47,7 +47,7 @@ export default class Chatting extends Component {
       if(msg.user != name){
       let messagerep = msg.text[0];
       messagerep.user._id = 2;
-      messagerep.user.avater= 'https://scontent.fsgn5-2.fna.fbcdn.net/v/t1.0-9/62507414_2331876057090660_5737778833726111744_n.jpg?_nc_cat=107&_nc_sid=8024bb&_nc_ohc=1O2mGJZ4PHsAX9TfVTc&_nc_ht=scontent.fsgn5-2.fna&oh=4577b19f37938586b4bc1af5d40cfe05&oe=5EEACEF9';
+      messagerep.user.avater= 'https://placeimg.com/140/140/any';
       this.setState(previousState => ({
         messages: GiftedChat.append(previousState.messages, messagerep),
       }))}else{

@@ -167,12 +167,7 @@ _encryptSecret2 = async (Secret, coPath, group, path) => {
   let lishcoPathNode = [];
   for (let i in coPath) {
     let pSEnc = null;
-    if (!coPath[i].isLeaf) {
-      pSEnc = await encryptRSAKey(Secret[i].pathSecret, coPath[i].publicKey);
-      pSEnc = pSEnc.cipher;
-    } else {
-      pSEnc = await RSA.encrypt(Secret[i].pathSecret, coPath[i].publicKey);
-    }
+    pSEnc = await encryptRSAKey(Secret[i].pathSecret, coPath[i].publicKey);
     packet.push({
       mssv: coPath[i].mssv,
       isLeaf: coPath[i].isLeaf,
@@ -225,12 +220,8 @@ _rebuildSecret2 = async (groupData, NodeUpdateInfo, path) => {
   let privateKey = path[3].privateKey;
   let pSEnc = JSON.parse(NodeUpdateInfo.pSEnc);
   let pSDec = null;
-  if (!NodeUpdateInfo.isLeaf) {
-    pSDec = await decryptRSAKey(pSEnc, privateKey);
-    pSDec = pSDec.plaintext;
-  } else {
-    pSDec = await RSA.decrypt(pSEnc, user[0].privateKey);
-  }
+  pSDec = await decryptRSAKey(pSEnc, privateKey);
+  pSDec = pSDec.plaintext;
   let newPathSecret = pSDec;
   let data = [{
     pathSecret: newPathSecret,

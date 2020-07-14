@@ -38,8 +38,8 @@ class Loading extends Component {
   }
 
   componentDidMount() {
-    var t0 = new Date().getTime();
-    this.setState({ firstTime: t0 });
+    // var t0 = new Date().getTime();
+    // this.setState({ firstTime: t0 });
     setTimeout(() => {
       this.setState({ info: "Create new key!!!" });
       this.rebuildDatabase();
@@ -61,11 +61,11 @@ class Loading extends Component {
         info: 'Finished!',
         checkFinished: true
       });
-      var t1 = new Date().getTime();
-      this.setState({ secondTime: t1 });
-      let timeTaken = ((this.state.secondTime - this.state.firstTime) * 0.001).toFixed(3);
-      ToastAndroid.show("Update time: " + timeTaken + " seconds.", ToastAndroid.SHORT);
-      console.log("Update time: ", timeTaken, " seconds.");
+      // var t1 = new Date().getTime();
+      // this.setState({ secondTime: t1 });
+      // let timeTaken = ((this.state.secondTime - this.state.firstTime) * 0.001).toFixed(3);
+      // ToastAndroid.show("Update time: " + timeTaken + " seconds.", ToastAndroid.SHORT);
+      // console.log("Update time: ", timeTaken, " seconds.");
     }, 300);
   }
   render() {

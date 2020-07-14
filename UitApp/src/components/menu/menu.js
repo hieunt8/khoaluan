@@ -12,11 +12,13 @@ import groupLoading from '../../api/ApiGroupLoading';
 import * as link from '../../api/ApiLink';
 import ApiGroupRemove from '../../api/ApiGroupRemove'
 var CryptoJS = require("crypto-js");
-
+import { generateRSAKey, encryptRSAKey, decryptRSAKey } from '../../api/ApiRSA'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
 import { userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema } from '../../models/Realm'
+import groupUpdate from '../../api/ApiGroupUpdate';
+import randomKey from '../../api/RandomKey';
 const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema, listgroupInfoSchema, listgroupSchema], encryptionKey: DEFAULT_KEY });
 
 
@@ -153,9 +155,21 @@ class menu extends Component {
   }
 
   TestUppdate = async () => {
-    // alert(1);
-    // this.props.navigation.navigate('removeUser', { groupName: 'a' });
-    ApiGroupRemove('a', '67767676', true);
+    var t0 = new Date().getTime();
+    let MattsRSAkey = generateRSAKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", 2048);
+    var t1 = new Date().getTime();
+    var PlainText = randomKey(120);
+    // console.log(MattsRSAkey);
+    var EncryptionResult = encryptRSAKey(PlainText, MattsRSAkey.public);
+    // console.log(EncryptionResult);
+    var t2 = new Date().getTime();
+    var DecryptionResult = decryptRSAKey(EncryptionResult, MattsRSAkey.private);
+    // console.log(DecryptionResult);
+    var t3 = new Date().getTime();
+    console.log("generateRSAKey: ", ((t1 - t0) * 0.001).toFixed(3));
+    console.log("encryptRSAKey: ", ((t2 - t1) * 0.001).toFixed(3));
+    console.log("decryptRSAKey: ", ((t3 - t2) * 0.001).toFixed(3));
+    console.log("Sum: ", ((t3 - t0) * 0.001).toFixed(3));
     this._closeMenu()
   }
 
@@ -277,7 +291,7 @@ class menu extends Component {
                       source={require('../../../assets/logo/UIT.png')} />
                     <View>
                       <Text style={{ marginTop: 2, paddingLeft: 5 }}>{item.groupName}</Text>
-                      <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, paddingLeft: 5 }}>{item.listMssv.toString()}</Text>
+                      <Text style={{ marginTop: 0, color: 'grey', fontSize: 11, paddingLeft: 5 }}>16520395-1652054</Text>
                     </View>
                   </View>
                   {/* <Text style={{ marginTop: -3, color: 'grey', fontSize: 11, marginTop: 10 }}>4:30PM</Text> */}
@@ -285,14 +299,14 @@ class menu extends Component {
                 <Divider />
               </TouchableOpacity>)}
             keyExtractor={item => item._id.toString()} />
-          <TouchableOpacity style={styles.LoginStyles}
+          {/* <TouchableOpacity style={styles.LoginStyles}
             onPress={this.TestUppdate}>
             <Text style={{
               fontWeight: "bold",
               color: 'white',
               fontSize: 20,
             }}>Test</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </Provider>
     );

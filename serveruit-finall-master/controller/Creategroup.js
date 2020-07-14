@@ -6,6 +6,8 @@ var GroupInfo = require('../model/groupInfo');
 
 exports.CreategroupChat = (req, res, next) => {
   const { data } = req.body;
+  // console.log(data);
+  // console.log("data");
   // console.log("11111111111111111111", data.userAddRemove);
   const newGroup = new Group({
     groupName: data.groupName,
@@ -17,6 +19,7 @@ exports.CreategroupChat = (req, res, next) => {
   query.exec(async (err, data1) => {
     if (err) return handleError(err);
     if (!data1.length) {
+      console.log("New group: Add", data.userAddRemove);
       newGroup.save(function (err) {
         if (err) throw err;
       })
@@ -24,6 +27,7 @@ exports.CreategroupChat = (req, res, next) => {
     else if (data1[0].version < data.version) {
       switch (data.Status) {
         case "ADD":
+          console.log("Add", data.userAddRemove);
           Group.updateOne(
             { groupName: data.groupName },
             {

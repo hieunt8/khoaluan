@@ -2989,7 +2989,7 @@ export function privateKeyFromString(string) {
 }
 
 
-export function encryptRSAKey(plaintext, publicKeystring, signingkey) {
+export function encryptRSAKey(plaintext, publicKeystring) {
   var cipherblock = "";
   var aeskey = generateAESKey();
   try {
@@ -3000,15 +3000,8 @@ export function encryptRSAKey(plaintext, publicKeystring, signingkey) {
     console.log(err);
     // return { status: "Invalid public key" };
   }
-  if (signingkey) {
-    signString = b16to64(signingkey.signString(plaintext, "sha256"));
-    plaintext += "::52cee64bb3a38f6403386519a39ac91c::";
-    plaintext += publicKeyString(signingkey);
-    plaintext += "::52cee64bb3a38f6403386519a39ac91c::";
-    plaintext += signString;
-  }
   cipherblock += encryptAESCBC(plaintext, aeskey);
-  return { status: "success", cipher: cipherblock };
+  return cipherblock;
 }
 
 

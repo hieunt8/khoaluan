@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, Dimensions, ActivityIndicator, ToastAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import { responseLogin } from '../actions/action';
 // const NodeRSA = require('node-rsa');
 import { RSA } from 'react-native-rsa-native';
 const { width } = Dimensions.get('window');
-
+import { generateRSAKey } from '../api/ApiRSA'
+import randomKey from '../api/RandomKey'
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
 import { userSchema } from '../models/Realm'
@@ -18,13 +19,32 @@ class Loading extends Component {
     this.state = {
       info: 'Creating new user!',
       privateKey: '',
-      publicKey: ''
+      publicKey: '',
+      firstTime: '',
+      secondTime: ''
     }
   }
 
-  
+
   componentDidMount() {
-    this._GenerateRSAKey(this.props.navigation.state.params.data);
+    this.setState({ info: "Generate rsa key" });
+    setTimeout(() => {
+      var t0 = new Date().getTime();
+      this.setState({ firstTime: t0 }); 
+      this._GenerateRSAKey(this.props.navigation.state.params.data);
+    }, 100);
+    // setTimeout(() => {
+    //   for (let i = 10; i < 50; i++) {
+    //     let password = "User" + i.toString();
+    //     let username = 10000000 + i * 10;
+    //     let data = { username: username, password: password };
+    //     setTimeout(() => {
+    //       this._GenerateRSAKey(data);
+    //       console.log("add user:", username);
+    //     }, 1000);
+    //   }
+    //   console.log("Done");
+    // }, 100);
   }
 
   async componentDidUpdate() {
@@ -47,18 +67,12 @@ class Loading extends Component {
     }, 2000);
   }
 
-
   _GenerateRSAKey = async (data) => {
-    this.setState({ info: "Generate rsa key" })
-    // const key = new NodeRSA({b: 1024});
-
-    RSA.generateKeys(2048) // set key size
-      .then(keys => {
-        this.setState({ privateKey: keys.private })
-        this.setState({ publicKey: keys.public })
-        data.publicKey = keys.public;
-        this.props.getAccount(data);
-      });
+    let keys = await generateRSAKey(randomKey(32), 1536);
+    this.setState({ privateKey: keys.private })
+    this.setState({ publicKey: keys.public })
+    data.publicKey = keys.public;
+    this.props.getAccount(data);
   }
 
   _SaveInAsync = async () => {

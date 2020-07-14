@@ -3,6 +3,8 @@ import callApi from './ApiCaller';
 import randomKey from './RandomKey'
 import { RSA } from 'react-native-rsa-native';
 const Realm = require('realm');
+import { generateRSAKey, encryptRSAKey, decryptRSAKey } from '../api/ApiRSA'
+import { ToastAndroid } from 'react-native';
 import DEFAULT_KEY from './Config'
 import {
   userSchema,
@@ -28,7 +30,7 @@ const realm = new Realm({
 });
 const user = realm.objects('user');
 
-_getGroupDatabase = (groupName) => {
+_getGroupDatabaseOld = (groupName) => {
   try {
     const allGroup = realm.objects('group');
     let group = allGroup.filtered(`groupName = "${groupName}"`);
@@ -39,16 +41,16 @@ _getGroupDatabase = (groupName) => {
     }
 
   } catch (error) {
-    console.log("_getGroupDatabase ApiOldGroupUpdate.js", error)
+    console.log("_getGroupDatabaseOld ApiOldGroupUpdate.js", error)
   }
 };
 
-_updateDataBase = async (Secret, group) => {
+_updateDataBaseOld = async (Secret, group) => {
   try {
     realm.write(() => {
       let newgroup = realm.create(
         'group', {
-        groupName: groupName,
+        groupName: group.groupName,
         shareKey: Secret
       },
         'modified'
@@ -56,11 +58,11 @@ _updateDataBase = async (Secret, group) => {
       newgroup.version = newgroup.version + 1;
     });
   } catch (erro) {
-    console.log("_updateDataBase ApiOldGroupUpdate.js", erro)
+    console.log("_updateDataBaseOld ApiOldGroupUpdate.js", erro)
   }
 }
 
-_requestUpdate = (Secret, packet, group) => {
+_requestUpdateOld = async (Secret, packet, group) => {
   let data = {
     groupName: group.groupName,
     Status: "OLDUPDATE",
@@ -71,7 +73,8 @@ _requestUpdate = (Secret, packet, group) => {
   callApi(link.creategroup, 'POST', { data: data }).then(res => {
     if (res) {
       if (res.data === "ACCEPTED") {
-        _updateDataBase(Secret, group);
+        console.log(res.data);
+        _updateDataBaseOld(Secret, group);
       }
     }
     else {
@@ -80,55 +83,46 @@ _requestUpdate = (Secret, packet, group) => {
   })
 }
 
-_encryptSecret = async (Secret, group) => {
+_encryptSecretOld = async (Secret, group, t0) => {
   let packet = [];
   let coPath = group.infolistMssv;
   for (let i in coPath) {
-    pSEnc = await RSA.encrypt(Secret, coPath[i].publicKey);
+    let pSEnc = await encryptRSAKey(Secret, coPath[i].publicKey);
     packet.push({
       mssv: coPath[i].mssv,
       pSEnc: JSON.stringify(pSEnc)
     });
   }
-  _requestUpdate(Secret, packet, group);
+  var t1 = new Date().getTime();
+  // let timeTaken = ((t1 - t0) * 0.0001).toFixed(3);
+  timeTaken = ((t1 - t0));
+  console.log("Update key using Encrypt with Public Key take: ", timeTaken, " millisecond.");
+  ToastAndroid.show("Update time: " + timeTaken + " millisecond.", ToastAndroid.LONG);
+  await _requestUpdateOld(Secret, packet, group);
 }
+let timeTaken = '';
 
-_getprivateKeyInfo = (groupName) => {
-  try {
-    const allGroup = realm.objects('listDirectPath');
-    let group = allGroup.filtered(`groupName = "${groupName}"`);
-    if (group[0]) {
-      return group[0].listNodePathKey;
-    }
-    else {
-      console.log("_rebuildSecret not found DirectPath info ApiOldGroupUpdate.js", error)
-    }
-  } catch (error) {
-    console.log("_rebuildSecret  DirectPath ApiOldGroupUpdate.js", error)
-  }
-}
-
-_rebuildSecret = async (groupData, NodeUpdateInfo, path) => {
+_rebuildSecretOld = async (groupData, NodeUpdateInfo, path) => {
   let privateKey = user[0].privateKey;
   let pSEnc = JSON.parse(NodeUpdateInfo.pSEnc);
-  pSDec = await RSA.decrypt(pSEnc, user[0].privateKey);
-  return pSDec;
+  pSDec = await decryptRSAKey(pSEnc, user[0].privateKey);
+  return pSDec.plaintext;
 };
 
 export default async function oldGroupUpdate(groupData, Check) {
-  let group = _getGroupDatabase(groupData.groupName);
+  var t0 = new Date().getTime();
+  let group = _getGroupDatabaseOld(groupData.groupName);
   if (group) {
     if (Check) {
       let Secret = randomKey(32);
-      _encryptSecret(Secret, group);
+      _encryptSecretOld(Secret, group, t0);
     }
     else {
       let packetUpdate = JSON.parse(groupData.packetUpdate);
-      const Secret = packetUpdate.find(element => element.mssv === user[0].mssv);
-      if (NodeUpdate) {
-        let Secret = await _rebuildSecret(groupData, Secret);
-        _updateDataBase(Secret, group);
-      }
+      let Secret = packetUpdate.find(element => element.mssv === user[0].mssv);
+      Secret = await _rebuildSecretOld(groupData, Secret);
+      _updateDataBaseOld(Secret, group);
     }
   }
+
 }; 

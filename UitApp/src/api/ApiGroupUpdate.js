@@ -5,7 +5,7 @@ import randomKey from './RandomKey'
 import { RSA, RSAKeychain } from 'react-native-rsa-native';
 var CryptoJS = require("crypto-js");
 import { generateRSAKey, encryptRSAKey, decryptRSAKey } from './ApiRSA'
-
+import { ToastAndroid } from 'react-native';
 
 const Realm = require('realm');
 import DEFAULT_KEY from './Config'
@@ -145,17 +145,12 @@ _requestUpdate = (Secret, packet, group, path, lishcoPathNode) => {
   })
 }
 
-_encryptSecret = async (Secret, coPath, group, path) => {
+_encryptSecret = async (Secret, coPath, group, path, t0) => {
   let packet = [];
   let lishcoPathNode = [];
   for (let i in coPath) {
     let pSEnc = null;
-    if (!coPath[i].isLeaf) {
-      pSEnc = await encryptRSAKey(Secret[i].pathSecret, coPath[i].publicKey);
-      pSEnc = pSEnc.cipher;
-    } else {
-      pSEnc = await RSA.encrypt(Secret[i].pathSecret, coPath[i].publicKey);
-    }
+    pSEnc = await encryptRSAKey(Secret[i].pathSecret, coPath[i].publicKey);
     packet.push({
       mssv: coPath[i].mssv,
       isLeaf: coPath[i].isLeaf,
@@ -164,10 +159,14 @@ _encryptSecret = async (Secret, coPath, group, path) => {
     lishcoPathNode.push(coPath[i].mssv);
   }
   // console.log(packet);
+  var t1 = new Date().getTime();
+  timeTaken = ((t1 - t0));
+  console.log("Update key using Ratchet Trees take: ", timeTaken, " millisecond.");
+  ToastAndroid.show("Update time: " + timeTaken + " millisecond.", ToastAndroid.LONG);
   _requestUpdate(Secret, packet, group, path, lishcoPathNode);
   // return packet;
 }
-
+let timeTaken = '';
 // aaaaaaaaaaa = async () => {
 //   let MattsRSAkey = generateRSAKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", 512);
 //   var PlainText = "Matt, I need you to help me with my Starcraft strategy.";
@@ -212,12 +211,8 @@ _rebuildSecret = async (groupData, NodeUpdateInfo, path) => {
   let privateKey = path[3].privateKey;
   let pSEnc = JSON.parse(NodeUpdateInfo.pSEnc);
   let pSDec = null;
-  if (!NodeUpdateInfo.isLeaf) {
-    pSDec = await decryptRSAKey(pSEnc, privateKey);
-    pSDec = pSDec.plaintext;
-  } else {
-    pSDec = await RSA.decrypt(pSEnc, user[0].privateKey);
-  }
+  pSDec = await decryptRSAKey(pSEnc, privateKey);
+  pSDec = pSDec.plaintext;
   let newPathSecret = pSDec;
   let data = [{
     pathSecret: newPathSecret,
@@ -239,12 +234,12 @@ export default async function groupUpdate(groupData, Check) {
   let tree = new ratchetTree();
   tree = tree.deserialize(group.treeInfo);
   let path = tree.getPath(user[0].mssv);
-
   if (group) {
     if (Check) {
+      var t0 = new Date().getTime();
       let Secret = await _generatorSecret(path[0]);
-      // console.log("Secret",Secret);
-      _encryptSecret(Secret, path[2], group, path);
+      // console.log("Secret sender",Secret);
+      await _encryptSecret(Secret, path[2], group, path, t0);
     }
     else {
       const NodeUpdate = path[0].filter(element => groupData.lishcoPathNode.includes(element.mssv));
@@ -260,4 +255,5 @@ export default async function groupUpdate(groupData, Check) {
       }
     }
   }
+
 }; 

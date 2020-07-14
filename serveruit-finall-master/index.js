@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const rateLimit = require("express-rate-limit");
 var cors = require('cors');
 var url = 'mongodb://localhost:27017/uit';
 
@@ -21,7 +22,7 @@ router.use((req, res, next) => {
 require('./route/chatreal.route.js')(router, io);
 require('./route/route.js')(router);
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '50MB' } ));
 app.use(cors());
 
 

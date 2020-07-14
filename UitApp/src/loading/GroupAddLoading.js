@@ -6,7 +6,7 @@ const { width } = Dimensions.get('window');
 import ratchetTree from '../components/menu/RatchetTrees';
 import { RSA } from 'react-native-rsa-native';
 import { AesEnc, AesDec } from '../api/ApiAES'
-import { generateRSAKey } from '../api/ApiRSA'
+import { generateRSAKey, encryptRSAKey } from '../api/ApiRSA'
 
 const Realm = require('realm');
 import DEFAULT_KEY from '../api/Config'
@@ -108,8 +108,8 @@ class Loading extends Component {
         group,
         tree.serialize()
       );
-      // data.treeInfo = await RSA.encrypt(tree.serialize(), this.state.infolistMssv[i].publicKey)
-      data.shareKey = await RSA.encrypt(group.shareKey, this.state.infolistMssv[i].publicKey);
+      // data.treeInfo = await encryptRSAKey(tree.serialize(), this.state.infolistMssv[i].publicKey)
+      data.shareKey = await encryptRSAKey(group.shareKey, this.state.infolistMssv[i].publicKey);
       this.props.sendCreategroup(data);
       await this.delay(500);
     }
