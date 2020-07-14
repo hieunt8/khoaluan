@@ -110,6 +110,7 @@ export default class Chatting extends Component {
         onSend={messages => this.onSend(messages)}
         user={{
           _id: 1,
+          avatar: 'https://placeimg.com/140/140/any',
         }}/>
       </Provider>
     )

@@ -220,7 +220,11 @@ _rebuildSecret2 = async (groupData, NodeUpdateInfo, path) => {
   let privateKey = path[3].privateKey;
   let pSEnc = JSON.parse(NodeUpdateInfo.pSEnc);
   let pSDec = null;
-  pSDec = await decryptRSAKey(pSEnc, privateKey);
+  if (!NodeUpdateInfo.isLeaf) {
+    pSDec = await decryptRSAKey(pSEnc, privateKey);
+  } else {
+    pSDec = await decryptRSAKey(pSEnc, user[0].privateKey);
+  }
   pSDec = pSDec.plaintext;
   let newPathSecret = pSDec;
   let data = [{

@@ -211,7 +211,11 @@ _rebuildSecret = async (groupData, NodeUpdateInfo, path) => {
   let privateKey = path[3].privateKey;
   let pSEnc = JSON.parse(NodeUpdateInfo.pSEnc);
   let pSDec = null;
-  pSDec = await decryptRSAKey(pSEnc, privateKey);
+  if (!NodeUpdateInfo.isLeaf) {
+    pSDec = await decryptRSAKey(pSEnc, privateKey);
+  } else {
+    pSDec = await decryptRSAKey(pSEnc, user[0].privateKey);
+  }
   pSDec = pSDec.plaintext;
   let newPathSecret = pSDec;
   let data = [{
@@ -238,19 +242,22 @@ export default async function groupUpdate(groupData, Check) {
     if (Check) {
       var t0 = new Date().getTime();
       let Secret = await _generatorSecret(path[0]);
-      // console.log("Secret sender",Secret);
+      // console.log("Secret sender", Secret);
+      console.log("User ", user[0].mssv, "Secret sender", Secret);
       await _encryptSecret(Secret, path[2], group, path, t0);
     }
     else {
       const NodeUpdate = path[0].filter(element => groupData.lishcoPathNode.includes(element.mssv));
       let packetUpdate = JSON.parse(groupData.packetUpdate);
+      // console.log("User ", user[0].mssv, "Node Update", NodeUpdate)
       const NodeUpdateInfo = packetUpdate.find(element => element.mssv === NodeUpdate[0].mssv);
       if (NodeUpdate) {
         let path = tree.getPath(NodeUpdate[0].mssv);
         let Secret = await _rebuildSecret(groupData, NodeUpdateInfo, path);
         // console.log("Secret 2", Secret);
         let shiftData = Secret.shift()
-        // console.log("Secret 2 shift",Secret);
+        // console.log("Secret 2 shift", Secret);
+        console.log("User ", user[0].mssv, "Reciver sender", Secret);
         _updateDataBase(Secret, group, path);
       }
     }

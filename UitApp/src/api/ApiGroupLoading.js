@@ -87,11 +87,13 @@ _updateGroup = async (data, isExist, group) => {
     switch (groupData.Status) {
       case "ADD":
         if (check) {
-          let tree = new ratchetTree();
-          tree = tree.deserialize(currentGroup.treeInfo);
-          let keyPair = await AesDec(groupData.keyPair, currentGroup.shareKey);
-          tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), JSON.parse(keyPair));
-          _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize());
+          if ((currentGroup.version < groupData.version) && ((groupData.version - currentGroup.version) === 1)) {
+            let tree = new ratchetTree();
+            tree = tree.deserialize(currentGroup.treeInfo);
+            let keyPair = await AesDec(groupData.keyPair, currentGroup.shareKey);
+            tree.addNode(groupData.useraddRemoveInfo, Math.ceil(Math.log2(currentGroup.listMssv.length + 1)), JSON.parse(keyPair));
+            _SaveGroupDatabase(groupData.userAddRemove, groupData.useraddRemoveInfo, currentGroup, tree.serialize());
+          }
         }
         else {
           check = true;
@@ -138,7 +140,7 @@ _checkGroup = async (data) => {
           })
       }
       else if (groupLocal.version === groupServer.version && !groupLocal.Updated) {
-        groupUpdate(groupLocal, true);
+        // groupUpdate(groupLocal, true);
       }
     }
     else {

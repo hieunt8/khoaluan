@@ -29,7 +29,7 @@ exports.saveGroupInfo = async (data) => {
     groupName: data.groupName,
     Status: data.Status,
     version: data.version,
-    listMssv:data.listMssv,
+    listMssv: data.listMssv,
     senderMssv: data.senderMssv,
     senderInfo: data.senderInfo,
     userAddRemove: data.userAddRemove,
@@ -61,6 +61,7 @@ exports.getDataGroup = async (req, res, next) => {
   const groupInfoModel = GroupInfo.model(data.groupName, groupInfo);
   groupInfoModel.find({ "version": { $gt: data.version } }).sort({ _id: -1 })
     .exec(function (err, data) {
+      // console.log(data);
       if (err) return handleError(err);
       res.json(data);
       // console.log(data);
