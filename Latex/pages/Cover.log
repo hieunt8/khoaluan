@@ -1,30 +1,1392 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.3)  4 JUN 2020 17:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.6.4)  14 JUL 2020 17:03
 entering extended mode
 **./Cover.tex
 (Cover.tex
 LaTeX2e <2020-02-02> patch level 5
 L3 programming layer <2020-05-15>
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/subfiles\subfi
+les.cls"
+Document Class: subfiles 2020/02/14 v1.6 Multi-file projects (class)
+Preamble taken from file `../main-report.tex'
 
-! LaTeX Error: File `subfiles.cls' not found.
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\verbatim
+.sty"
+Package: verbatim 2019/11/10 v1.5r LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks15
+\verbatim@line=\toks16
+\verbatim@in@stream=\read2
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/import\import.
+sty"
+Package: import 2020/04/01  v 6.2
+) (../main-report.tex
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\report.cl
+s"
+Document Class: report 2019/12/20 v1.4l Standard LaTeX document class
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: cls)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\size10.cl
+o"
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@chapter=\count168
+\c@section=\count169
+\c@subsection=\count170
+\c@subsubsection=\count171
+\c@paragraph=\count172
+\c@subparagraph=\count173
+\c@figure=\count174
+\c@table=\count175
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\vietnam.sty"
+Package: vietnam 2009/07/12 v1.3 support for Vietnamese
 
-Enter file name: 
-! Emergency stop.
-<read *> 
-         
-l.2 \begin
-          {document}
-*** (cannot \read from terminal in nonstop modes)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\ifthen.st
+y"
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\fontenc.s
+ty"
+Package: fontenc 2020/02/11 v2.0o Standard LaTeX package
 
- 
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\t5enc.def"
+File: t5enc.def 2006/11/21 v1.4 Vietnamese T5 encoding
+Now handling font encoding T5 ...
+... processing UTF-8 mapping file for font encoding T5
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\t5enc.dfu"
+File: t5enc.dfu 2006/08/19 v1.1 UTF8 support for Vietnamese
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0128 (decimal 296)
+   defining Unicode char U+0129 (decimal 297)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0168 (decimal 360)
+   defining Unicode char U+0169 (decimal 361)
+   defining Unicode char U+01A0 (decimal 416)
+   defining Unicode char U+01A1 (decimal 417)
+   defining Unicode char U+01AF (decimal 431)
+   defining Unicode char U+01B0 (decimal 432)
+   defining Unicode char U+1EA0 (decimal 7840)
+   defining Unicode char U+1EA1 (decimal 7841)
+   defining Unicode char U+1EA2 (decimal 7842)
+   defining Unicode char U+1EA3 (decimal 7843)
+   defining Unicode char U+1EA4 (decimal 7844)
+   defining Unicode char U+1EA5 (decimal 7845)
+   defining Unicode char U+1EA6 (decimal 7846)
+   defining Unicode char U+1EA7 (decimal 7847)
+   defining Unicode char U+1EA8 (decimal 7848)
+   defining Unicode char U+1EA9 (decimal 7849)
+   defining Unicode char U+1EAA (decimal 7850)
+   defining Unicode char U+1EAB (decimal 7851)
+   defining Unicode char U+1EAC (decimal 7852)
+   defining Unicode char U+1EAD (decimal 7853)
+   defining Unicode char U+1EAE (decimal 7854)
+   defining Unicode char U+1EAF (decimal 7855)
+   defining Unicode char U+1EB0 (decimal 7856)
+   defining Unicode char U+1EB1 (decimal 7857)
+   defining Unicode char U+1EB2 (decimal 7858)
+   defining Unicode char U+1EB3 (decimal 7859)
+   defining Unicode char U+1EB4 (decimal 7860)
+   defining Unicode char U+1EB5 (decimal 7861)
+   defining Unicode char U+1EB6 (decimal 7862)
+   defining Unicode char U+1EB7 (decimal 7863)
+   defining Unicode char U+1EB8 (decimal 7864)
+   defining Unicode char U+1EB9 (decimal 7865)
+   defining Unicode char U+1EBA (decimal 7866)
+   defining Unicode char U+1EBB (decimal 7867)
+   defining Unicode char U+1EBC (decimal 7868)
+   defining Unicode char U+1EBD (decimal 7869)
+   defining Unicode char U+1EBE (decimal 7870)
+   defining Unicode char U+1EBF (decimal 7871)
+   defining Unicode char U+1EC0 (decimal 7872)
+   defining Unicode char U+1EC1 (decimal 7873)
+   defining Unicode char U+1EC2 (decimal 7874)
+   defining Unicode char U+1EC3 (decimal 7875)
+   defining Unicode char U+1EC4 (decimal 7876)
+   defining Unicode char U+1EC5 (decimal 7877)
+   defining Unicode char U+1EC6 (decimal 7878)
+   defining Unicode char U+1EC7 (decimal 7879)
+   defining Unicode char U+1EC8 (decimal 7880)
+   defining Unicode char U+1EC9 (decimal 7881)
+   defining Unicode char U+1ECA (decimal 7882)
+   defining Unicode char U+1ECB (decimal 7883)
+   defining Unicode char U+1ECC (decimal 7884)
+   defining Unicode char U+1ECD (decimal 7885)
+   defining Unicode char U+1ECE (decimal 7886)
+   defining Unicode char U+1ECF (decimal 7887)
+   defining Unicode char U+1ED0 (decimal 7888)
+   defining Unicode char U+1ED1 (decimal 7889)
+   defining Unicode char U+1ED2 (decimal 7890)
+   defining Unicode char U+1ED3 (decimal 7891)
+   defining Unicode char U+1ED4 (decimal 7892)
+   defining Unicode char U+1ED5 (decimal 7893)
+   defining Unicode char U+1ED6 (decimal 7894)
+   defining Unicode char U+1ED7 (decimal 7895)
+   defining Unicode char U+1ED8 (decimal 7896)
+   defining Unicode char U+1ED9 (decimal 7897)
+   defining Unicode char U+1EDA (decimal 7898)
+   defining Unicode char U+1EDB (decimal 7899)
+   defining Unicode char U+1EDC (decimal 7900)
+   defining Unicode char U+1EDD (decimal 7901)
+   defining Unicode char U+1EDE (decimal 7902)
+   defining Unicode char U+1EDF (decimal 7903)
+   defining Unicode char U+1EE0 (decimal 7904)
+   defining Unicode char U+1EE1 (decimal 7905)
+   defining Unicode char U+1EE2 (decimal 7906)
+   defining Unicode char U+1EE3 (decimal 7907)
+   defining Unicode char U+1EE4 (decimal 7908)
+   defining Unicode char U+1EE5 (decimal 7909)
+   defining Unicode char U+1EE6 (decimal 7910)
+   defining Unicode char U+1EE7 (decimal 7911)
+   defining Unicode char U+1EE8 (decimal 7912)
+   defining Unicode char U+1EE9 (decimal 7913)
+   defining Unicode char U+1EEA (decimal 7914)
+   defining Unicode char U+1EEB (decimal 7915)
+   defining Unicode char U+1EEC (decimal 7916)
+   defining Unicode char U+1EED (decimal 7917)
+   defining Unicode char U+1EEE (decimal 7918)
+   defining Unicode char U+1EEF (decimal 7919)
+   defining Unicode char U+1EF0 (decimal 7920)
+   defining Unicode char U+1EF1 (decimal 7921)
+   defining Unicode char U+1EF2 (decimal 7922)
+   defining Unicode char U+1EF3 (decimal 7923)
+   defining Unicode char U+1EF4 (decimal 7924)
+   defining Unicode char U+1EF5 (decimal 7925)
+   defining Unicode char U+1EF6 (decimal 7926)
+   defining Unicode char U+1EF7 (decimal 7927)
+   defining Unicode char U+1EF8 (decimal 7928)
+   defining Unicode char U+1EF9 (decimal 7929)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+))
+LaTeX Font Info:    Trying to load font information for T5+cmr on input line 11
+2.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\t5cmr.fd"
+File: t5cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\inputenc.
+sty"
+Package: inputenc 2018/08/11 v1.3c Input encoding file
+\inpenc@prehook=\toks17
+\inpenc@posthook=\toks18
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\vncaps.tex"
+File: vncaps.tex 2006/06/07 v1.1 Captions in Vietnamese
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geome
+try.sty"
+Package: geometry 2020/01/02 v5.9 Page Geometry
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\keyva
+l.sty"
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks19
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\ifvtex
+.sty"
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/iftex\iftex.
+sty"
+Package: iftex 2020/03/06 v1.0d TeX engine tests
+))
+\Gm@cnth=\count176
+\Gm@cntv=\count177
+\c@Gm@tempcnt=\count178
+\Gm@bindingoffset=\dimen135
+\Gm@wd@mp=\dimen136
+\Gm@odd@mp=\dimen137
+\Gm@even@mp=\dimen138
+\Gm@layoutwidth=\dimen139
+\Gm@layoutheight=\dimen140
+\Gm@layouthoffset=\dimen141
+\Gm@layoutvoffset=\dimen142
+\Gm@dimlist=\toks20
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/geometry\geome
+try.cfg"))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graph
+icx.sty"
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\graph
+ics.sty"
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\trig.
+sty"
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\g
+raphics.cfg"
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-def\p
+dftex.def"
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen143
+\Gin@req@width=\dimen144
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancybox\fancy
+box.sty"
+Package: fancybox 2010/05/15 1.4
+
+Style option: `fancybox' v1.4 <2010/05/15> (tvz)
+\@fancybox=\box45
+\shadowsize=\dimen145
+\@Sbox=\box46
+\do@VerbBox=\toks21
+\the@fancyput=\toks22
+\this@fancyput=\toks23
+\EndVerbatimTokens=\toks24
+\Verbatim@Outfile=\write3
+\Verbatim@Infile=\read3
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\indentfi
+rst.sty"
+Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amscls\amsthm.
+sty"
+Package: amsthm 2020/05/29 v2.20.6
+\thm@style=\toks25
+\thm@bodyfont=\toks26
+\thm@headfont=\toks27
+\thm@notefont=\toks28
+\thm@headpunct=\toks29
+\thm@preskip=\skip49
+\thm@postskip=\skip50
+\thm@headsep=\skip51
+\dth@everypar=\toks30
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\latexsym.
+sty"
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 52.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsmat
+h.sty"
+Package: amsmath 2020/01/20 v2.17e AMS math features
+\@mathmargin=\skip52
+
+For additional information on amsmath, use the `?' option.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amstex
+t.sty"
+Package: amstext 2000/06/29 v2.01 AMS text
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsgen
+.sty"
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks31
+\ex@=\dimen146
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsbsy
+.sty"
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen147
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsmath\amsopn
+.sty"
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count179
+LaTeX Info: Redefining \frac on input line 227.
+\uproot@=\count180
+\leftroot@=\count181
+LaTeX Info: Redefining \overline on input line 389.
+\classnum@=\count182
+\DOTSCASE@=\count183
+LaTeX Info: Redefining \ldots on input line 486.
+LaTeX Info: Redefining \dots on input line 489.
+LaTeX Info: Redefining \cdots on input line 610.
+\Mathstrutbox@=\box47
+\strutbox@=\box48
+\big@size=\dimen148
+LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
+\macc@depth=\count184
+\c@MaxMatrixCols=\count185
+\dotsspace@=\muskip16
+\c@parentequation=\count186
+\dspbrk@lvl=\count187
+\tag@help=\toks32
+\row@=\count188
+\column@=\count189
+\maxfields@=\count190
+\andhelp@=\toks33
+\eqnshift@=\dimen149
+\alignsep@=\dimen150
+\tagshift@=\dimen151
+\tagwidth@=\dimen152
+\totwidth@=\dimen153
+\lineht@=\dimen154
+\@envbody=\toks34
+\multlinegap=\skip53
+\multlinetaggap=\skip54
+\mathdisplay@stack=\toks35
+LaTeX Info: Redefining \[ on input line 2859.
+LaTeX Info: Redefining \] on input line 2860.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amssy
+mb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/amsfonts\amsfo
+nts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/psnfss\times.s
+ty"
+Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\array.st
+y"
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen155
+\ar@mcellbox=\box49
+\extrarowheight=\dimen156
+\NC@list=\toks36
+\extratabsurround=\skip55
+\backup@length=\skip56
+\ar@cellbox=\box50
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/enumitem\enumi
+tem.sty"
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\labelindent=\skip57
+\enit@outerparindent=\dimen157
+\enit@toks=\toks37
+\enit@inbox=\box51
+\enit@count@id=\count191
+\enitdp@description=\count192
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/subfiles\subfi
+les.sty"
+Package: subfiles 2020/02/14 v1.6 Multi-file projects (package)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/titlesec\title
+sec.sty"
+Package: titlesec 2019/10/16 v2.13 Sectioning titles
+\ttl@box=\box52
+\beforetitleunit=\skip58
+\aftertitleunit=\skip59
+\ttl@plus=\dimen158
+\ttl@minus=\dimen159
+\ttl@toksa=\toks38
+\titlewidth=\dimen160
+\titlewidthlast=\dimen161
+\titlewidthfirst=\dimen162
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/chngcntr\chngc
+ntr.sty"
+Package: chngcntr 2018/04/09 v1.1a change counter resetting
+Package chngcntr Info: \counterwithout already defined.
+(chngcntr)             Quitting chngcntr on input line 21.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdflscape\pdfl
+scape.sty"
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\lscap
+e.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\afterpag
+e.sty"
+Package: afterpage 2014/10/28 v1.08 After-Page Package (DPC)
+\AP@output=\toks39
+\AP@partial=\box53
+\AP@footins=\box54
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/capt-of\capt-o
+f.sty"
+Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/multirow\multi
+row.sty"
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip60
+\multirow@cntb=\count193
+\multirow@dima=\skip61
+\bigstrutjot=\dimen163
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fancyhdr\fancy
+hdr.sty"
+Package: fancyhdr 2019/01/31 v3.10 Extensive control of page headers and footer
+s
+\f@nch@headwidth=\skip62
+\f@nch@O@elh=\skip63
+\f@nch@O@erh=\skip64
+\f@nch@O@olh=\skip65
+\f@nch@O@orh=\skip66
+\f@nch@O@elf=\skip67
+\f@nch@O@erf=\skip68
+\f@nch@O@olf=\skip69
+\f@nch@O@orf=\skip70
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\bibla
+tex.sty"
+Package: biblatex 2019/12/01 v3.14 programmable bibliographies (PK/MW)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/pdftexcmds\pdf
+texcmds.sty"
+Package: pdftexcmds 2019/11/24 v0.31 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/infwarerr\in
+fwarerr.sty"
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/ltxcmds\ltxc
+mds.sty"
+Package: ltxcmds 2019/12/15 v1.24 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/etoolbox\etool
+box.sty"
+Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count194
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/kvoptions\kvop
+tions.sty"
+Package: kvoptions 2019/11/29 v3.13 Key value format for package options (HO)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/kvsetkeys\kv
+setkeys.sty"
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.
+sty"
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count195
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/logreq\logreq.
+def"
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/url\url.sty"
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\c@tabx@nest=\count196
+\c@listtotal=\count197
+\c@listcount=\count198
+\c@liststart=\count199
+\c@liststop=\count266
+\c@citecount=\count267
+\c@citetotal=\count268
+\c@multicitecount=\count269
+\c@multicitetotal=\count270
+\c@instcount=\count271
+\c@maxnames=\count272
+\c@minnames=\count273
+\c@maxitems=\count274
+\c@minitems=\count275
+\c@citecounter=\count276
+\c@maxcitecounter=\count277
+\c@savedcitecounter=\count278
+\c@uniquelist=\count279
+\c@uniquename=\count280
+\c@refsection=\count281
+\c@refsegment=\count282
+\c@maxextratitle=\count283
+\c@maxextratitleyear=\count284
+\c@maxextraname=\count285
+\c@maxextradate=\count286
+\c@maxextraalpha=\count287
+\c@abbrvpenalty=\count288
+\c@highnamepenalty=\count289
+\c@lownamepenalty=\count290
+\c@maxparens=\count291
+\c@parenlevel=\count292
+\blx@tempcnta=\count293
+\blx@tempcntb=\count294
+\blx@tempcntc=\count295
+\blx@maxsection=\count296
+\blx@maxsegment@0=\count297
+\blx@notetype=\count298
+\blx@parenlevel@text=\count299
+\blx@parenlevel@foot=\count300
+\blx@sectionciteorder@0=\count301
+\blx@entrysetcounter=\count302
+\labelnumberwidth=\skip71
+\labelalphawidth=\skip72
+\biblabelsep=\skip73
+\bibitemsep=\skip74
+\bibnamesep=\skip75
+\bibinitsep=\skip76
+\bibparsep=\skip77
+\bibhang=\skip78
+\blx@bcfin=\read4
+\blx@bcfout=\write4
+\blx@langwohyphens=\language78
+\c@mincomprange=\count303
+\c@maxcomprange=\count304
+\c@mincompwidth=\count305
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-d
+m.def"
+File: blx-dm.def 2019/12/01 v3.14 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'ieee.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count306
+\c@savedafterword=\count307
+\c@annotator=\count308
+\c@savedannotator=\count309
+\c@author=\count310
+\c@savedauthor=\count311
+\c@bookauthor=\count312
+\c@savedbookauthor=\count313
+\c@commentator=\count314
+\c@savedcommentator=\count315
+\c@editor=\count316
+\c@savededitor=\count317
+\c@editora=\count318
+\c@savededitora=\count319
+\c@editorb=\count320
+\c@savededitorb=\count321
+\c@editorc=\count322
+\c@savededitorc=\count323
+\c@foreword=\count324
+\c@savedforeword=\count325
+\c@holder=\count326
+\c@savedholder=\count327
+\c@introduction=\count328
+\c@savedintroduction=\count329
+\c@namea=\count330
+\c@savednamea=\count331
+\c@nameb=\count332
+\c@savednameb=\count333
+\c@namec=\count334
+\c@savednamec=\count335
+\c@translator=\count336
+\c@savedtranslator=\count337
+\c@shortauthor=\count338
+\c@savedshortauthor=\count339
+\c@shorteditor=\count340
+\c@savedshorteditor=\count341
+\c@labelname=\count342
+\c@savedlabelname=\count343
+\c@institution=\count344
+\c@savedinstitution=\count345
+\c@lista=\count346
+\c@savedlista=\count347
+\c@listb=\count348
+\c@savedlistb=\count349
+\c@listc=\count350
+\c@savedlistc=\count351
+\c@listd=\count352
+\c@savedlistd=\count353
+\c@liste=\count354
+\c@savedliste=\count355
+\c@listf=\count356
+\c@savedlistf=\count357
+\c@location=\count358
+\c@savedlocation=\count359
+\c@organization=\count360
+\c@savedorganization=\count361
+\c@origlocation=\count362
+\c@savedoriglocation=\count363
+\c@origpublisher=\count364
+\c@savedorigpublisher=\count365
+\c@publisher=\count366
+\c@savedpublisher=\count367
+\c@language=\count368
+\c@savedlanguage=\count369
+\c@origlanguage=\count370
+\c@savedoriglanguage=\count371
+\c@pageref=\count372
+\c@savedpageref=\count373
+\shorthandwidth=\skip79
+\shortjournalwidth=\skip80
+\shortserieswidth=\skip81
+\shorttitlewidth=\skip82
+\shortauthorwidth=\skip83
+\shorteditorwidth=\skip84
+\locallabelnumberwidth=\skip85
+\locallabelalphawidth=\skip86
+\localshorthandwidth=\skip87
+\localshortjournalwidth=\skip88
+\localshortserieswidth=\skip89
+\localshorttitlewidth=\skip90
+\localshortauthorwidth=\skip91
+\localshorteditorwidth=\skip92
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-c
+ompat.def"
+File: blx-compat.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\bibla
+tex.def"
+File: biblatex.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+\c@textcitecount=\count374
+\c@textcitetotal=\count375
+\c@textcitemaxnames=\count376
+\c@biburlbigbreakpenalty=\count377
+\c@biburlbreakpenalty=\count378
+\c@biburlnumpenalty=\count379
+\c@biburlucpenalty=\count380
+\c@biburllcpenalty=\count381
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count382
+)
+Package biblatex Info: Trying to load natbib compatibility...
+Package biblatex Info: ... file 'blx-natbib.def' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\blx-n
+atbib.def"
+File: blx-natbib.def 2019/12/01 v3.14 biblatex compatibility (PK/MW)
+Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined,
+ overwriting.
+)
+Package biblatex Info: Trying to load bibliography style 'ieee'...
+Package biblatex Info: ... file 'ieee.bbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex-ieee\
+ieee.bbx"
+File: ieee.bbx 2020/02/26 v1.3b biblatex bibliography style
+Package biblatex Info: Trying to load bibliography style 'numeric-comp'...
+Package biblatex Info: ... file 'numeric-comp.bbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\n
+umeric-comp.bbx"
+File: numeric-comp.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\n
+umeric.bbx"
+File: numeric.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/bbx\s
+tandard.bbx"
+File: standard.bbx 2019/12/01 v3.14 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count383
+\c@bbx:relatedtotal=\count384
+))))
+Package biblatex Info: Trying to load citation style 'ieee'...
+Package biblatex Info: ... file 'ieee.cbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex-ieee\
+ieee.cbx"
+File: ieee.cbx 2020/02/26 v1.3b biblatex citation style
+Package biblatex Info: Trying to load citation style 'numeric-comp'...
+Package biblatex Info: ... file 'numeric-comp.cbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/cbx\n
+umeric-comp.cbx"
+File: numeric-comp.cbx 2019/12/01 v3.14 biblatex citation style (PK/MW)
+\c@cbx@tempcnta=\count385
+\c@cbx@tempcntb=\count386
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\supercite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\cites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex\bibla
+tex.cfg"
+File: biblatex.cfg 
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/bas
+e\glossaries.sty"
+Package: glossaries 2020/03/19 v4.46 (NLCT)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xkeyval\xkeyva
+l.sty"
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xkeyval\xkey
+val.tex"
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/xkeyval\xkvu
+tils.tex"
+\XKV@toks=\toks40
+\XKV@tempa@toks=\toks41
+)
+\XKV@depth=\count387
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/mfirstuc\mfirs
+tuc.sty"
+Package: mfirstuc 2017/11/14 v2.06 (NLCT)
+\@glsmfirst=\toks42
+\@glsmrest=\toks43
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/textcase\textc
+ase.sty"
+Package: textcase 2019/09/14 v1.00 Text only upper/lower case changing (DPC)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/xfor\xfor.sty"
+Package: xfor 2009/02/05 v1.05 (NLCT)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/datatool\datat
+ool-base.sty"
+Package: datatool-base 2019/09/27 v2.32 (NLCT)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/substr\substr.
+sty"
+Package: substr 2009/10/20 v1.2 Handle substrings
+\c@su@anzahl=\count388
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/datatool\datat
+ool-fp.sty"
+Package: datatool-fp 2019/09/27 v2.32 (NLCT)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp.sty"
+Package: fp 1995/04/02
+
+`Fixed Point Package', Version 0.8, April 2, 1995 (C) Michael Mehlich
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\defpattern.
+sty"
+Package: defpattern 1994/10/12
+\actioncount=\count389
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-basic.st
+y"
+Package: fp-basic 1996/05/13
+\FP@xs=\count390
+\FP@xia=\count391
+\FP@xib=\count392
+\FP@xfa=\count393
+\FP@xfb=\count394
+\FP@rega=\count395
+\FP@regb=\count396
+\FP@regs=\count397
+\FP@times=\count398
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-addons.s
+ty"
+Package: fp-addons 1995/03/15
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-snap.sty
+"
+Package: fp-snap 1995/04/05
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-exp.sty"
+Package: fp-exp 1995/04/03
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-trigo.st
+y"
+Package: fp-trigo 1995/04/14
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-pas.sty"
+Package: fp-pas 1994/08/29
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-random.s
+ty"
+Package: fp-random 1995/02/23
+\FPseed=\count399
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-eqn.sty"
+Package: fp-eqn 1995/04/03
+) ("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-upn.st
+y"
+Package: fp-upn 1996/10/21
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/fp\fp-eval.sty
+"
+Package: fp-eval 1995/04/03
+)))
+\@dtl@toks=\toks44
+\@dtl@tmpcount=\count400
+\dtl@tmplength=\skip93
+\dtl@sortresult=\count401
+\@dtl@numgrpsepcount=\count402
+\@dtl@datatype=\count403
+\dtl@codeA=\count404
+\dtl@codeB=\count405
+\@dtl@foreach@level=\count406
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/bas
+e\glossaries-compatible-307.sty"
+Package: glossaries-compatible-307 2020/03/19 v4.46 (NLCT)
+)
+\gls@level=\count407
+\@gls@tmpb=\toks45
+\gls@tmplen=\skip94
+\glskeylisttok=\toks46
+\glslabeltok=\toks47
+\glsshorttok=\toks48
+\glslongtok=\toks49
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-hypernav.sty"
+Package: glossary-hypernav 2020/03/19 v4.46 (NLCT)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-list.sty"
+Package: glossary-list 2020/03/19 v4.46 (NLCT)
+\glslistdottedwidth=\skip95
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-long.sty"
+Package: glossary-long 2020/03/19 v4.46 (NLCT)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/tools\longtabl
+e.sty"
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip96
+\LTright=\skip97
+\LTpre=\skip98
+\LTpost=\skip99
+\LTchunksize=\count408
+\LTcapwidth=\dimen164
+\LT@head=\box55
+\LT@firsthead=\box56
+\LT@foot=\box57
+\LT@lastfoot=\box58
+\LT@cols=\count409
+\LT@rows=\count410
+\c@LT@tables=\count411
+\c@LT@chunks=\count412
+\LT@p@ftn=\toks50
+)
+\glsdescwidth=\skip100
+\glspagelistwidth=\skip101
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-super.sty"
+Package: glossary-super 2020/03/19 v4.46 (NLCT)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/supertabular\s
+upertabular.sty"
+Package: supertabular 2020/02/02 v4.1g the supertabular environment
+\c@tracingst=\count413
+\ST@wd=\dimen165
+\ST@rightskip=\skip102
+\ST@leftskip=\skip103
+\ST@parfillskip=\skip104
+\ST@pageleft=\dimen166
+\ST@headht=\dimen167
+\ST@tailht=\dimen168
+\ST@pagesofar=\dimen169
+\ST@pboxht=\dimen170
+\ST@lineht=\dimen171
+\ST@prevht=\dimen172
+\ST@toadd=\dimen173
+\ST@dimen=\dimen174
+\ST@pbox=\box59
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-tree.sty"
+Package: glossary-tree 2020/03/19 v4.46 (NLCT)
+\glstreeindent=\skip105
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/glossaries/sty
+les\glossary-superragged.sty"
+Package: glossary-superragged 2020/03/19 v4.46 (NLCT)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/setspace\setsp
+ace.sty"
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/parskip\parski
+p.sty"
+Package: parskip 2020-05-19 v2.0e non-zero parskip adjustments
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/wrapfig\wrapfi
+g.sty"
+\wrapoverhang=\dimen175
+\WF@size=\dimen176
+\c@WF@wrappedlines=\count414
+\WF@box=\box60
+\WF@everypar=\toks51
+Package: wrapfig 2003/01/31  v 3.6
+)
+\@input{lstlisting.aux}
+\openout2 = `lstlisting.aux'.
+
+(../lstlisting.tex
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\listi
+ngs.sty"
+\lst@mode=\count415
+\lst@gtempboxa=\box61
+\lst@token=\toks52
+\lst@length=\count416
+\lst@currlwidth=\dimen177
+\lst@column=\count417
+\lst@pos=\count418
+\lst@lostspace=\dimen178
+\lst@width=\dimen179
+\lst@newlines=\count419
+\lst@lineno=\count420
+\lst@maxwidth=\dimen180
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstmi
+sc.sty"
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count421
+\lst@skipnumbers=\count422
+\lst@framebox=\box62
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\listi
+ngs.cfg"
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\textcomp.
+sty"
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics\color
+.sty"
+Package: color 2019/11/23 v1.2a Standard LaTeX Color (DPC)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/graphics-cfg\c
+olor.cfg"
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 147.
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/lstaddons\lsta
+utogobble.sty"
+Package: lstautogobble 2012/05/03 v0.1 Implements 'autogobble' option for 'list
+ings'
+\lstag@spacecount=\count423
+)) (../glossary/main.tex)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hyper
+ref.sty"
+Package: hyperref 2020-05-15 v7.00e Hypertext links for LaTeX
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/kvdefinekeys
+\kvdefinekeys.sty"
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/pdfescape\pd
+fescape.sty"
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hycolor\hycolo
+r.sty"
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/letltxmacro\le
+tltxmacro.sty"
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/auxhook\auxhoo
+k.sty"
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+
+
+Package auxhook Warning: Cannot patch \document,
+(auxhook)                using \AtBeginDocument instead.
+
+)
+\@linkdim=\dimen181
+\Hy@linkcounter=\count424
+\Hy@pagecounter=\count425
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\pd1en
+c.def"
+File: pd1enc.def 2020-05-15 v7.00e Hyperref: PDFDocEncoding definition (HO)
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/intcalc\intc
+alc.sty"
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/etexcmds\ete
+xcmds.sty"
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+)
+\Hy@SavedSpaceFactor=\count426
+Package hyperref Info: Option `bookmarks' set `true' on input line 4338.
+Package hyperref Info: Option `colorlinks' set `false' on input line 4338.
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\puenc
+.def"
+File: puenc.def 2020-05-15 v7.00e Hyperref: PDF Unicode definition (HO)
+Now handling font encoding PU ...
+... no UTF-8 mapping file for font encoding PU
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/stringenc\st
+ringenc.sty"
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+Package hyperref Info: Option `unicode' set `true' on input line 4338.
+Package hyperref Info: Option `pdffitwindow' set `true' on input line 4338.
+Package hyperref Info: Option `pdftoolbar' set `false' on input line 4338.
+Package hyperref Info: Option `pdfmenubar' set `false' on input line 4338.
+Package hyperref Info: Hyper figures OFF on input line 4464.
+Package hyperref Info: Link nesting OFF on input line 4469.
+Package hyperref Info: Hyper index ON on input line 4472.
+Package hyperref Info: Plain pages OFF on input line 4479.
+Package hyperref Info: Backreferencing OFF on input line 4484.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4717.
+\c@Hy@tempcnt=\count427
+LaTeX Info: Redefining \url on input line 5076.
+\XeTeXLinkMargin=\dimen182
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/bitset\bitse
+t.sty"
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/bigintcalc\b
+igintcalc.sty"
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
+))
+\Fld@menulength=\count428
+\Field@Width=\dimen183
+\Fld@charsize=\dimen184
+Package hyperref Info: Hyper figures OFF on input line 6347.
+Package hyperref Info: Link nesting OFF on input line 6352.
+Package hyperref Info: Hyper index ON on input line 6355.
+Package hyperref Info: backreferencing OFF on input line 6362.
+Package hyperref Info: Link coloring OFF on input line 6367.
+Package hyperref Info: Link coloring with OCG OFF on input line 6372.
+Package hyperref Info: PDF/A mode OFF on input line 6377.
+LaTeX Info: Redefining \ref on input line 6417.
+LaTeX Info: Redefining \pageref on input line 6421.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/atbegshi\atb
+egshi.sty"
+Package: atbegshi 2019/12/05 v1.19 At begin shipout hook (HO)
+)
+\Hy@abspage=\count429
+\c@Item=\count430
+\c@Hfootnote=\count431
+)
+Package hyperref Info: Driver: hpdftex.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\hpdft
+ex.def"
+File: hpdftex.def 2020-05-15 v7.00e Hyperref driver for pdfTeX
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/atveryend\atve
+ryend.sty"
+Package: atveryend 2019-12-11 v1.11 Hooks at the very end of document (HO)
+)
+\Fld@listcount=\count432
+\c@bookmark@seq@number=\count433
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/rerunfilecheck
+\rerunfilecheck.sty"
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/uniquecounte
+r\uniquecounter.sty"
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+86.
+)
+\Hy@SectionHShift=\skip106
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/oberdiek\hypca
+p.sty"
+Package: hypcap 2016/05/16 v1.12 Adjusting the anchors of captions (HO)
+)
+\c@example=\count434
+\@quotelevel=\count435
+\@quotereset=\count436
+))
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/l3backend\l3ba
+ckend-pdfmode.def"
+File: l3backend-pdfmode.def 2020-05-05 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count437
+\l__pdf_internal_box=\box63
+)
+
+LaTeX Warning: Unused global option(s):
+    [13pt].
+
+No file Cover.aux.
+\openout1 = `Cover.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 2.
+LaTeX Font Info:    ... okay on input line 2.
+LaTeX Font Info:    Trying to load font information for T5+ptm on input line 2.
+
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/vntex/tex/late
+x\t5ptm.fd"
+File: t5utm.fd 2005/08/24 Fontinst v1.929 font definitions for T5/ptm.
+)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(99.58464pt, 441.01773pt, 56.9055pt)
+* v-part:(T,H,B)=(85.35826pt, 660.10394pt, 99.58464pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=441.01773pt
+* \textheight=660.10394pt
+* \oddsidemargin=27.31465pt
+* \evensidemargin=27.31465pt
+* \topmargin=-23.91173pt
+* \headheight=14.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=57.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\su
+pp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count438
+\scratchdimen=\dimen185
+\scratchbox=\box64
+\nofMPsegments=\count439
+\nofMParguments=\count440
+\everyMPshowfont=\toks53
+\MPscratchCnt=\count441
+\MPscratchDim=\dimen186
+\MPnumerator=\count442
+\makeMPintoPDFobject=\count443
+\everyMPtoPDFconversion=\toks54
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/epstopdf-pkg\e
+pstopdf-base.sty"
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/grfext\grfext.
+sty"
+Package: grfext 2019/12/03 v1.3 Manage graphics extensions (HO)
+)
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+Package grfext Info: Graphics extension search list:
+(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 504.
+)
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/biblatex/lbx\e
+nglish.lbx"
+File: english.lbx 2019/12/01 v3.14 biblatex localization (PK/MW)
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout4 = `Cover.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Cover.bbl' not found.
+
+No file Cover.bbl.
+Package biblatex Info: Reference section=0 on input line 2.
+Package biblatex Info: Reference segment=0 on input line 2.
+\c@lstlisting=\count444
+\AtBeginShipoutBox=\box65
+Package hyperref Info: Link coloring OFF on input line 2.
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\namer
+ef.sty"
+Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
+
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/latex/refcount\refco
+unt.sty"
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+)
+("C:\Users\Trung Hau\AppData\Local\Programs\MiKTeX 2.9\tex/generic/gettitlestri
+ng\gettitlestring.sty"
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+)
+\c@section@level=\count445
+)
+LaTeX Info: Redefining \ref on input line 2.
+LaTeX Info: Redefining \pageref on input line 2.
+LaTeX Info: Redefining \nameref on input line 2.
+\@outlinefile=\write5
+\openout5 = `Cover.out'.
+
+ [1
+
+
+
+{C:/Users/Trung Hau/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2] [3]
+ [4]
+
+Package glossaries Warning: No \printnoidxglossary or \printnoidxglossaries
+ found. (Remove \makenoidxglossaries if you don't want any glossaries.)
+This document will not have a glossary.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 62.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 62.
+(Cover.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 62.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 62.
+
+
+Package rerunfilecheck Warning: File `Cover.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Cover.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+
+LaTeX Warning: There were undefined references.
+
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                Cover
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to 'Cover.run.xml'.
+\openout1 = `Cover.run.xml'.
+
+ ) 
 Here is how much of TeX's memory you used:
- 24 strings out of 480799
- 485 string characters out of 2893915
- 238747 words of memory out of 3000000
- 16128 multiletter control sequences out of 15000+200000
- 532338 words of font info for 24 fonts, out of 3000000 for 9000
+ 25537 strings out of 480799
+ 420062 string characters out of 2893915
+ 1098811 words of memory out of 3000000
+ 41135 multiletter control sequences out of 15000+200000
+ 546891 words of font info for 31 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 14i,0n,17p,87b,10s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 63i,8n,79p,1196b,796s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Users/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/enc/dvips/vntex/t
+5.enc}<C:/Users/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/vntex/u
+rwvn/utmb8v.pfb><C:/Users/Trung Hau/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
+e1/vntex/urwvn/utmr8v.pfb>
+Output written on Cover.pdf (4 pages, 33509 bytes).
+PDF statistics:
+ 32 PDF objects out of 1000 (max. 8388607)
+ 5 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

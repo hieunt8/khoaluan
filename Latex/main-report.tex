@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt,oneside]{report}
+\documentclass[a4paper,13pt,oneside]{report}
 %\usepackage{scrextend}
 %\changefontsizes[15.6pt]{13pt}
 \usepackage[utf8]{vietnam} % Sử dụng tiếng việt
@@ -115,13 +115,16 @@ pdfmenubar=false % Ẩn đi menu bar trong PDF viewer
 \newpage
 \pagenumbering{gobble} % Xóa page numbering ở cuối trang
 \tableofcontents % Mục lục
+
 \newpage
+\pagenumbering{gobble} % Xóa page numbering ở cuối trang
 \cleardoublepage
-\pagenumbering{arabic}
 \listoffigures % Danh sách các hình ảnh
 \addcontentsline{toc}{chapter}{\listfigurename}
+\clearpage
+
 \newpage
-\cleardoublepage
+\pagenumbering{gobble} % Xóa page numbering ở cuối trang
 \renewcommand*{\listtablename}{Danh sách bảng biểu}
 \listoftables % Danh sách bảng biểu
 \addcontentsline{toc}{chapter}{\listtablename}
@@ -134,12 +137,13 @@ pdfmenubar=false % Ẩn đi menu bar trong PDF viewer
 %\renewcommand*{\pagelistname}{Trang}
 \printnoidxglossary
 \newpage
+\pagenumbering{gobble} % Xóa page numbering ở cuối trang
 \renewcommand*{\entryname}{Từ viết tắt}
 \renewcommand*{\descriptionname}{Từ đầy đủ}
   %\printglossary[type=\acronymtype]
 \printnoidxglossary[type=\acronymtype]
 \newpage
-
+\pagenumbering{arabic}% Arabic page numbers (and reset to 1)
 \subfile{pages/Summarize} % Tóm tắt
 
 \newpage

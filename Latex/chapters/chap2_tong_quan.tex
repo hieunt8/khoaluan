@@ -109,11 +109,11 @@ Tất cả các cây được sử dụng trong giao thức này là \glsdesc{le
 
 Cây nhị phân là \_left-balanced\_ nếu với mỗi nút cha, thì nút cha này được cân bằng hoặc cây con bên trái của nút cha đó là cây con đầy đủ lớn nhất có thể được xây dựng từ các lá có trong cây con của nút cha. Đưa ra một danh sách các mục "n", có một cây nhị phân cân bằng trái duy nhất với các phần tử này là các lá. Trong một cây cân bằng bên trái như vậy, nút lá "k-th" đề cập đến nút lá "k-th" trong cây khi đếm từ bên trái, bắt đầu từ 0.
 
-\_direct path\_ của một nút gốc là danh sách trống và bất kỳ nút nào là sự kết hợp của nút cha đó cùng với đường dẫn trực tiếp đến nút cha đó. \_copath\_ của một nút là anh chị em của nút được nối với danh sách anh chị em của tất cả các nút trong đường dẫn trực tiếp của nó. [Hình ~\ref{fig:tree}]
+\_direct path\_ của một nút gốc là danh sách bất kỳ nút nào là sự kết hợp của nút cha đó cùng với đường dẫn trực tiếp đến nút cha đó. \_copath\_ của một nút là anh chị em của nút được nối với danh sách anh chị em của tất cả các nút trong đường dẫn trực tiếp của nó. [Hình ~\ref{fig:Ratchet-tree}]
 
 \begin{figure}[!h]
 \begin{center}
-\label{fig:tree}
+\label{fig:Ratchet-tree}
 \includegraphics[scale=0.65]{Ratchet tree}
 \caption{Direct path của C là (CD, ABCD, ABCDEFG).}
 
@@ -127,28 +127,6 @@ Mỗi nút trong cây được gán một \_node index\_, bắt đầu từ 0 v�
 Các lá của cây được lập chỉ mục riêng, sử dụng \_leaf index\_, vì các thông điệp giao thức chỉ cần tham chiếu đến các lá trong cây. Giống như các nút, lá được đánh số từ trái sang phải. Lưu ý rằng với cách đánh số ở trên, một nút là một nút lá khi và chỉ khi nó có một chỉ số nút chẵn và một nút lá có chỉ số của nút là một nửa chỉ số nút cha của nó. Các chỉ số lá trong cây trên như sau:
 0 = A ; 1 = B ; 2 = C ; 3 = D ; 4 = E ; 5 = F ; 6 = G
 
-Một nút lá \_unmerge\_ khi nó được thêm vào lần đầu tiên, bởi vì quá trình thêm nút lá không cho phép nó truy cập vào tất cả các nút phía trên nó trong cây. Các lá được \_merged\_ khi chúng nhận được các Khóa bí mật của các nút.
-
-Một nút trong cây cũng có thể là \_blank\_, chỉ ra rằng không có giá trị nào hiện diện tại nút đó. \_Resolution\_ của một nút là một danh sách có thứ tự các nút không trống (not blank) bao gồm tất cả các node con cháu không trống của nút đó: [Hình ~\ref{fig:resolution}]
-
-\begin{itemize}
-\item{\_resolution\_ của nút không trống bao gồm chính nút đó, theo sau là danh sách các lá \_unmerge\_ của nó, nếu có.}\item{\_resolution\_ của nút lá trống là danh sách trống.}
-\item{\_resolution\_ của nút trung gian (\_intermediate\_ ) trống là kết quả của \_resolution\_ của nút con bên trái của
-nó với độ phân giải của nút con bên phải của nó.}
-\end{itemize} 
-
-\begin{figure}[!h]
-\begin{center}
-\label{fig:resolution}
-\includegraphics[scale=1]{resolution}
-\caption{Resolution của node 5 là danh sách [CD, C]}
-
-{Resolution của node 2 là danh sách trống []}
-
-{Resolution của node 3 là danh sách [A, CD, C]}
-\end{center}
-\end{figure}
-
 Mỗi nút, bất kể nút đó là trống hay không, đều có \_hash\_ tương ứng chứa các thông tin tóm tắt của nút con bên dưới nút đó
 
 
@@ -160,14 +138,14 @@ Một phiên bản cụ thể của ratchet tree dựa trên các nguyên hàm m
 \item{Hàm \acrfull{dkp} tạo ra cặp khóa bất đối xứng cho \acrshort{kem} được chỉ định từ một bí mật đối xứng.}
 \end{itemize} 
 
-Mỗi nút trong cây ratchet chứa tối đa 5 giá trị:
+Mỗi nút trong cây ratchet chứa các giá trị mặc định sau:
 
 \begin{itemize}
 \item{Khóa bí mật}
 \item{Khóa công khai}
-\item{Một danh sách theo thứ tự các chỉ số lá cho những nút \_unmerge\_.}
-\item{Một thông tin xác thực (chỉ dành cho các nút lá).}
-\item{Mã hash của nút cha, kể từ lần cuối cùng nút đó được thay đổi.}
+\item{Tên nút}
+\item{ID nút}
+\item{node secret}
 \end{itemize}
 
 \section{Basic background on TreeKEM}
@@ -194,14 +172,137 @@ Mỗi nút có 3 giá trị:
 \item{\gls{Private key}}
 \end{itemize}
 
+\begin{figure}[!h]
+\begin{center}
+\label{fig:tree}
+\includegraphics[scale=1]{tree}
+\caption{Một cây ratchet có bốn người dùng A, B, C, D}
+
+{Ở đây chúng tôi hiển thị các bí mật nút tại mỗi nút}
+\end{center}
+\end{figure}
+
+\newpage
 \subsection{Key Update}
+Bất cứ lúc nào, bất kỳ người dùng nào cũng có thể thực hiện cập nhật khóa bằng cách gửi tin nhắn \gls{Update}. Điều này thay thế một số bí mật nút trong cây, bao gồm cả bí mật nút gốc. Cập nhật khóa là rất quan trọng để đạt được bảo mật về phía trước và bảo mật sau thỏa hiệp.
 
+Để thực hiện cập nhật khóa, người dùng U đầu tiên tạo ra một bí mật mới x
 
+Sau đó người dùng U, tạo path secret cho nó và các nút trong đường dẫn trực tiếp của nó
+\begin{itemize}
+	\item{path secret của nút lá U là: x}
+	\item{path secret của nút cha của 1 nút là L: = \acrshort{kdf}(path secret của L; "path")}
+\end{itemize}
+	%\item{Sau đó, đối với mỗi nút này, A cập nhật bản sao của cây ratchet bằng cách cài đặt}
+Sau đó người dùng A cập nhật bí mật nút của nó và các nút liên quan
+\begin{itemize}
+	\item{node secret của nút L: = \acrshort{kdf}(path secret của L, "node")}
+\end{itemize}
+
+Lưu ý rằng các path secret là các giá trị tạm thời chỉ được sử dụng trong quá trình cập nhật khóa; chỉ các node secret trở thành một phần của trạng thái được lưu trữ. [Hình ~\ref{fig:path-secret}] cho thấy quá trình phát sinh bí mật ở dạng sơ đồ, trong khi [Hình ~\ref{fig:Update-tree}] cho thấy hiệu ứng của một cập nhật ví dụ U = A trong một cây có bốn người dùng.
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:path-secret}
+\includegraphics[scale=1]{path-secret}
+\caption{node secrets x$_{1}^{N}$; x$_{2}^{N}$; x$_{3}^{N}$ và path secrets x$_{1}^{P}$; x$_{2}^{P}$; x$_{3}^{P}$ từ nút lá đến nút gốc}
+\end{center}
+\end{figure}
+
+Sau khi cập nhật các bí mật nút ở trạng thái riêng như trên, U gửi thông báo \gls{Update} cho nhóm để thông báo cho họ về những thay đổi này, để nhóm duy trì một cây ratchet dùng chung. Thông báo \gls{Update} chứa:
+
+\begin{enumerate}
+	\item{Đối với mỗi nút L trên đường dẫn trực tiếp của U, khóa công khai mới cho L, tức là, pub (node secret mới cho L). Trong ví dụ của [Hình ~\ref{fig:Update-tree}], các khóa công khai này là pub (x$_{1}^{N}$) cho nút lá A và pub x$_{2}^{N}$ cho cha mẹ của A và B.}
+	\item{Đối với mỗi nút M trên đường dẫn dán tiếp U, bí mật đường dẫn mới cho cha mẹ M, được mã hóa không đối xứng dưới các khóa chung của mỗi nút. Trong ví dụ của [Hình ~\ref{fig:Update-tree}], các mã hóa này là \textit{Enc$_{pub(b)}$(x$^{P}_{2}$)} cho M tương đương lá B và \textit{Enc$_{pub(\textit{f})}$(x$^{P}_{3}$)} cho M tương đương cha mẹ của C và D. Ở đây \textit{Enc$_{k(x)}$} biểu thị mã hóa của x theo khóa công khai K.}
+\end{enumerate}
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:Update-tree}
+\includegraphics[scale=1]{Update-tree}
+\caption{Thay đổi Key trong Ratchet tree}
+
+{Sự thay đổi của nhóm trong Ratchet tree do A cập nhật khóa với các node secret x$_{1}^{N}$, x$_{2}^{N}$, x$_{3}^{N}$ từ lá đến gốc. Ở đây chúng tôi hiển thị cây node secret. Hãy nhớ lại rằng người dùng biết các bí mật của nút trên đường dẫn lá Lá của họ đến thư mục gốc, nhưng họ biết các khóa chung cho tất cả các nút trong cây.}
+\end{center}
+\end{figure}
+
+Xem [Hình ~\ref{fig:Update-message}] về một ví dụ. Thông báo \gls{Update} chứa một khóa được mã hóa cho mỗi nút trên copath của lá người dùng cập nhật, do đó có kích thước \textit{O(log$_{2}$(n))}.
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:Update-message}
+\includegraphics[scale=1]{Update-message}
+\caption{Thông tin \gls{Update} tương ứng với bản cập nhật trong [Hình ~\ref{fig:Update-tree}].}
+\end{center}
+\end{figure}
+
+Khi người dùng V nhận được thông báo \gls{Update} này, V sẽ sử dụng nó để cập nhật bản sao của cây ratchet của mình như sau:
+
+\begin{itemize}
+	\item{V đặt các khóa chung cho các nút trên đường dẫn trực tiếp của A  đến các nút được đưa ra trong phần (1) của thông báo \gls{Update}}
+	\item{V giải mã bí mật đường dẫn cập nhật cho nút tổ tiên chung gần nhất M của nó với U, tức là, nút gần nhất là tổ tiên của cả hai lá U và V, từ một trong các giá trị được mã hóa được đưa ra trong phần (2) của thông báo \gls{Update}. Điều này là có thể bởi vì theo định nghĩa về độ phân giải của nút, U đã gửi bí mật đường dẫn của M được mã hóa dưới khóa chung K của một số nút trên đường đi giữa lá V và M. V biết khóa riêng tư tương ứng với K, do đó có thể giải mã bí mật đường dẫn của M. Trong ví dụ của [Hình ~\ref{fig:Update-tree}], tổ tiên chung gần nhất của B với A là cha mẹ của chúng và B có thể giải mã x$_{2}^{P}$ bằng cách sử dụng priv(b). Tổ tiên chung gần nhất của mỗi C và D với A là gốc và C và D có thể giải mã x$_{3}^{P}$ bằng cách sử dụng priv(\textit{f}).}
+	\item{V tính toán các bí mật đường dẫn cập nhật cho tất cả tổ tiên của M, sử dụng \acrshort{kdf} và sau đó tính toán các node secret tương ứng bằng cách sử dụng \acrshort{kdf}.}
+\end{itemize}
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:Update-copath}
+\caption{đưa ra một ví dụ minh họa quá trình này}
+\includegraphics[scale=1]{Update-copath}
+
+{Một minh họa về cách thông báo \gls{Update} TreeKEM trong [Hình ~\ref{fig:Update-message}] hoạt động, tức là cách nó thông báo cho những người dùng khác về những bí mật mới. Nó gửi (tiền thân x$_{2}^{P}$) của x$_{2}^{N}$ đến B bằng cách mã hóa nó dưới pub(b), trong khi nó gửi (tiền thân x$_{3}^{P}$) của x$_{3}^{N}$ đến C và D bằng cách mã hóa nó dưới pub(f).}
+\end{center}
+\end{figure}
+
+Quan sát rằng giao thức cập nhật khóa: mỗi người dùng biết tất cả các bí mật nút trên đường dẫn lá Lá của họ đến gốc, cũng như tất cả các khóa công khai trong cây, nhưng họ không thể tính toán các bí mật nút khác trong cây
 
 
 \subsection{Init and Application Secrets}
+Mục đích của TreeKEM là tạo ra các bí mật được chia sẻ bởi tất cả các thành viên trong nhóm, sau đó họ có thể sử dụng để lấy các khóa mã hóa tin nhắn. Để thực hiện điều này, TreeKEM sử dụng các bí mật nút gốc để tạo ra một chuỗi các bí mật init, kết hợp hoàn toàn các bí mật nút gốc từ tất cả các bản cập nhật trước đó. Bí mật ban đầu sau đó được kết hợp với thông tin trạng thái nhóm để tạo bí mật ứng dụng, được sử dụng để tạo khóa mã hóa tin nhắn thực tế. [Hình ~\ref{fig:init}] cho thấy quá trình này theo sơ đồ. Kết hợp các bí mật gốc cũ và thông tin trạng thái nhóm vào các khóa là cần thiết để cung cấp bảo mật sau thỏa hiệp và tính nhất quán của người tham gia.
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:init}
+\includegraphics[scale=1]{init}
+\caption{Cập nhật khóa chung}
+{Lấy bí mật ứng dụng mới sau thông báo Cập nhật TreeKEM, sử dụng chuỗi bí mật init để kết hợp bí mật nút gốc từ tất cả các thay đổi trạng thái trước đó.}
+\end{center}
+\end{figure}
+
 
 \subsection{Adding and Removing Users}
+Giả sử người dùng U muốn xóa người dùng V khỏi nhóm. Để làm điều này, họ phải chia sẻ một bí mật mới với tất cả người dùng ngoại trừ V, mọi người dùng ngoại trừ V sau đó sử dụng để lấy bí mật ứng dụng mới. Bằng cách đó, V không thể giải mã tin nhắn trong tương lai được gửi đến nhóm.
+
+TreeKEM thực hiện điều này như sau. Đối với người dùng U để xóa người dùng V, họ tạo một thông báo \gls{Remove}, chứa định danh V và thông báo \gls{Update} được gửi như thể U đang ở vị trí của V trên cây. Mọi người dùng ngoại trừ V đều lấy được bí mật nút gốc mới từ bản cập nhật này và sử dụng nó để lấy bí mật ứng dụng và init mới. Sau đó, mọi người dùng đặt lại tất cả các node secret trên đường dẫn trực tiếp của V.Cuối cùng đối với nút có cùng cha mẹ với V sẽ được đặt thành cha mẹ của chúng. Xem [Hình ~\ref{fig:Remove-tree}] cho một ví dụ.
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:Remove-tree}
+\includegraphics[scale=1]{Remove-tree}
+\caption{Remove user}
+{Xóa người dùng trong TreeKEM. Ở đây A loại bỏ C với các bí mật nút cập nhật x$_{1}^{N}$, x$_{2}^{N}$, x$_{3}^{N}$. Bí mật nút gốc được khoanh tròn, x$_{3}^{N}$, được sử dụng để tạo bí mật ứng dụng và init mới mà C.}
+\end{center}
+\end{figure}
+
+Đối với người dùng U để thêm người dùng V, họ gửi thông điệp tới V chứa trạng thái nhóm hiện tại và cây khóa công khai và bí mật init gần đây nhất. Sau đó, bạn gửi một tin nhắn Thêm cho cả nhóm, bao gồm V, trong đó có khóa công khai cho V. Mọi người dùng sau đó:
+
+\begin{itemize}
+	\item{Điều chỉnh cấu trúc cây để chứa một chiếc lá mới cho V trong khi giữ cho nó cân bằng trái.}
+	\item{Xuất phát các bí mật init và ứng dụng mới từ bí mật init hiện tại như trong [Hình ~\ref{fig:init}], sử dụng một chuỗi các số 0 thay cho bí mật nút gốc cập nhật}
+\end{itemize}
+
+Cuối cùng, V đặt bí mật nút lá riêng của mình thành bí mật được sử dụng để lấy khóa công khai. Người ta cho rằng một mình V biết bí mật nút này. Xem [Hình ~\ref{fig:Add-tree}] cho một ví dụ:
+
+\begin{figure}[!h]
+\begin{center}
+\label{fig:Add-tree}
+\includegraphics[scale=1]{Add-tree}
+\caption{Add user}
+{Thêm người dùng trong TreeKEM. Ở đây A thêm H với bí mật nút lá ban đầu h.}
+\end{center}
+\end{figure}
+
+Lưu ý rằng sau khi xử lý các thông báo \acrshort{Add}, V biết tất cả các khóa chung, tất cả các bí mật nút trên đường dẫn trực tiếp của nó (cụ thể là bí mật nút lá) và bí mật ứng dụng và init mới. Do đó V có thể hoạt động như một thành viên nhóm.
 
 
 \end{document}
