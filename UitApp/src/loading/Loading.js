@@ -68,7 +68,7 @@ class Loading extends Component {
   }
 
   _GenerateRSAKey = async (data) => {
-    let keys = await generateRSAKey(randomKey(32), 1536);
+    let keys = await generateRSAKey(randomKey(32), 512);
     this.setState({ privateKey: keys.private })
     this.setState({ publicKey: keys.public })
     data.publicKey = keys.public;

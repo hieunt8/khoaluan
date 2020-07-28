@@ -84,6 +84,7 @@ class Loading extends Component {
         publicKey: keys.public,
         privateKey: keys.private
       };
+      var t1 = new Date().getTime();
       const data = {
         groupName: this.state.groupName,
         Status: "ADD",
@@ -94,7 +95,8 @@ class Loading extends Component {
         userAddRemove: this.state.listMssv[i],
         useraddRemoveInfo: this.state.infolistMssv[i],
         keyPair: AesEnc(JSON.stringify(keyPair), group.shareKey),
-        treeInfo: tree.serialize()
+        treeInfo: tree.serialize(),
+        timeCreate:  t1
       };
       this.setState({ info: `Building tree!\nAdd user ${this.state.listMssv[i]}`, });
       tree.addNode(

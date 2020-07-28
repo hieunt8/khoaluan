@@ -156,15 +156,15 @@ class menu extends Component {
 
   TestUppdate = async () => {
     var t0 = new Date().getTime();
-    let MattsRSAkey = generateRSAKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", 2048);
+    let MattsRSAkey = generateRSAKey("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", 512);
     var t1 = new Date().getTime();
-    var PlainText = randomKey(120);
+    var PlainText = "randomKey(120)";
     // console.log(MattsRSAkey);
-    var EncryptionResult = encryptRSAKey(PlainText, MattsRSAkey.public);
-    // console.log(EncryptionResult);
+    var EncryptionResult = encryptRSAKey(PlainText, MattsRSAkey.private);
+    console.log(EncryptionResult);
     var t2 = new Date().getTime();
-    var DecryptionResult = decryptRSAKey(EncryptionResult, MattsRSAkey.private);
-    // console.log(DecryptionResult);
+    var DecryptionResult = decryptRSAKey(EncryptionResult, MattsRSAkey.public);
+    console.log(DecryptionResult);
     var t3 = new Date().getTime();
     console.log("generateRSAKey: ", ((t1 - t0) * 0.001).toFixed(3));
     console.log("encryptRSAKey: ", ((t2 - t1) * 0.001).toFixed(3));

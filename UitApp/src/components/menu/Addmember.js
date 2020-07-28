@@ -29,7 +29,8 @@ class Addmember extends Component {
       searchTerm: '',
       listMssv: [this.props.navigation.state.params.Sender],
       emails: [],
-      keys: null
+      keys: null, 
+      number: 1
     }
   }
   backAction = () => {
@@ -64,7 +65,8 @@ class Addmember extends Component {
   selectMember = (item) => {
     if (!this.state.listMssv.includes(item.mssv))
       this.setState({
-        listMssv: this.state.listMssv.concat([item.mssv])
+        listMssv: this.state.listMssv.concat([item.mssv]),
+        number: this.state.number+1
       })
   }
 
@@ -161,7 +163,7 @@ class Addmember extends Component {
               </TouchableOpacity>
             </View>
           </View >
-          <Text>Add member</Text>
+          <Text>Add member ( {this.state.number}  )</Text>
           <TouchableOpacity onPress={
             () => { }
           }>

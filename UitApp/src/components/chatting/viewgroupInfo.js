@@ -9,8 +9,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import GroupUpdateLoading from '../../loading/GroupUpdateLoading'
 const Realm = require('realm');
 import DEFAULT_KEY from '../../api/Config'
-import { GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema } from '../../models/Realm'
-const realm = new Realm({ schema: [GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema], encryptionKey: DEFAULT_KEY });
+import { GroupSchema, listuserSchema, userSchema } from '../../models/Realm'
+// const realm = new Realm({ schema: [GroupSchema, listuserSchema, DirectPathSchema, listDirectPathInfoSchema], encryptionKey: DEFAULT_KEY });
+const realm = new Realm({ schema: [userSchema, GroupSchema, listuserSchema], encryptionKey: DEFAULT_KEY });
+const user = realm.objects('user');
 
 class viewgroupInfo extends Component {
   constructor(props) {
@@ -31,7 +33,13 @@ class viewgroupInfo extends Component {
                 justifyContent: 'center'
               }}>
 
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('Menu')}>
+              <TouchableOpacity onPress={() => {
+                // this.props.navigation.navigate('Menu')
+                this.props.navigation.navigate('NewChatting', {
+                  room: this.props.navigation.state.params.groupName,
+                  name: user[0].mssv
+                })}
+              }>
                 <Icon name="backspace" size={20} color="black" />
               </TouchableOpacity>
             </View>

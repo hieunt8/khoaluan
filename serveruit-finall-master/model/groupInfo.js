@@ -8,6 +8,7 @@ const groupInfo = mongoose.Schema(
     version: { type: Number, unique: true, required: true },
     listMssv: String,
     senderMssv: String,
+    senderAuthen: String,
     senderInfo: {},
     userAddRemove: String,
     userAddRemoveSibiling: String,
@@ -16,7 +17,8 @@ const groupInfo = mongoose.Schema(
     keyPair: String,
     shareKey: String,
     packetUpdate: String,
-    lishcoPathNode: []
+    lishcoPathNode: [],
+    timeCreate: Number
   }
 )
 const GroupInfo = mongoose.connection.useDb('GroupInfo');
@@ -31,6 +33,7 @@ exports.saveGroupInfo = async (data) => {
     version: data.version,
     listMssv: data.listMssv,
     senderMssv: data.senderMssv,
+    senderAuthen: data.senderAuthen,
     senderInfo: data.senderInfo,
     userAddRemove: data.userAddRemove,
     useraddRemoveInfo: data.useraddRemoveInfo,
@@ -39,7 +42,8 @@ exports.saveGroupInfo = async (data) => {
     shareKey: data.shareKey,
     treeInfo: data.treeInfo,
     packetUpdate: data.packetUpdate,
-    lishcoPathNode: data.lishcoPathNode
+    lishcoPathNode: data.lishcoPathNode,
+    timeCreate: data.timeCreate
   })
   // res.json(newGroupInfo);
   // console.log("Create group", newGroupInfo.groupName)
