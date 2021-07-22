@@ -30,6 +30,6 @@
     "request-cookies": "^1.1.0",
     "requests": "^0.3.0",
     "socket.io": "^2.3.0",
-    "xlsx": "^0.14.2"
+    "xlsx": "^0.17.0"
   }
 }
