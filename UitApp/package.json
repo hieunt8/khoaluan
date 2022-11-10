@@ -22,7 +22,7 @@
     "dns.js": "^1.0.1",
     "domain-browser": "^1.1.1",
     "events": "^1.0.0",
-    "expo": "^33.0.0",
+    "expo": "^46.0.16",
     "faker": "^4.1.0",
     "https-browserify": "0.0.1",
     "native-base": "^2.13.8",
